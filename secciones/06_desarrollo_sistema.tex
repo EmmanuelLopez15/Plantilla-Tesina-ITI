@@ -1,0 +1,110 @@
+% =====================================================================================
+% REVISIÓN 3  -  PROYECTOS DE SISTEMA INFORMÁTICO (página web, sistema web, API, escritorio, app móvil)
+% Para usarla pon \TipoProyecto{sistema} en configuracion/datos.tex y deja activa esta línea en main.tex.
+% Escribe tu texto FUERA de los recuadros \begin{guia} ... \end{guia}.
+% =====================================================================================
+
+\section{Desarrollo del sistema} \label{sec:desarrollo_sistema} % audit:req=desarrollo_sistema
+
+\begin{guia}[Guía: Desarrollo del sistema (Revisión 3, proyectos de sistema)]
+\textbf{¿Para qué sirve?} Documenta cómo se construyó la solución: arquitectura, diseño y resultado final. Debe permitir
+que otra persona entienda el sistema y pueda darle mantenimiento.
+
+\textbf{En el texto propio de este capítulo (antes de las subsecciones) responde:}
+\begin{itemize}[nosep,leftmargin=*]
+  \item ¿Cuál es la arquitectura del sistema (capas, cliente-servidor, microservicios, nube)? Incluye un diagrama.
+  \item ¿Qué tecnologías, versiones y librerías se usaron y para qué?
+  \item ¿Cómo está organizado el código (módulos, carpetas, patrones)? Muestra solo fragmentos relevantes y explícalos.
+  \item ¿Qué pruebas se hicieron (funcionales, de integración, de usabilidad) y con qué resultado?
+  \item ¿Cómo se despliega o instala? ¿dónde está el repositorio?
+  \item ¿Qué problemas técnicos surgieron y cómo se resolvieron?
+\end{itemize}
+
+\textbf{Extensión mínima:} 300 palabras de texto propio de este capítulo, además de las subsecciones que siguen.
+
+\textbf{Reglas para todas las figuras:} cada diagrama o captura lleva \verb|\caption|, \verb|\label|, se cita en el texto con
+\verb|Figura~\ref{fig:...}| (nunca escribas ``Figura 3'' a mano) y debe ser legible al imprimirse.
+
+\textbf{Cómo se revisa:} coherencia con la propuesta y los requisitos, suficiencia técnica y que las subsecciones
+obligatorias estén completas.
+\end{guia}
+
+% >>> ESCRIBE AQUÍ la arquitectura, tecnologías, implementación y pruebas <<<
+
+
+\subsection{Diagramas de casos de uso} \label{sec:casos_uso} % audit:req=casos_uso
+
+\begin{guia}[Guía: Diagramas de casos de uso]
+\textbf{Debe incluir:} un diagrama general con los actores y casos de uso (relaciones \emph{include} y \emph{extend} cuando
+apliquen) y la \textbf{especificación} de los casos de uso principales en una tabla (nombre, actor, precondición, flujo
+normal, flujos alternos, postcondición).
+
+\textbf{Debe responder:} ¿quiénes usan el sistema? ¿qué puede hacer cada actor? ¿cada caso de uso corresponde a un
+requisito y a un objetivo específico?
+
+\textbf{Mínimo:} 1 diagrama (figura) con explicación. Herramientas: draw.io, StarUML, PlantUML, Visual Paradigm.
+\end{guia}
+
+% >>> ESCRIBE AQUÍ los diagramas de casos de uso y su explicación <<<
+
+
+\subsection{Diagramas de base de datos} \label{sec:diagramas_bd} % audit:req=diagrama_bd
+
+\begin{guia}[Guía: Diagramas de base de datos]
+\textbf{Debe incluir:} el diagrama entidad-relación (o el modelo relacional / de documentos) y el
+\textbf{diccionario de datos} (tabla por entidad: campo, tipo, restricciones, descripción).
+
+\textbf{Debe responder:} ¿qué entidades y relaciones hay y por qué? ¿qué gestor de base de datos se usó y por qué? ¿está
+normalizado? ¿cómo se protege la información (respaldos, permisos, datos personales)?
+
+\textbf{Mínimo:} 1 diagrama (figura) con explicación.
+\end{guia}
+
+% >>> ESCRIBE AQUÍ los diagramas de base de datos y el diccionario de datos <<<
+
+
+\subsection{Diagramas de actividades} \label{sec:diagramas_actividades} % audit:req=diagrama_actividades
+
+\begin{guia}[Guía: Diagramas de actividades]
+\textbf{Debe incluir:} el flujo de los procesos clave del sistema (con carriles o \emph{swimlanes} por actor cuando hay
+varios participantes), con inicio, decisiones, acciones y fin.
+
+\textbf{Debe responder:} ¿cuál es el flujo de cada proceso importante? ¿qué pasa en los casos de error? ¿corresponde a
+algún caso de uso?
+
+\textbf{Mínimo:} 1 diagrama (figura) con explicación.
+\end{guia}
+
+% >>> ESCRIBE AQUÍ los diagramas de actividades <<<
+
+
+\subsection{Diagramas de secuencia} \label{sec:diagramas_secuencia} % audit:req=diagrama_secuencia
+
+\begin{guia}[Guía: Diagramas de secuencia]
+\textbf{Debe incluir:} la interacción entre los componentes (usuario, interfaz, servidor, base de datos, servicios
+externos) para los casos de uso críticos, con los mensajes en orden temporal.
+
+\textbf{Debe responder:} ¿qué componentes intervienen y en qué orden se comunican? ¿qué mensajes se envían y qué se
+responde? ¿dónde se validan los datos?
+
+\textbf{Mínimo:} 1 diagrama (figura) con explicación.
+\end{guia}
+
+% >>> ESCRIBE AQUÍ los diagramas de secuencia <<<
+
+
+\subsection{Resultado final: pantallas del sistema} \label{sec:pantallas} % audit:req=pantallas
+
+\begin{guia}[Guía: Resultado final -- pantallas del sistema con su explicación]
+\textbf{Debe incluir:} capturas de las pantallas principales del sistema funcionando, cada una con su explicación.
+
+\textbf{Para cada pantalla responde:} ¿para qué sirve? ¿quién la usa? ¿qué casos de uso y objetivos específicos
+atiende? ¿qué datos muestra o captura y cómo se valida?
+
+\textbf{Reglas:} figuras numeradas con \verb|\caption| y \verb|\label|; sin datos personales ni confidenciales reales
+(usa datos de prueba); capturas legibles. Si hay versión móvil o de escritorio, inclúyela.
+
+\textbf{Mínimo:} 150 palabras de explicación y al menos una figura.
+\end{guia}
+
+% >>> ESCRIBE AQUÍ las pantallas (figuras) y su explicación <<<

@@ -1,0 +1,87 @@
+% =====================================================================================
+% REVISIÓN 3  -  PROYECTOS DE INVESTIGACIÓN (algoritmo, modelo de aprendizaje de máquina u otro)
+% Para usarla pon \TipoProyecto{investigacion} en configuracion/datos.tex, activa esta línea en main.tex
+% y comenta la de secciones/06_desarrollo_sistema.
+% Escribe tu texto FUERA de los recuadros \begin{guia} ... \end{guia}.
+% =====================================================================================
+
+\section{Experimentación} \label{sec:experimentacion}
+
+\begin{guia}[Guía: Experimentación (Revisión 3, proyectos de investigación)]
+Este capítulo tiene tres partes: \emph{Diseño de experimentos}, \emph{Resultados experimentales} y
+\emph{Conclusiones de los resultados experimentales}. Las tres deben ser coherentes con tu hipótesis, tus objetivos y
+la propuesta de solución. Todas las figuras y tablas llevan \verb|\caption|, \verb|\label| y se citan con
+\verb|\ref| (nunca ``Figura 3'' escrito a mano).
+\end{guia}
+
+\subsection{Diseño de experimentos} \label{sec:diseno_experimentos} % audit:req=diseno_experimentos
+
+\begin{guia}[Guía: Diseño de experimentos (estadístico y con metodología de experimentación)]
+\textbf{¿Para qué sirve?} Define, antes de mostrar resultados, cómo vas a probar tu hipótesis de forma que otra persona
+pueda repetirlo.
+
+\textbf{Debe responder:}
+\begin{itemize}[nosep,leftmargin=*]
+  \item ¿Cuál es la hipótesis y su formulación estadística (hipótesis nula $H_0$ y alternativa $H_1$)?
+  \item ¿Cuáles son las variables independientes (factores y niveles) y dependientes (métricas de desempeño)? ¿por qué
+        esas métricas?
+  \item ¿Qué diseño experimental usas (factorial, completamente aleatorizado, por bloques, validación cruzada de $k$
+        pliegues, etc.) y por qué es adecuado?
+  \item ¿Qué datos usas (origen, tamaño, preprocesamiento, partición entrenamiento/validación/prueba) y cómo evitas
+        fugas de información?
+  \item ¿Con qué líneas base o métodos del estado del arte comparas?
+  \item ¿Cuántas repeticiones o semillas ejecutas y por qué son suficientes?
+  \item ¿Qué prueba estadística usarás (t de Student, ANOVA, Wilcoxon, Friedman\ldots), con qué nivel de significancia, y
+        qué supuestos verificas?
+  \item ¿Cómo garantizas la reproducibilidad (versiones, hardware, semillas, hiperparámetros, repositorio de código)?
+\end{itemize}
+
+\textbf{Extensión mínima:} 250 palabras. Resume los parámetros en una tabla.
+
+\textbf{Errores frecuentes:} una sola ejecución sin repeticiones; comparar contra una línea base débil; evaluar en los
+mismos datos de entrenamiento; no justificar las métricas; no declarar hiperparámetros.
+
+\textbf{Cómo se revisa:} validez estadística, comparabilidad y reproducibilidad.
+\end{guia}
+
+% >>> ESCRIBE AQUÍ el diseño de experimentos <<<
+
+
+\subsection{Resultados experimentales} \label{sec:resultados_experimentales} % audit:req=resultados_experimentales
+
+\begin{guia}[Guía: Resultados experimentales]
+\textbf{¿Para qué sirve?} Presenta lo que se obtuvo, con objetividad y sin interpretar todavía.
+
+\textbf{Debe responder:}
+\begin{itemize}[nosep,leftmargin=*]
+  \item ¿Qué resultados se obtuvieron para cada experimento y cada objetivo específico? Preséntalos en tablas y gráficas
+        (media $\pm$ desviación estándar, intervalos de confianza).
+  \item ¿Cómo se comparan contra las líneas base? ¿las diferencias son estadísticamente significativas (reporta el
+        valor $p$ o el estadístico)?
+  \item ¿Hubo resultados negativos, inesperados o atípicos? Repórtalos también.
+\end{itemize}
+
+\textbf{Extensión mínima:} 200 palabras, además de las tablas y figuras. Cada tabla o figura se cita y se describe en
+el texto.
+
+\textbf{Errores frecuentes:} mostrar solo el mejor caso; gráficas sin ejes ni unidades; tablas sin comentarios; omitir la
+variabilidad.
+
+\textbf{Cómo se revisa:} que los resultados respondan al diseño planteado y se presenten con rigor.
+\end{guia}
+
+% >>> ESCRIBE AQUÍ los resultados experimentales <<<
+
+
+\subsection{Conclusiones de los resultados experimentales} \label{sec:conclusiones_resultados} % audit:req=conclusiones_resultados
+
+\begin{guia}[Guía: Conclusiones de los resultados experimentales]
+\textbf{Debe responder:} ¿qué dicen los resultados sobre la hipótesis (se acepta, se rechaza o se sustenta parcialmente) y
+con qué evidencia (cita la tabla o figura)? ¿qué objetivos específicos se cumplieron? ¿qué amenazas a la validez hay
+(datos, métricas, supuestos)? ¿qué sorprendió?
+
+\textbf{Mínimo:} 60 palabras. No afirmes más de lo que los resultados sustentan. Las conclusiones generales del proyecto
+van en el capítulo \emph{Conclusiones} (Revisión 4).
+\end{guia}
+
+% >>> ESCRIBE AQUÍ las conclusiones de los resultados experimentales <<<

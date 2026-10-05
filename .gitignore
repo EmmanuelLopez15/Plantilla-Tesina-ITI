@@ -1,0 +1,16 @@
+# Archivos temporales de LaTeX / biber
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*-blx.bib
+main.pdf

@@ -1,0 +1,9 @@
+% Ajustes adicionales SOLO para el estilo de citas APA (se carga si \EstiloCitas = apa).
+% Mejoran el uso de «y» en español y el separador de nombres en la lista de referencias.
+\makeatletter
+\DefineBibliographyExtras{spanish}{%
+  \setcounter{smartand}{1}%
+  \let\lbx@finalnamedelim=\lbx@es@smartand
+  \let\lbx@finallistdelim=\lbx@es@smartand
+}
+\makeatother

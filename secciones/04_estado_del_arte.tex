@@ -1,0 +1,59 @@
+% =====================================================================================
+% REVISIÓN 2  -  SOLO PROYECTOS DE INVESTIGACIÓN (\TipoProyecto{investigacion} en configuracion/datos.tex)
+% Para incluirla, quita el % de \input{secciones/04_estado_del_arte} en main.tex.
+% Escribe tu texto FUERA de los recuadros \begin{guia} ... \end{guia}.
+% =====================================================================================
+
+\section{Estado del arte} \label{sec:estado_arte} % audit:req=estado_arte
+
+\begin{guia}[Guía: Estado del arte (Revisión 2, proyectos de investigación)]
+\textbf{¿Para qué sirve?} Revisión crítica y sistemática de la literatura científica sobre tu problema. Demuestra que
+conoces lo último que se ha hecho y señala la brecha que tu trabajo llenará. No es un resumen de artículos uno tras otro.
+
+\textbf{Requisitos obligatorios (se verifican automáticamente):}
+\begin{itemize}[nosep,leftmargin=*]
+  \item Al menos \textbf{10 artículos científicos de revista} citados en esta sección (entradas \verb|@article| en tu
+        archivo \verb|.bib|). \textbf{No se aceptan artículos de congreso} (\verb|@inproceedings|).
+  \item Una \textbf{tabla comparativa} del estado del arte.
+  \item Una \textbf{conclusión del estado del arte}.
+\end{itemize}
+
+\textbf{Debe responder:}
+\begin{itemize}[nosep,leftmargin=*]
+  \item ¿Cómo buscaste? Indica bases de datos (Scopus, IEEE Xplore, ScienceDirect, Web of Science\ldots), cadenas de
+        búsqueda, años y criterios de inclusión y exclusión.
+  \item ¿Cuáles son las líneas o enfoques principales (organiza por temas, no por artículo)?
+  \item ¿Qué método, datos y resultados reporta cada trabajo y con qué limitaciones?
+  \item ¿Qué problema queda abierto y cómo se relaciona con tu hipótesis o propuesta?
+\end{itemize}
+
+\textbf{Extensión mínima:} 300 palabras de análisis, además de las tablas.
+
+\textbf{Errores frecuentes:} usar artículos de congreso o de revistas depredadoras; fuentes antiguas sin motivo (prefiere
+los últimos 5 a 7 años más los trabajos clásicos); describir sin comparar; no declarar el criterio de búsqueda.
+
+\textbf{Cómo se revisa:} cantidad y tipo de fuentes (automático), rigor del análisis y claridad de la brecha.
+\end{guia}
+
+% >>> ESCRIBE AQUÍ la metodología de búsqueda y el análisis por temas <<<
+
+
+\subsection{Tabla comparativa del estado del arte} \label{sec:tabla_estado_arte} % audit:req=tabla_estado_arte
+
+\begin{guia}[Guía: Tabla comparativa del estado del arte]
+Compara los artículos analizados con criterios que importen para tu investigación (técnica, conjunto de datos,
+métricas, resultados, limitaciones) y agrega tu propuesta en la última fila. Debe tener \verb|\caption|, \verb|\label|,
+cada fila con su \verb|\cite{clave}| y un párrafo que la interprete. Hay un ejemplo en \texttt{ejemplos/ejemplos\_latex.tex}.
+\end{guia}
+
+% >>> ESCRIBE AQUÍ la tabla (entorno table con booktabs) y su análisis <<<
+
+
+\subsection{Conclusión del estado del arte} \label{sec:conclusion_estado_arte} % audit:req=conclusion_estado_arte
+
+\begin{guia}[Guía: Conclusión del estado del arte]
+\textbf{Debe responder:} ¿qué se sabe y qué no? ¿cuál es la brecha concreta? ¿cómo se posiciona tu propuesta frente a lo
+existente y por qué es necesaria? Mínimo 60 palabras, sin información nueva que no esté en el análisis.
+\end{guia}
+
+% >>> ESCRIBE AQUÍ la conclusión del estado del arte <<<

@@ -1,0 +1,101 @@
+% =====================================================================================
+% PREÁMBULO DE LA PLANTILLA (paquetes y estilos)  -->  NORMALMENTE NO NECESITAS EDITARLO
+% Actualización: Said Polanco-Martagón / Marco A. Nuño-Maganda. Reorganizado para el sistema de revisión.
+% =====================================================================================
+
+\usepackage[left=2.5cm,top=2.0cm,right=2.5cm,bottom=3.0cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,mexico]{babel}
+\usepackage{etoolbox}
+\usepackage{enumitem}                    % listas compactas en las guías
+\usepackage[linguistics]{forest}
+\usepackage{tikz}
+\usepackage{amssymb, amsmath, amsbsy}   % símbolos y ecuaciones
+\usepackage{longtable}                  % tablas largas
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{listings}
+\usepackage{float}                      % necesario para la opción [H] de figuras y tablas
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[skip=12pt plus1pt]{parskip}
+\usepackage{pdfpages}                   % incluir PDF (cartas) en el documento
+\usepackage{verbatim}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage{pdflscape}
+\usepackage{afterpage}
+\usepackage{array,booktabs,ragged2e}    % booktabs: \toprule \midrule \bottomrule en las tablas
+\usepackage{wallpaper}
+\usepackage[overload]{textcase}
+\usepackage{datetime}
+
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+\floatname{algorithm}{Algoritmo}
+\renewcommand{\listalgorithmname}{Índice de algoritmos}
+\renewcommand{\algorithmicrequire}{\textbf{Entrada:}}
+\renewcommand{\algorithmicensure}{\textbf{Salida:}}
+
+% ---------------------------------------------------------------------------------------
+% REFERENCIAS (biblatex + biber). El estilo se elige en configuracion/datos.tex (\EstiloCitas).
+% Archivo de bibliografía: referencias/referencias.bib
+% ---------------------------------------------------------------------------------------
+\usepackage{csquotes}
+\ifdefstring{\EstiloCitas}{apa}
+  {\usepackage[backend=biber,style=apa,sorting=nyt]{biblatex}
+   \DeclareLanguageMapping{spanish}{spanish-apa}
+   \input{configuracion/apa}}
+  {\usepackage[backend=biber,style=ieee,sorting=none]{biblatex}}
+\addbibresource{referencias/referencias.bib}
+\DefineBibliographyStrings{spanish}{references = {Referencias}, bibliography = {Referencias}}
+
+% Permite romper los hipervínculos largos al final de la línea
+\setcounter{biburllcpenalty}{7000}
+\setcounter{biburlucpenalty}{8000}
+
+\usepackage[bookmarks=true,breaklinks=true,bookmarksopen=false,colorlinks=true,linkcolor=blue]{hyperref}
+
+% Fecha de compilación (se usa en las citas de páginas de Internet)
+\newdateformat{specialdate}{\twodigit{\THEDAY}-\twodigit{\THEMONTH}-\THEYEAR}
+\date{\specialdate\today}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.25mm}}
+\newcommand{\separacionCorta}{0.0cm}
+\newcommand{\separacionLarga}{0.5cm}
+\newcommand{\iemph}[1]{\MakeTextUppercase{#1}}
+
+% ---------------------------------------------------------------------------------------
+% ENCABEZADO Y PIE DE PÁGINA
+% ---------------------------------------------------------------------------------------
+\pagestyle{fancy}
+\setlength{\headheight}{50pt}
+\fancyhead{}
+\fancyhead[L]{\includegraphics[height=1.00cm]{logos/UTYP.png}}
+\fancyhead[C]{\begin{center}\scriptsize{\NombreProyectoheader}\end{center}}
+\fancyhead[R]{\includegraphics[height=1.25cm]{logos/LogoUPV_2023.png}}
+\fancyfoot{}
+\fancyfoot[R]{\thepage}
+
+% ---------------------------------------------------------------------------------------
+% GUÍAS PARA EL ALUMNO
+% Las guías (entorno guia) explican qué debe ir en cada sección y qué preguntas debe responder.
+%   * \guiastrue   -> se muestran en un recuadro (valor inicial, mientras escribes).
+%   * \guiasfalse  -> se ocultan en el PDF (cámbialo para la versión final).
+% El sistema de revisión IGNORA todo lo que esté dentro de \begin{guia} ... \end{guia}: lo que escribas ahí no
+% cuenta como contenido de tu tesina. Escribe tu texto FUERA de las guías.
+% ---------------------------------------------------------------------------------------
+\usepackage[most]{tcolorbox}
+\newif\ifguias
+\guiastrue
+\newtcolorbox{guiabox}[1][]{breakable, enhanced jigsaw, colback=yellow!10, colframe=orange!70!black,
+  fonttitle=\bfseries\small, title={#1}, boxrule=0.6pt, arc=2pt, left=5pt, right=5pt, top=3pt, bottom=3pt,
+  fontupper=\small, before skip=8pt, after skip=10pt}
+\newenvironment{guia}[1][Guía para el alumno]
+  {\ifguias\begin{guiabox}[#1]\else\setbox0\vbox\bgroup\fi}
+  {\ifguias\end{guiabox}\else\egroup\fi}

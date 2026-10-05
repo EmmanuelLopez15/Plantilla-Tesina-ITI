@@ -1,0 +1,107 @@
+% =====================================================================================
+% EJEMPLOS DE LATEX (para copiar y pegar en tus secciones). Este archivo NO forma parte de la tesina.
+% Para ver cómo se ve, agrégalo temporalmente en main.tex:   \input{ejemplos/ejemplos_latex}
+% Reglas que verifica el sistema de revisión:
+%   * Toda tabla y figura lleva \caption y \label, y se cita en el texto con \ref (nunca «Figura 3» a mano).
+%   * Toda cita \cite{clave} existe en referencias/referencias.bib.
+% =====================================================================================
+
+\section{Ejemplos de LaTeX} \label{sec:ejemplos}
+
+\subsection{Tabla informativa y tabla comparativa}
+
+Una \textbf{tabla informativa} resume \emph{qué es} cada trabajo; sirve para dar un panorama (p. ej. en los
+antecedentes). Una \textbf{tabla comparativa} contrasta los trabajos con criterios que importan para tu proyecto e
+incluye tu propuesta; sirve para justificarla. Ninguna sustituye la explicación en texto.
+
+\begin{table}[H]
+  \centering
+  \caption{Ejemplo de tabla informativa de trabajos previos.}
+  \label{tab:ejemplo_informativa}
+  \begin{tabular}{@{}p{2.6cm}p{3cm}p{3.6cm}p{5cm}@{}}
+    \toprule
+    \textbf{Autor (año)} & \textbf{Tema} & \textbf{Metodología} & \textbf{Contribución clave} \\
+    \midrule
+    Pérez (2018)        & Detección de grietas en concreto. & Visión artificial. & Algoritmo con 90\,\% de precisión. \\
+    Gómez y López (2019) & Monitoreo de puentes.            & Sensores de vibración. & Sistema de alerta temprana de fallas. \\
+    Martínez (2020)      & Rutas logísticas.                & Algoritmos genéticos.  & Redujo 15\,\% los tiempos de entrega. \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \caption{Ejemplo de tabla comparativa (incluye la propuesta en la última fila).}
+  \label{tab:ejemplo_comparativa}
+  \begin{tabular}{@{}p{3.4cm}cccc@{}}
+    \toprule
+    \textbf{Algoritmo / autor} & \textbf{Precisión (\%)} & \textbf{Velocidad (ms)} & \textbf{Escalabilidad} & \textbf{Hardware} \\
+    \midrule
+    Pérez (2018)         & 90 & 50  & Baja  & PC estándar \\
+    Gómez y López (2019) & 95 & 200 & Media & Servidor \\
+    \textbf{Propuesta}   & \textbf{98} & \textbf{35} & \textbf{Alta} & \textbf{PC estándar} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Como se observa en la Tabla~\ref{tab:ejemplo_comparativa}, la propuesta mejora la precisión sin requerir hardware especial.
+Observa que la tabla se cita con \verb|Tabla~\ref{...}| y que el texto la interpreta.
+
+\subsection{Figuras}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{img/diagrama_proceso}
+  \caption{Diagrama de un proceso de control automático.}
+  \label{fig:ejemplo_diagrama}
+\end{figure}
+
+La Figura~\ref{fig:ejemplo_diagrama} ilustra el uso de \verb|\includegraphics|: indica la ruta de la imagen, un ancho
+relativo al texto, un pie de figura y una etiqueta. Prefiere imágenes vectoriales (PDF) o PNG de buena resolución.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{img/grafico_datos1}
+    \caption{Datos de temperatura.}
+    \label{fig:ejemplo_sub_temp}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{img/grafico_datos2}
+    \caption{Datos de presión.}
+    \label{fig:ejemplo_sub_pres}
+  \end{subfigure}
+  \caption{Comparación de datos operativos (temperatura y presión).}
+  \label{fig:ejemplo_comparacion}
+\end{figure}
+
+La Figura~\ref{fig:ejemplo_comparacion} combina dos imágenes con el paquete \verb|subcaption|.
+
+\subsection{Ecuaciones, algoritmos y código}
+
+Una ecuación numerada que se cita en el texto:
+\begin{equation}
+  \label{eq:ejemplo_error}
+  E = \frac{1}{n}\sum_{i=1}^{n}\left(y_i - \hat{y}_i\right)^2 ,
+\end{equation}
+donde $y_i$ es el valor real y $\hat{y}_i$ el valor estimado (la Ecuación~\ref{eq:ejemplo_error} es el error cuadrático
+medio). Define siempre los símbolos que uses.
+
+\begin{algorithm}[H]
+  \caption{Búsqueda lineal.}
+  \label{alg:ejemplo_busqueda}
+  \begin{algorithmic}[1]
+    \Require Lista $A$ de $n$ elementos y valor buscado $x$
+    \Ensure Posición de $x$ en $A$ o $-1$
+    \For{$i \gets 1$ \textbf{to} $n$}
+      \If{$A[i] = x$} \State \Return $i$ \EndIf
+    \EndFor
+    \State \Return $-1$
+  \end{algorithmic}
+\end{algorithm}
+
+\subsection{Citas}
+
+Con biblatex se cita con \verb|\cite{clave}| (estilo numérico IEEE) o \verb|\textcite{clave}| y \verb|\parencite{clave}|
+(estilo APA). La clave debe existir en \texttt{referencias/referencias.bib}.

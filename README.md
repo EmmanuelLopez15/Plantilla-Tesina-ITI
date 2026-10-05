@@ -1,70 +1,78 @@
 # Plantilla de Tesis/Tesina - Universidad Politécnica de Victoria (UPV)
 
-Este repositorio contiene la plantilla oficial para la elaboración de tesis y tesinas de ingeniería, diseñada para los estudiantes de la Universidad Politécnica de Victoria (UPV). La plantilla está basada en \LaTeX, una herramienta profesional para la creación de documentos científicos y técnicos, lo que garantiza un formato consistente y de alta calidad para su trabajo de investigación.
+Plantilla para la elaboración de tesinas y tesis de ingeniería de la Universidad Politécnica de Victoria, basada en
+LaTeX. Está organizada por **secciones que se entregan en revisiones incrementales** y es compatible con el sistema de
+revisión asistida por IA del programa.
+
+> **Alumnos: empiecen por [`GUIA_ALUMNO.md`](GUIA_ALUMNO.md).**
 
 ## Créditos
 
-Esta plantilla ha sido desarrollada y puesta a disposición de la comunidad estudiantil de la UPV gracias al esfuerzo de:
+Plantilla desarrollada y puesta a disposición de la comunidad estudiantil de la UPV por:
 
 * **Dr. Said Polanco Martagón**
-* **Dr. Marco Aurelio Nuño Magana**
+* **Dr. Marco Aurelio Nuño Maganda**
 
-## Primeros Pasos: Obtener la Plantilla
+## Estructura
 
-Para comenzar a trabajar en tu tesis, puedes obtener una copia de esta plantilla de dos maneras:
+```
+main.tex                         ensambla el documento (activa/desactiva secciones según el tipo de proyecto)
+configuracion/datos.tex          datos del alumno, tipo de proyecto y estilo de citas   <- se edita
+configuracion/preambulo.tex      paquetes, estilos y entorno «guia»                     <- no se edita
+institucional/                   portada, cartas y evaluación (se generan con los datos)
+secciones/00_preliminares.tex    agradecimientos, resumen, summary              [Revisión 4]
+secciones/01_introduccion.tex    introducción, problema, objetivos, justificación, alcances   [Revisión 1]
+secciones/02_antecedentes.tex    antecedentes, de la empresa, teóricos, tabla comparativa      [Revisión 1]
+secciones/03_marco_teorico.tex   temas tentativos [Rev. 1] y marco teórico completo [Rev. 2]
+secciones/04_estado_del_arte.tex solo investigación                                 [Revisión 2]
+secciones/05_propuesta_solucion.tex                                                  [Revisión 2]
+secciones/06_desarrollo_sistema.tex      proyectos de sistema                        [Revisión 3]
+secciones/06_diseno_experimentos.tex     proyectos de investigación                  [Revisión 3]
+secciones/07_conclusiones.tex    conclusiones y trabajo futuro                       [Revisión 4]
+referencias/referencias.bib      bibliografía
+ejemplos/ejemplos_latex.tex      ejemplos de tablas, figuras, ecuaciones, algoritmos y citas
+```
 
-### Opción 1: Clonar el Repositorio (Recomendado para uso directo)
+Cada archivo de `secciones/` incluye una **guía** (recuadro amarillo) con lo que debe contener la sección, las preguntas
+que debe responder, la extensión mínima y los errores frecuentes. Se ocultan con `\guiasfalse` en
+`configuracion/preambulo.tex`.
 
-Esta opción es la más sencilla si solo necesitas una copia local del proyecto para empezar a editarla.
+## Cómo obtener la plantilla
 
-1.  Abre tu terminal (o Git Bash en Windows).
-2.  Navega a la carpeta donde deseas guardar tu proyecto.
-3.  Ejecuta el siguiente comando para clonar el repositorio:
+```bash
+git clone https://github.com/<usuario>/<repositorio>.git
+cd <repositorio>
+```
 
-    ```bash
-    git clone [https://github.com/tu-usuario/nombre-del-repositorio.git](https://github.com/tu-usuario/nombre-del-repositorio.git)
-    cd nombre-del-repositorio
-    ```
+(Si hay un *fork* propio, clónalo de la misma manera.)
 
-### Opción 2: Forking (Recomendado para desarrolladores y contribuciones)
+## Compilación
 
-Si deseas mantener tu propia versión de la plantilla en tu cuenta de GitHub o si planeas hacer mejoras y contribuir al proyecto original, la mejor práctica es hacer un "fork".
-
-1.  En la página de este repositorio en GitHub, haz clic en el botón **"Fork"** en la esquina superior derecha.
-2.  Esto creará una copia del repositorio en tu propia cuenta de GitHub.
-3.  Ahora, puedes clonar tu copia localmente desde tu terminal:
-
-    ```bash
-    git clone [https://github.com/tu-usuario/nombre-de-tu-fork.git](https://github.com/tu-usuario/nombre-de-tu-fork.git)
-    cd nombre-de-tu-fork
-    ```
-
-## Comandos Básicos de Compilación en LaTeX
-
-Para generar el archivo PDF de tu tesis a partir de los archivos `.tex`, necesitarás compilar el documento. Se recomienda el uso de un editor de LaTeX como Overleaf, TeXstudio, o VS Code con la extensión LaTeX Workshop, ya que automatizan este proceso.
-
-Si prefieres hacerlo manualmente desde la terminal, aquí están los comandos básicos en el orden correcto:
-
-1.  **Compilar el documento principal (`main.tex`)**: Este comando genera el documento y los archivos auxiliares, pero aún sin bibliografía.
-
-    ```bash
-    pdflatex main.tex
-    ```
-
-2.  **Procesar la bibliografía (`biblio.bib`)**: Este paso crea la lista de referencias.
-
-    ```bash
-    bibtex main
-    ```
-
-3.  **Volver a compilar el documento**: Se necesita una o dos compilaciones adicionales para que la bibliografía, la tabla de contenidos y las referencias cruzadas se actualicen correctamente en el PDF final.
-
-    ```bash
-    pdflatex main.tex
-    pdflatex main.tex
-    ```
-
-Si utilizas un sistema de compilación más avanzado como `latexmk`, todo el proceso se puede automatizar con un solo comando:
+La bibliografía usa **biblatex con biber** (ya no `bibtex`). Se recomienda un editor que lo haga automáticamente
+(Overleaf, TeXstudio o VS Code con LaTeX Workshop). Desde la terminal, lo más simple es:
 
 ```bash
 latexmk -pdf main.tex
+```
+
+Equivalente manual:
+
+```bash
+pdflatex main.tex
+biber main
+pdflatex main.tex
+pdflatex main.tex
+```
+
+Requiere una instalación de TeX Live con los paquetes `biblatex`, `biber`, `csquotes`, `tcolorbox`, `pdfpages`,
+`enumitem` y `booktabs` (todos incluidos en TeX Live completo y en Overleaf).
+
+## Para el director de tesis: compatibilidad con el sistema de revisión
+
+El sistema lee los siguientes elementos de la plantilla; **no deben eliminarse**:
+
+* `\newcommand{\TipoProyecto}{...}` y `\newcommand{\NombreProyecto}{...}` en `configuracion/datos.tex`.
+* Los comentarios `% audit:req=<id>` junto a los títulos de sección, que identifican cada requisito de la revisión
+  (los ids están definidos en `config/revisiones.yaml` del sistema de revisión).
+* El entorno `guia`: su contenido se ignora al evaluar (no cuenta como texto del alumno).
+* La carpeta `institucional/`, que el sistema no revisa.

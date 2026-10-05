@@ -1,0 +1,122 @@
+% =====================================================================================
+% REVISIÓN 1  -  Antecedentes (del problema, de la empresa y teóricos) y tabla comparativa
+% Escribe tu texto FUERA de los recuadros \begin{guia} ... \end{guia}.
+% =====================================================================================
+
+\section{Antecedentes} \label{sec:antecedentes}
+
+\begin{guia}[Guía: Antecedentes (Revisión 1)]
+Este capítulo sitúa tu proyecto: qué se ha hecho antes, en qué organización ocurre y qué conceptos lo sustentan.
+Tiene tres apartados (\emph{del problema}, \emph{de la empresa}, \emph{teóricos}) y una \emph{tabla comparativa}.
+Escribe aquí, si quieres, un párrafo breve que presente los apartados.
+\end{guia}
+
+\subsection{Antecedentes del problema} \label{sec:antecedentes_problema} % audit:req=antecedentes
+
+\begin{guia}[Guía: Antecedentes del problema (Revisión 1)]
+\textbf{¿Para qué sirve?} Muestra que conoces lo que ya existe sobre el problema y justifica que haga falta tu trabajo.
+
+\textbf{Debe responder:}
+\begin{itemize}[nosep,leftmargin=*]
+  \item ¿Cómo ha evolucionado o se ha enfrentado este problema? (breve recorrido histórico o de contexto).
+  \item ¿Qué soluciones, sistemas, tesis o artículos existentes abordan el mismo problema o uno parecido (mínimo 3, con
+        cita \verb|\cite{clave}|)?
+  \item ¿Qué hace cada uno, qué ventajas y qué limitaciones tiene?
+  \item ¿Qué queda sin resolver y cómo se conecta con tu propuesta?
+\end{itemize}
+
+\textbf{Extensión mínima:} 120 palabras. \textbf{Fuentes:} libros, artículos, documentación técnica oficial o sistemas
+reales; evita depender solo de blogs.
+
+\textbf{Errores frecuentes:} listar herramientas sin analizarlas; no citar; copiar descripciones comerciales.
+
+\textbf{Cómo se revisa:} pertinencia de las fuentes, análisis crítico y conexión explícita con el problema.
+\end{guia}
+
+% >>> ESCRIBE AQUÍ los antecedentes del problema <<<
+
+
+\subsection{Antecedentes de la empresa} \label{sec:antecedentes_empresa} % audit:req=antecedentes_empresa
+
+\begin{guia}[Guía: Antecedentes de la empresa u organismo receptor (Revisión 1)]
+\textbf{¿Para qué sirve?} Describe la organización donde realizas la estadía y el proceso que tu proyecto mejora.
+
+\textbf{Debe responder:}
+\begin{itemize}[nosep,leftmargin=*]
+  \item ¿Quién es el organismo receptor? (giro o sector, ubicación, breve historia, misión y visión).
+  \item ¿Cuál es su estructura y en qué área o departamento se realiza tu proyecto? (organigrama opcional).
+  \item ¿Cómo se realiza hoy el proceso que vas a mejorar? ¿con qué personas, herramientas o sistemas?
+  \item ¿Quién es tu asesor empresarial y cuál es su función?
+\end{itemize}
+
+\textbf{Extensión mínima:} 100 palabras.
+
+\textbf{Cuidado:} pide autorización a la empresa para publicar información; no incluyas datos confidenciales ni
+datos personales.
+
+\textbf{Errores frecuentes:} copiar la página web de la empresa; no describir el proceso actual (es lo más importante).
+
+\textbf{Cómo se revisa:} que se entienda el contexto operativo real del proyecto.
+\end{guia}
+
+% >>> ESCRIBE AQUÍ los antecedentes de la empresa <<<
+
+
+\subsection{Antecedentes teóricos} \label{sec:antecedentes_teoricos} % audit:req=antecedentes_teoricos
+
+\begin{guia}[Guía: Antecedentes teóricos (Revisión 1)]
+\textbf{¿Para qué sirve?} Presenta, de manera panorámica, los conceptos y tecnologías base de tu proyecto. El desarrollo
+completo va en el \emph{Marco teórico} (Revisión 2); aquí basta con lo esencial para entender el planteamiento.
+
+\textbf{Debe responder:} ¿qué conceptos, teorías o tecnologías necesita conocer el lector? ¿por qué son relevantes para
+tu proyecto? ¿qué fuentes los respaldan?
+
+\textbf{Extensión mínima:} 150 palabras (sin contar la tabla comparativa).
+
+\textbf{Errores frecuentes:} definiciones sueltas sin relación con el proyecto; fuentes sin citar.
+
+\textbf{Cómo se revisa:} pertinencia y suficiencia de los conceptos, y calidad de las citas.
+\end{guia}
+
+% >>> ESCRIBE AQUÍ los antecedentes teóricos <<<
+
+
+\subsubsection{Tabla comparativa de antecedentes} \label{subsec:tabla_comparativa_antecedentes} % audit:req=tabla_comparativa
+
+\begin{guia}[Guía: Tabla comparativa de antecedentes (Revisión 1)]
+\textbf{¿Para qué sirve?} Compara de forma objetiva los trabajos o sistemas existentes con lo que propones.
+
+\textbf{Debe incluir:}
+\begin{itemize}[nosep,leftmargin=*]
+  \item Una fila por trabajo o sistema (mínimo 3), cada uno con su cita \verb|\cite{clave}|.
+  \item Columnas con \emph{criterios} relevantes para tu proyecto (funcionalidades, tecnología, costo, precisión,
+        escalabilidad, limitaciones\ldots).
+  \item Una fila final con \textbf{tu propuesta}, para que se vea qué aporta de distinto.
+  \item Un pie de tabla (\verb|\caption|), una etiqueta (\verb|\label{tab:...}|) y una referencia en el texto
+        (\verb|Tabla~\ref{tab:...}|), además de un párrafo que \emph{interprete} la tabla.
+\end{itemize}
+Usa \verb|booktabs| (\verb|\toprule|, \verb|\midrule|, \verb|\bottomrule|) y evita líneas verticales. Hay un ejemplo
+completo en \texttt{ejemplos/ejemplos\_latex.tex}.
+
+\textbf{Errores frecuentes:} tabla sin analizar en el texto; criterios que no ayudan a decidir; no incluir la propuesta.
+
+\textbf{Cómo se revisa:} se verifica automáticamente que exista una tabla; el director valora que los criterios sean
+significativos.
+\end{guia}
+
+% Quita el % de estas líneas y adáptalas (o copia el ejemplo de ejemplos/ejemplos_latex.tex):
+% \begin{table}[H]
+%   \centering
+%   \caption{Comparación de trabajos relacionados con la propuesta.}
+%   \label{tab:comparativa_antecedentes}
+%   \begin{tabular}{@{}p{3.4cm}p{3.4cm}p{3.4cm}p{3.4cm}@{}}
+%     \toprule
+%     \textbf{Trabajo} & \textbf{Criterio 1} & \textbf{Criterio 2} & \textbf{Limitación} \\
+%     \midrule
+%     Autor A \cite{claveA} & \dots & \dots & \dots \\
+%     Autor B \cite{claveB} & \dots & \dots & \dots \\
+%     \textbf{Propuesta (este trabajo)} & \dots & \dots & \dots \\
+%     \bottomrule
+%   \end{tabular}
+% \end{table}
+% >>> ESCRIBE AQUÍ el análisis de la tabla comparativa (cítala con Tabla~\ref{tab:comparativa_antecedentes}) <<<

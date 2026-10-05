@@ -66,13 +66,3 @@ pdflatex main.tex
 
 Requiere una instalación de TeX Live con los paquetes `biblatex`, `biber`, `csquotes`, `tcolorbox`, `pdfpages`,
 `enumitem` y `booktabs` (todos incluidos en TeX Live completo y en Overleaf).
-
-## Para el director de tesis: compatibilidad con el sistema de revisión
-
-El sistema lee los siguientes elementos de la plantilla; **no deben eliminarse**:
-
-* `\newcommand{\TipoProyecto}{...}` y `\newcommand{\NombreProyecto}{...}` en `configuracion/datos.tex`.
-* Los comentarios `% audit:req=<id>` junto a los títulos de sección, que identifican cada requisito de la revisión
-  (los ids están definidos en `config/revisiones.yaml` del sistema de revisión).
-* El entorno `guia`: su contenido se ignora al evaluar (no cuenta como texto del alumno).
-* La carpeta `institucional/`, que el sistema no revisa.

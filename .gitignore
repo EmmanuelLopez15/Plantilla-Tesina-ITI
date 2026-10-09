@@ -1,10 +1,8 @@
 # Archivos temporales de LaTeX / biber
 *.aux
-*.bbl
 *.bcf
 *.blg
-*.fdb_latexmk
-*.fls
+*.loa
 *.lof
 *.log
 *.lot
@@ -12,5 +10,20 @@
 *.run.xml
 *.synctex.gz
 *.toc
-*-blx.bib
+*.bbl
+*.fls
+*.fdb_latexmk
+*.nav
+*.snm
+*.vrb
+
+# PDF generado
 main.pdf
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Carpetas de editor
+.vscode/
+.idea/

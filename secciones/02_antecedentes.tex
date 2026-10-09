@@ -5,6 +5,8 @@
 
 \section{Antecedentes} \label{sec:antecedentes}
 
+Este capítulo sitúa el proyecto en tres planos. Primero, los antecedentes del problema: cómo se atendía antes la necesidad y qué trabajos existen sobre ella. Después, la empresa y el proceso donde se desarrolla. Por último, los conceptos y tecnologías que lo sustentan, junto con una tabla comparativa de trabajos relacionados.
+
 \begin{guia}[Guía: Antecedentes (Revisión 1)]
 Este capítulo sitúa tu proyecto: qué se ha hecho antes, en qué organización ocurre y qué conceptos lo sustentan.
 Tiene tres apartados (\emph{del problema}, \emph{de la empresa}, \emph{teóricos}) y una \emph{tabla comparativa}.
@@ -35,6 +37,10 @@ reales; evita depender solo de blogs.
 
 % >>> ESCRIBE AQUÍ los antecedentes del problema <<<
 
+Antes de este proyecto, el control de compras y de proveedores se apoyaba en los registros nativos de SAP e IMaS, sin un mecanismo automatizado que cruzara la información entre ambos.
+Al asumir la responsabilidad del proyecto, la aplicación RM-Inventory ya estaba desarrollada sobre Power Platform con una separación de responsabilidades: archivos de Excel con Office Scripts realizaban el proceso ETL, Power Automate orquestaba los procesos, las listas de SharePoint funcionaban como modelo de datos operativo, Power Apps era la interfaz de usuario y Power BI la capa analítica. Sin embargo, presentaba fallas lógicas y de diseño. El archivo Excel maestro debía actualizarse manualmente cada día para poder consultarlo desde Power Apps. El módulo de inicio de sesión y gestión de usuarios podía eliminarse, porque el control de acceso se resuelve con los permisos del propio entorno. La pantalla de inicio mostraba contenedores provisionales que debían sustituirse por un tablero de Power BI embebido a pantalla completa. De los módulos construidos, solo Arrivals y Consumption tenían pruebas funcionales completas; el proceso ETL y el envío de alertas por correo operaban de forma estable, pero el segundo se ejecutaba manualmente y faltaba configurar un desencadenador programable.
+En paralelo existía el desarrollo del proyecto INDICADORES, una plantilla de Excel donde cada fila se completaba manualmente con la información que los datos de origen no contenían, y que Power BI replicaba para aplicar filtros y operaciones, incluida una gráfica de la evolución del precio por material. Faltaba migrarlo a una interfaz en Power Apps que reprodujera la plantilla, incorporara nuevos apartados de registro, embebiera el tablero y resolviera el manejo de históricos y de información de proveedores.
+Fuera de la empresa, trabajos recientes abordan problemas parecidos con herramientas similares (Tabla~\ref{tab:comparativa_antecedentes}). Rojas y Hernández \cite{rojas2025rpaessa} automatizaron con Python, Power Automate y Power BI el seguimiento analítico de activos, y reportan una reducción de 38 a 3.33 horas mensuales. Galeano \cite{galeano2025} automatizó con Power Apps, Power Automate y Python tareas de facturación, impuestos y activos fijos, aunque su resumen no incluye cifras de resultados. Osorio \cite{osorio2026} logró la interoperabilidad entre Excel y un ERP para reducir cruces manuales y reprocesos en pedidos e inventario, con un tiempo promedio reportado de 19 minutos. Monroy \cite{monroy2025} construyó un tablero en Power BI con datos centralizados, validado funcionalmente. Ninguno combina en una sola solución la conciliación entre SAP e IMaS, el seguimiento del inventario de materias primas junto con las órdenes de compra activas y la automatización de los flujos que lo alimentan, que es la brecha que este proyecto atiende.
 
 \subsection{Antecedentes de la empresa} \label{sec:antecedentes_empresa} % audit:req=antecedentes_empresa
 
@@ -61,6 +67,23 @@ datos personales.
 
 % >>> ESCRIBE AQUÍ los antecedentes de la empresa <<<
 
+ArcelorMittal es la mayor empresa siderúrgica y minera del mundo, con presencia en más de 60 países y más de 320,000 empleados. Lidera varios mercados del acero (automotriz, construcción, electrodomésticos y empaques) y cotiza en las bolsas de Nueva York, Ámsterdam, París, Luxemburgo y en las españolas de Barcelona, Bilbao, Madrid y Valencia. En 2023 registró ingresos por 68,275 millones de dólares, una producción de acero crudo de 58.1 millones de toneladas y de mineral de hierro de 42 millones \cite{arcelormittal2026mexico}.
+ 
+En México es la siderúrgica líder del país. Su principal operación de manufactura está en el puerto de Lázaro Cárdenas, Michoacán, donde produce varilla, alambrón, palanquilla y planchón; en Celaya, Guanajuato, produce varilla corrugada, y en Ciudad Obregón, Sonora, concentrados de mineral de hierro. Opera además las minas El Volcán (Sonora), Peña Colorada (Colima) y el complejo Las Truchas (Michoacán), y tiene oficinas corporativas en Monterrey, Nuevo León, sede de las funciones corporativas y de tecnologías de la información \cite{arcelormittal2026mexico}.
+ 
+Su origen se remonta a 1976, cuando comenzó a operar como empresa pública bajo el nombre de Siderúrgica Lázaro Cárdenas-Las Truchas (Sicartsa). En 1992 Ispat International adquirió Sicartsa II; en 2005 Ispat se fusionó para dar origen a Mittal Steel, y un año después esta adquirió Sicartsa I a Grupo Villacero, lo que dio lugar al complejo integrado actual. En 2017 las oficinas de operación se trasladaron de la Ciudad de México a Monterrey y se inició una inversión en Lázaro Cárdenas que incluyó un molino laminador en caliente, que produce rollos de lámina desde finales de 2021 \cite{arcelormittal2026mexico}.
+ 
+\begin{itemize}
+ \item \textbf{Área o departamento.} La estadía se desarrolla en el área de compras, para la automatización de procesos y la analítica de datos, con interacción directa con los sistemas SAP e IMaS.
+ 
+ \item \textbf{Proceso actual.} El control documental de proveedores y contratistas se realiza de forma manual sobre carpetas multinivel y debe conciliarse entre SAP e IMaS, que no comparten formato. El seguimiento del inventario de materias primas requiere consultar reportes separados de stock y de órdenes de compra, y los correos con adjuntos relevantes se procesan manualmente. Intervienen el personal de compras, los proveedores y contratistas externos y los sistemas SAP, IMaS, SharePoint y Excel.
+  
+ \item \textbf{Misión.} Ofrecer soluciones de acero innovadoras y sostenibles que impulsen el progreso de la sociedad y contribuyan al desarrollo económico global \cite{arcelormittal2026mexico}.
+ 
+ \item \textbf{Visión.} Consolidarse como la empresa acerera más admirada del mundo, reconocida por su liderazgo en innovación, su compromiso con la sostenibilidad y la excelencia operativa \cite{arcelormittal2026mexico}.
+ 
+ \item \textbf{Valores.} Liderazgo, calidad y sustentabilidad, con una filosofía de producir acero de forma segura y responsable \cite{arcelormittal2026mexico}.
+\end{itemize}
 
 \subsection{Antecedentes teóricos} \label{sec:antecedentes_teoricos} % audit:req=antecedentes_teoricos
 
@@ -79,6 +102,17 @@ tu proyecto? ¿qué fuentes los respaldan?
 \end{guia}
 
 % >>> ESCRIBE AQUÍ los antecedentes teóricos <<<
+Los conceptos del proyecto provienen de dos tipos de fuentes: la literatura sobre RPA y la documentación oficial de Microsoft e IBM sobre las plataformas empleadas. Su desarrollo completo se presenta en el marco teórico (Sección~\ref{sec:marco_teorico}); aquí se resume lo esencial.
+
+\textbf{RPA.} Es una tecnología que usa agentes de software para automatizar tareas rutinarias y basadas en reglas que antes realizaban personas, replicando el camino que seguiría un usuario entre varias aplicaciones \cite{syed2020rpa}. La literatura reporta como beneficios la reducción de costos, el aumento de productividad, la disponibilidad continua y la consistencia en la ejecución. Un proceso es buen candidato si está basado en reglas, es repetitivo, ocurre con frecuencia, tiene datos de entrada digitalizados, está estandarizado e interactúa con varios sistemas; identificar los procesos adecuados es además uno de los retos más comunes \cite{moreira2023rpa}. Las tres situaciones del Planteamiento cumplen estos criterios.
+ 
+\textbf{Power Automate.} Es un servicio en línea que automatiza flujos de trabajo entre aplicaciones y servicios \cite{microsoft2025powerAutomateDoc}. Sus flujos de escritorio permiten automatizar tareas repetitivas en aplicaciones heredadas, web y de escritorio \cite{microsoft2025desktopFlowsIntro}, y la guía de Microsoft recomienda una metodología por fases e incluye una sección sobre RPA con SAP \cite{microsoft2025powerAutomateGuia}. Mediante puertas de enlace, los flujos de nube y de escritorio se combinan en arquitecturas híbridas \cite{microsoft2025cloudDesktopFlow}.
+ 
+\textbf{Power BI.} Organiza el trabajo en transformación, modelado y cálculo (DAX) de los datos \cite{microsoft2025pbiTransform}; sus dashboards son vistas consolidadas de una página, ideales para el monitoreo rápido \cite{microsoft2025pbiDashboards}. Los marcadores guardan el estado de una página para recuperarlo después \cite{microsoft2025pbiMarcadores}, y los navegadores de botones permiten alternar entre páginas o marcadores \cite{microsoft2025pbiBookmarks}, base de la navegación dinámica de RM-Inventory.
+ 
+\textbf{Office Scripts y SharePoint.} Office Scripts automatiza tareas en Excel y se escribe en TypeScript \cite{microsoft2025officeScriptsIntro, microsoft2025scriptingFundamentals}. SharePoint soporta la gestión documental, que controla el ciclo de vida de un documento mediante tipos, metadatos, ubicaciones y controles de acceso \cite{microsoft2025sharepointDoc}.
+ 
+\textbf{ERP e integración.} Un ERP gestiona de forma conjunta las funciones y los procesos de una organización sobre una base de datos común \cite{ibm2024erp}. Su integración con otras aplicaciones permite una fuente única de verdad, y la traducción de datos entre formatos distintos es uno de sus principales desafíos \cite{ibm2024erpIntegracion}, como ocurre entre SAP e IMaS.
 
 
 \subsubsection{Tabla comparativa de antecedentes} \label{subsec:tabla_comparativa_antecedentes} % audit:req=tabla_comparativa
@@ -120,3 +154,27 @@ significativos.
 %   \end{tabular}
 % \end{table}
 % >>> ESCRIBE AQUÍ el análisis de la tabla comparativa (cítala con Tabla~\ref{tab:comparativa_antecedentes}) <<<
+\begin{table}[H]
+  \centering
+  \caption{Comparativa de trabajos relacionados con la propuesta.}
+  \label{tab:comparativa_antecedentes}
+  \small
+  \begin{tabular}{@{}p{2.6cm}p{2.8cm}p{2.8cm}p{2.8cm}p{2.8cm}@{}}
+    \toprule
+    \textbf{Trabajo} & \textbf{Ámbito} & \textbf{Tecnología} & \textbf{Resultado medido} & \textbf{Limitación} \\
+    \midrule
+    Rojas y Hernández \cite{rojas2025mejora} & Activos & Python, Power Automate, Power BI & De 38 a 3.33 h/mes & No cubre conciliación entre sistemas \\
+    \addlinespace
+    Galeano \cite{galeano2025automatizacion} & Procesos financieros & Power Apps, Power Automate, Python & Sin cifras en el resumen & Alcance acotado a un proceso \\
+    \addlinespace
+    Osorio \cite{osorio2026tablero} & Pedidos e inventario & Excel, ERP, portal web & 19 min promedio & No integra tablero analítico \\
+    \addlinespace
+    Monroy \cite{monroy2025interoperable} & Indicadores & Power BI, DAX, ETL & Validación funcional & Sin automatización de la entrada de datos \\
+    \addlinespace
+    \textbf{Propuesta} & \textbf{Compras: inventario, proveedores y flujos} & \textbf{Power Platform, Office Scripts, SharePoint} & \textbf{Por evaluar} & \textbf{En desarrollo; resultados aún no medidos} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+ 
+La Tabla~\ref{tab:comparativa_antecedentes} muestra que los trabajos previos comparten con la propuesta el uso de Power Platform, pero cada uno atiende un ámbito acotado: activos, procesos financieros, pedidos o la visualización de indicadores. Solo el trabajo de Rojas y Hernández reporta un ahorro de tiempo respecto de una línea base, y el de Osorio presenta un tiempo promedio sin comparación. La propuesta se distingue por integrar en un mismo esquema la conciliación entre dos sistemas empresariales (SAP e IMaS), el seguimiento del inventario con las órdenes de compra activas y la automatización de los flujos de entrada. Como los resultados de la propuesta aún no se miden, la fila correspondiente se completará al evaluar la implementación.
+ 

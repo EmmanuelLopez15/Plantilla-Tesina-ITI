@@ -30,6 +30,13 @@ organización descrita coincida con las secciones reales del documento.
 
 % >>> ESCRIBE AQUÍ el texto de la introducción (fuera de la guía) <<<
 
+Las empresas operan bajo una presión constante por mejorar la eficiencia de sus procesos internos mediante tecnologías de la información. La transformación digital ha adquirido una importancia central en cualquier sector, porque modifica la relación con clientes, proveedores y recursos humanos, así como la forma en que se genera valor. Este fenómeno se aceleró con la pandemia de COVID-19, que obligó a las organizaciones a reinventar su operación para mantener la continuidad de sus productos y servicios \cite{moreira2023rpa}.
+Conviene distinguir dos conceptos que suelen usarse como sinónimos. La digitalización consiste en integrar tecnología en una actividad que antes era analógica o física, es decir, en pasar de lo analógico a lo digital en los procesos visibles de la empresa. La transformación digital exige un replanteamiento más profundo, pues implica desarrollar capacidades digitales dentro de la organización mediante nuevos procesos, recursos humanos y cambios organizacionales.
+Dentro de este proceso, la automatización ocupa un lugar particular. Cuando un proceso ya está digitalizado, puede automatizarse mediante software, lo que da una ventaja competitiva al ejecutar de forma automática tareas basadas en procesos maduros y regidos por reglas claras \cite{moreira2023rpa}. Una de las tecnologías que más interés ha despertado es la Automatización Robótica de Procesos (RPA), en la que agentes de software llamados ``bots'' interactúan con los sistemas de información imitando las acciones de un usuario humano, con el propósito de aliviar la carga de trabajo manual \cite{syed2020rpa}. Gartner proyectó que para 2022 cerca del 90\% de las grandes empresas del mundo habrían adoptado esta tecnología de alguna forma \cite{moreira2023rpa}.
+El uso de datos para la toma de decisiones es el segundo pilar de esta transformación. Las herramientas de Business Intelligence (BI) convierten datos dispersos en información consolidada y visualmente accesible, y los dashboards permiten a quienes gestionan la operación interpretar el estado del negocio con mayor rapidez y precisión.
+En este contexto se ubica el trabajo documentado en este reporte, desarrollado durante la estadía profesional en ArcelorMittal México S.A. de C.V., empresa del sector siderúrgico \cite{arcelormittal2026mexico}, dentro del área de compras. El problema que lo motiva es que varios procesos del área (el control documental de proveedores y contratistas, el seguimiento del inventario de materias primas y el procesamiento de correos y archivos adjuntos, entre otros) se realizaban de forma manual, repetitiva y basada en reglas, con riesgo de error y sin una visión unificada de la información. Se propone atenderlos con herramientas de Microsoft Power Platform (Power Automate, Power Apps, Power BI y SharePoint), scripts en Office Scripts y conciliación de datos entre los sistemas SAP e IMaS. El proyecto principal es RM-Inventory, un tablero de Power BI para el inventario de materias primas y las órdenes de compra activas, que retoma una versión previa inconclusa para su mejora y consolidación. Se espera reducir la intervención manual, mejorar la trazabilidad y acelerar la consulta de información para decidir.
+El documento se organiza como sigue. La Sección~\ref{sec:antecedentes} presenta los antecedentes del problema, de la empresa y teóricos, junto con una tabla comparativa de trabajos relacionados. La Sección~\ref{sec:marco_teorico} desarrolla el marco teórico y la Sección~\ref{sec:propuesta} describe la propuesta de solución. La Sección~\ref{sec:desarrollo_sistema} documenta el desarrollo del sistema y, por último, la Sección~\ref{sec:conclusiones} presenta las conclusiones y el trabajo futuro.
+ 
 
 \subsection{Planteamiento del problema} \label{sec:problema} % audit:req=planteamiento
 
@@ -55,7 +62,22 @@ problemas sin evidencia; enunciados tan amplios que no se pueden resolver en una
 \end{guia}
 
 % >>> ESCRIBE AQUÍ el planteamiento del problema <<<
-
+  
+El entorno operativo del área de compras de ArcelorMittal México presentaba procesos manuales, repetitivos y basados en reglas que, por su volumen y criticidad, requerían un tratamiento tecnológico. Se identificaron tres situaciones principales:
+ 
+\begin{itemize}
+\item \textbf{Control documental de proveedores y contratistas.} Se realizaba de forma manual sobre estructuras de carpetas multinivel. Esto generaba riesgo de duplicidad de registros, retrasaba la auditoría y dificultaba conciliar la información entre SAP e IMaS, dos plataformas que no comparten de forma nativa un mismo formato ni una misma estructura de datos.
+ 
+\item \textbf{Seguimiento del inventario de materias primas.} No existía un tablero centralizado que integrara el estado del stock (incluidos insumos como las ferroaleaciones) con las órdenes de compra activas. Era necesario consultar reportes separados y no sincronizados, lo que dificultaba tener una visión unificada y oportuna del inventario y de las compras en curso. Este problema dio origen a RM-Inventory.
+ 
+\item \textbf{Flujos operativos.} Flujos como Consumos\_SAP operaban con arquitecturas que requerían reestructuración para ser confiables y escalables. El procesamiento de correos con adjuntos relevantes era manual, con riesgo de pérdida de tiempo y de extravío de información, y la gestión de fallas en transacciones y de información de compras y almacenamiento presentaba la misma manualidad.
+\end{itemize}
+ 
+Estas situaciones afectan al personal del área de compras, que invierte tiempo en tareas repetitivas, y a quienes consultan la información para auditar o decidir, pues reciben datos dispersos y con riesgo de error. No resolverlas implica seguir expuestos a registros duplicados, retrasos en las auditorías, decisiones de compra tomadas con información incompleta o desfasada y pérdida de información en correos y archivos.
+ 
+Hasta ahora el control de compras y de proveedores se apoyaba en los registros nativos de SAP e IMaS, sin un mecanismo automatizado que cruzara ambos. Existía además una versión previa de RM-Inventory que quedó inconclusa, con fallas lógicas y de diseño pendientes de resolver (Sección~\ref{sec:antecedentes_problema}). La brecha, por tanto, es la ausencia de un mecanismo automatizado de conciliación y de una vista única del inventario y las compras.
+ 
+El problema puede enunciarse así: ¿cómo reducir la intervención manual y el riesgo de error en el seguimiento del inventario de materias primas, la conciliación SAP--IMaS y otros procesos repetitivos del área de compras de ArcelorMittal México, mediante automatización y analítica de datos con Microsoft Power Platform?
 
 \subsection{Objetivos} \label{sec:objetivos} % audit:req=objetivos
 
@@ -83,10 +105,19 @@ con tiempo definido.
 
 \subsubsection{Objetivo general} \label{subsec:objetivo_general}
 % >>> ESCRIBE AQUÍ el objetivo general (una sola oración) <<<
+Diseñar, desarrollar e implementar soluciones de automatización y analítica de datos con herramientas de Microsoft Power Platform, que reduzcan la intervención manual en procesos operativos repetitivos del área de compras de ArcelorMittal México, incluido un tablero de control (RM-Inventory) que unifique en una sola vista el estado del inventario de materias primas y las órdenes de compra activas.
 
 \subsubsection{Objetivos específicos} \label{subsec:objetivos_especificos}
 % >>> ESCRIBE AQUÍ los objetivos específicos como lista numerada: \begin{enumerate} \item ... \end{enumerate} <<<
 
+\begin{enumerate}
+    \item Identificar los procesos del área de compras susceptibles de automatización, aplicando criterios técnicos y operativos de selección.
+    \item Desarrollar aplicaciones en Power Apps para compradores y proveedores que estandaricen la captura de información y permitan automatizar los procesos posteriores.
+    \item Implementar mecanismos de validación y conciliación de información entre SAP e IMaS que superen las diferencias de formato y estructura entre ambas plataformas.
+    \item Construir el tablero RM-Inventory en Power BI, con un modelo de datos depurado, fórmulas de proyección, indicadores clave (KPIs) y navegación dinámica mediante marcadores, que permita alternar entre el stock general y las órdenes de compra activas sin duplicar reportes.
+    \item Migrar y reestructurar flujos preexistentes (como Consumos\_SAP) hacia arquitecturas más eficientes y escalables, y automatizar el procesamiento de correos y la organización de sus adjuntos en SharePoint.
+    \item Diseñar una arquitectura híbrida que conecte desencadenadores en la nube, bots de escritorio y almacenamiento estructurado en SharePoint.
+\end{enumerate}
 
 \subsection{Justificación} \label{sec:justificacion} % audit:req=justificacion
 
@@ -112,6 +143,10 @@ eficiencia''); olvidar al beneficiario.
 
 % >>> ESCRIBE AQUÍ la justificación <<<
 
+La relevancia de este proyecto se apoya en dos aspectos complementarios. En primer lugar, la literatura reporta beneficios de la RPA como la reducción de costos y el aumento de la productividad y de la precisión. A ello se suma la continuidad operativa, pues los procesos pueden ejecutarse de manera ininterrumpida, y el fortalecimiento de la auditoría, porque los robots de software registran las operaciones realizadas y facilitan la trazabilidad y el respaldo documental \cite{moreira2023rpa}.
+En segundo lugar, la adopción de estas tecnologías en organizaciones de escala comparable confirma su pertinencia más allá del ámbito académico. Según los casos que publica Microsoft, Grupo bimbo sustituyó reportes dispersos entre áreas comerciales por un sistema de inteligencia de negocio basado en Power BI y Azure Synapse Analytics, con mejoras en productividad y en la toma de decisiones basada en datos \cite{microsoft2025bimbo}. edtronic, con más de 95,000 empleados, consolidó miles de dashboards dispersos en un ecosistema analítico único con Power BI y automatizó horas de trabajo manual \cite{microsoft2025medtronic}. HEINEKEN empleó Power Platform para automatizar la validación de términos comerciales logísticos, bajo políticas de gobernanza y seguridad de datos \cite{microsoft2025heineken}. Se trata de casos de clientes difundidos por el propio proveedor, por lo que se toman como evidencia de adopción y no como evaluación independiente.
+Los casos muestran un patrón: consolidar información dispersa en un ecosistema analítico único reduce el trabajo manual, mejora la trazabilidad y acelera la toma de decisiones. Esto es, a menor escala, lo que se busca en RM-Inventory (estado del inventario y órdenes de compra en un solo tablero) y en el proyecto de indicadores (sustituir el llenado manual de una plantilla de Excel por un tablero automatizado de evolución de precios por material). La integración entre SAP e IMaS responde, además, a la necesidad documentada de eliminar los silos de información y contar con una fuente única de verdad \cite{ibm2024erp, ibm2024erpIntegracion}.
+Los beneficiarios directos son el personal del área de compras, que reduce tareas repetitivas y consulta información unificada, y las áreas que auditan o toman decisiones con base en el inventario y los proveedores. Sin este proyecto persistirían la manualidad, el riesgo de error y los reportes desarticulados. Hacerlo es viable porque la empresa ya cuenta con el ecosistema Microsoft y con una versión previa de RM-Inventory que puede retomarse. Finalmente, el proyecto aplica competencias del perfil de egreso de Ingeniería en Tecnologías de la Información: automatización de procesos, análisis de datos e integración de sistemas empresariales.
 
 \subsection{Alcances y limitaciones} \label{sec:alcances_limitaciones} % audit:req=alcances
 
@@ -135,6 +170,22 @@ queda fuera.
 
 \subsubsection{Alcances} \label{subsec:alcances}
 % >>> ESCRIBE AQUÍ los alcances <<<
+\begin{itemize}
+    \item Automatización de la extracción, validación y consolidación de documentación de proveedores y contratistas para la Auditoría IMSS 2025.
+    \item Conciliación de información entre los sistemas SAP e IMaS.
+    \item Desarrollo y continuación de RM-Inventory como tablero de control de inventario de materias primas, con fórmulas de proyección, indicadores clave y navegación dinámica mediante marcadores.
+    \item Continuación del proyecto de indicadores de precios por material.
+    \item Migración y reestructuración del flujo Consumos\_SAP.
+    \item Automatización del procesamiento de correos y archivos adjuntos en SharePoint.
+\end{itemize}
+
+Quedan fuera del alcance los procesos de otras áreas distintas de compras, así como las demás plantas de ArcelorMittal y los sistemas distintos de los definidos para la estadía. Dentro del área de compras se priorizan los procesos repetitivos y basados en reglas que representan mayor consumo de tiempo y mayor riesgo de error.
 
 \subsubsection{Limitaciones} \label{subsec:limitaciones}
 % >>> ESCRIBE AQUÍ las limitaciones <<<
+\begin{itemize}
+    \item \textbf{Técnica:} algunas funciones de Power Automate (Cloud y Desktop) requieren licencias premium con las que la empresa no cuenta, lo que obliga a buscar soluciones alternativas y alarga los tiempos de implementación.
+    \item \textbf{Permisos:} algunos proyectos dependen de accesos que deben otorgar otros departamentos, a nivel local o nacional; si tardan o no se otorgan, ciertos proyectos pueden no concluirse en el periodo previsto.
+    \item \textbf{Factor humano:} aunque se desarrollan aplicaciones en Power Apps para estandarizar la información, una parte de los miles de proveedores externos no sigue las instrucciones de formato. Esto rompe los flujos automatizados y obliga a programar un número creciente de excepciones, lo que aumenta el tiempo de desarrollo.
+    \item \textbf{Alcance:} el proyecto se limita a los procesos, sistemas y plataformas definidos por la empresa durante la estadía (SAP, IMaS, SharePoint, Excel y Power Platform), dentro de un cuatrimestre.
+\end{itemize}

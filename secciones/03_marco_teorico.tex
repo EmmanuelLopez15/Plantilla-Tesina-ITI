@@ -6,54 +6,6 @@
 
 \section{Marco teórico} \label{sec:marco_teorico} % audit:req=marco_teorico
 
-A continuación se presentan los temas tentativos que se desarrollarán en este capítulo. Se organizan por concepto y no por herramienta: las plataformas concretas (Power Platform, Power BI, SharePoint, SAP) se describen en el capítulo de desarrollo del sistema.
-
-\begin{itemize}
-  \item \textbf{Automatización Robótica de Procesos (RPA)}
-    \begin{itemize}
-      \item Definición, evolución y componentes de un sistema RPA.
-      \item Criterios de selección de procesos candidatos a automatización.
-      \item Ciclo de vida de un proyecto de automatización.
-      \item Beneficios, retos y tendencias de investigación en RPA.
-    \end{itemize}
-
-  \item \textbf{Arquitecturas de automatización}
-    \begin{itemize}
-      \item Arquitecturas híbridas: combinación de flujos en la nube y flujos de escritorio.
-      \item Automatización de interfaces gráficas de sistemas empresariales (enfoques pro-code, low-code y no-code).
-      \item Automatización de hojas de cálculo mediante lenguajes de scripting.
-    \end{itemize}
-
-  \item \textbf{Inteligencia de negocios y analítica de datos}
-    \begin{itemize}
-      \item Definición y alcance de la inteligencia de negocios en la transformación digital.
-      \item Proceso analítico: transformación, modelado y cálculo de datos.
-      \item Visualización de datos y diseño de dashboards para el monitoreo operativo.
-      \item Navegación dinámica en reportes analíticos mediante marcadores y navegadores de botones.
-    \end{itemize}
-
-  \item \textbf{Gestión documental}
-    \begin{itemize}
-      \item Ciclo de vida de un documento en repositorios digitales.
-      \item Organización documental: tipos de contenido, metadatos, sitios y bibliotecas.
-      \item Automatización de flujos documentales.
-    \end{itemize}
-
-  \item \textbf{Sistemas empresariales e integración}
-    \begin{itemize}
-      \item Definición, módulos y arquitectura de un sistema ERP.
-      \item Métodos de integración entre sistemas empresariales (punto a punto, bus de servicios, iPaaS).
-      \item Conciliación e interoperabilidad de datos entre plataformas con formatos distintos.
-    \end{itemize}
-
-  \item \textbf{Metodología de desarrollo}
-    \begin{itemize}
-      \item Fases de un proyecto de automatización: planeación, diseño, construcción, prueba y despliegue.
-      \item Documentación de bitácoras y coordinación de pruebas.
-      \item Control de versiones y respaldo de entregables.
-    \end{itemize}
-\end{itemize}
-
 \begin{guia}[Guía: Marco teórico (Revisión 2)]
 \textbf{¿Para qué sirve?} Reúne los conceptos, teorías, tecnologías, métodos y normas que se necesitan para entender y
 justificar tu propuesta. No es un glosario ni un resumen de Internet: cada tema se explica \emph{en función de tu proyecto}.
@@ -81,7 +33,62 @@ propuesta.
 \end{guia}
 
 % >>> REVISIÓN 2: ESCRIBE AQUÍ el marco teórico (introducción breve y una \subsection por tema) <<<
+ 
+% Inicio de apartado de marco teorico ------------------------------------------------------------------------------------
+Este capítulo presenta los fundamentos conceptuales que sustentan el proyecto. Las plataformas concretas (Power Platform, Power BI, SharePoint, SAP) se describen en la propuesta de solución y en el desarrollo del sistema. Cada apartado explica el concepto, su relevancia para el área de compras y sus ventajas y limitaciones.
+Se desarrollan siete temas: la automatización robótica de procesos, las arquitecturas de automatización, la inteligencia de negocios, la gestión documental, los sistemas empresariales y su integración, los agentes de inteligencia artificial, y la metodología de desarrollo.
 
+\subsection{Temas tentativos del marco teórico} \label{sec:temas_tentativos} % audit:req=temas_marco_teorico
+
+\begin{guia}[Guía: Temas tentativos del marco teórico (Revisión 1)]
+\textbf{¿Para qué sirve?} En la primera revisión no se pide el marco teórico completo, sino la lista de los temas que
+vas a desarrollar. Así el director puede confirmar que vas bien encaminado.
+
+\textbf{Debe responder:} ¿cuáles son los temas (de 5 a 10) que necesito para sustentar el proyecto? Para cada uno, en una
+o dos oraciones: ¿qué es y por qué lo necesito?
+
+\textbf{Formato:} una lista (\verb|\begin{enumerate}| o \verb|itemize|), un tema por elemento.
+
+\textbf{Extensión mínima:} 25 palabras. En la Revisión 2 conviertes cada tema en una subsección desarrollada.
+
+\textbf{Cómo se revisa:} que los temas cubran lo necesario para el proyecto y no incluyan relleno.
+\end{guia}
+
+\subsubsection{Automatización robótica de procesos (RPA)}
+ 
+La automatización robótica de procesos (RPA, por sus siglas en inglés) es una tecnología que emplea agentes de software, denominados ``bots'', para ejecutar tareas rutinarias y basadas en reglas que antes realizaban personas, replicando el recorrido que un usuario seguiría entre distintas aplicaciones \cite{syed2020rpa}. Un sistema RPA se compone, en términos generales, de los bots que ejecutan las tareas, de un orquestador que los programa y supervisa, y de los registros de ejecución que permiten auditar su operación.
+ 
+La selección del proceso a automatizar es una decisión crítica. La literatura señala como candidatos aquellos procesos basados en reglas, repetitivos, de alta frecuencia, con datos de entrada digitalizados, estandarizados y que involucran varios sistemas, y considera la identificación de los procesos adecuados como uno de los retos más comunes \cite{moreira2023rpa}. Estos criterios sustentan la selección de los procesos del área de compras que se atienden en este proyecto. Entre los beneficios reportados se encuentran la reducción de costos, el aumento de la productividad y de la precisión, la disponibilidad continua y la trazabilidad de las operaciones \cite{moreira2023rpa}. Como limitaciones, los bots dependen de la estabilidad de los formatos de entrada y de las interfaces, de modo que las variaciones no previstas generan excepciones que deben manejarse de forma explícita. Estudios recientes sobre la evolución de la investigación en RPA muestran que el campo continúa en expansión y diversificación temática \cite{prucha2026rpa}.
+ 
+\subsubsection{Arquitecturas de automatización}
+ 
+Una arquitectura híbrida combina flujos de nube con flujos de escritorio. Los primeros se ejecutan en el servicio y responden a eventos o programaciones; los segundos automatizan tareas repetitivas sobre aplicaciones heredadas, web y de escritorio \cite{microsoft2025powerAutomateDoc, microsoft2025desktopFlowsIntro}. La comunicación entre ambos tipos permite integrar sistemas que no ofrecen interfaces de programación adecuadas \cite{microsoft2025cloudDesktopFlow}. Esta combinación resulta pertinente para un entorno que incluye sistemas empresariales y repositorios en la nube.
+ 
+Respecto al enfoque de desarrollo, el desarrollo \emph{pro-code} ofrece mayor control y flexibilidad a costa de mayor esfuerzo y mantenimiento; los enfoques \emph{low-code} y \emph{no-code} reducen el tiempo de construcción mediante componentes visuales, aunque pueden imponer restricciones de licenciamiento y de personalización. En la automatización de hojas de cálculo, Office Scripts permite automatizar tareas en Excel mediante código escrito en TypeScript \cite{microsoft2025officeScriptsIntro, microsoft2025scriptingFundamentals}, lo que constituye un punto intermedio entre ambos enfoques.
+ 
+\subsubsection{Inteligencia de negocios y analítica de datos}
+ 
+La inteligencia de negocios (BI) agrupa las técnicas que convierten datos dispersos en información consolidada para apoyar la toma de decisiones dentro de la transformación digital de las organizaciones. El proceso analítico se divide en tres etapas: la transformación y limpieza de los datos, el modelado de las relaciones entre tablas y el cálculo de medidas mediante el lenguaje DAX \cite{microsoft2025pbiTransform}. Un modelo de datos depurado es condición para que los indicadores sean confiables.
+ 
+Para el monitoreo operativo se emplean tableros (\emph{dashboards}), que son vistas consolidadas de una sola página adecuadas para observar rápidamente el estado de la operación \cite{microsoft2025pbiDashboards}. La navegación dinámica se logra con marcadores, que guardan el estado de una página para recuperarlo posteriormente \cite{microsoft2025pbiMarcadores}, y con navegadores de botones, que permiten alternar entre páginas o marcadores \cite{microsoft2025pbiBookmarks}. Estos mecanismos permiten presentar, en un solo informe, vistas distintas de los mismos datos sin duplicar reportes.
+ 
+\subsubsection{Gestión documental}
+ 
+La gestión documental controla el ciclo de vida de un documento (creación, revisión, publicación, archivo y eliminación) mediante tipos de contenido, metadatos, ubicaciones y controles de acceso \cite{microsoft2025sharepointDoc}. Frente a la organización por carpetas multinivel, el uso de metadatos permite clasificar, filtrar y auditar los documentos sin depender de una jerarquía rígida, lo que reduce el riesgo de duplicidad. La organización en sitios y bibliotecas, junto con la automatización de los flujos documentales, facilita aplicar reglas uniformes de nomenclatura, clasificación y permisos.
+ 
+\subsubsection{Sistemas empresariales e integración}
+ 
+Un sistema de planificación de recursos empresariales (ERP) gestiona de forma conjunta las funciones y los procesos de una organización sobre una base de datos común \cite{ibm2024erp}. La integración de un ERP con otras aplicaciones permite contar con una fuente única de verdad y evita los silos de información, aunque la traducción de datos entre formatos distintos es uno de sus principales desafíos \cite{ibm2024erpIntegracion}. Entre los métodos de integración se distinguen la conexión punto a punto, el bus de servicios y las plataformas de integración como servicio (iPaaS), que difieren en acoplamiento, costo y escalabilidad. La conciliación de datos entre plataformas con formatos distintos exige normalizar campos, validar identificadores y registrar las diferencias detectadas, lo que fundamenta el tratamiento de la información de SAP e IMaS en este proyecto.
+
+\subsubsection{Agentes de inteligencia artificial}
+
+Un agente de inteligencia artificial es un asistente virtual diseñado para comprender y responder consultas en lenguaje natural, apoyándose en fuentes de conocimiento específicas. Microsoft Copilot Studio es una herramienta gráfica de bajo código que permite construir estos agentes y sus flujos asociados \cite{microsoft2026copilotStudioOverview}. Los flujos de agente permiten que el asistente ejecute acciones automatizadas, ya sea de forma manual, por eventos o mediante programación, y pueden integrarse con flujos de nube de Power Automate \cite{microsoft2026agentFlows}. El conocimiento del agente se alimenta de fuentes como SharePoint mediante respuestas generativas; con la autenticación de usuario adecuada, el agente solo devuelve contenido al que la persona tiene acceso \cite{microsoft2026knowledgeSources}, lo que garantiza la seguridad de la documentación operativa del área de compras y permite al personal consultar información sin exponer datos confidenciales.
+ 
+\subsubsection{Metodología de desarrollo}
+ 
+Un proyecto de automatización se desarrolla por fases: planeación, diseño, construcción, prueba y despliegue, enfoque coherente con la guía de metodología por fases publicada para Power Automate \cite{microsoft2025powerAutomateGuia}. Un esquema iterativo permite precisar los requisitos de cada proceso con el asesor empresarial y corregir deficiencias de manera temprana. La documentación de bitácoras y la coordinación de pruebas aportan trazabilidad sobre lo construido y lo validado, y el control de versiones y el respaldo de los entregables garantizan que otra persona pueda dar continuidad al trabajo.
+
+% Fin ------------------------------------------------------------------------------------
 
 \subsection{Temas tentativos del marco teórico} \label{sec:temas_tentativos} % audit:req=temas_marco_teorico
 

@@ -17,9 +17,6 @@
 *.snm
 *.vrb
 
-# PDF generado
-main.pdf
-
 # Archivos del sistema
 .DS_Store
 Thumbs.db

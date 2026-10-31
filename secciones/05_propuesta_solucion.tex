@@ -36,3 +36,177 @@ rápido''); propuesta desconectada de los objetivos; cronograma sin fechas.
 \end{guia}
 
 % >>> ESCRIBE AQUÍ la propuesta de solución (con una \subsection por apartado) <<<
+
+\subsection{Descripción general}
+
+La propuesta consiste en una arquitectura de automatización e inteligencia sustentada en Power Automate y en un agente de inteligencia artificial (IA) desarrollado en Microsoft Copilot Studio, orientada a optimizar, agilizar y dinamizar los flujos de trabajo del área de compras, en particular la gestión de almacenes, las adquisiciones y las materias primas. Su finalidad es eliminar los procesos manuales repetitivos, garantizar respuestas inmediatas a las consultas operativas y mejorar la eficiencia global del departamento.
+
+Además de la automatización operativa, la propuesta integra el desarrollo y consolidación de los componentes centrales del proyecto: el tablero RM-Inventory en Power BI (que unifica el inventario de materias primas con las órdenes de compra), el proyecto INDICADORES (que migra la captura manual a Power Apps y automatiza la visualización de precios) y los flujos de validación y conciliación entre los sistemas SAP e IMaS para el control documental de proveedores.
+
+La solución se articula en dos pilares complementarios. El primero es la automatización operativa mediante flujos de Power Automate (nube y escritorio), que conectan los sistemas internos, las listas de SharePoint y el correo electrónico, y alimentan los tableros de Power BI y las aplicaciones de Power Apps. El segundo es un agente de IA asistente de compras, capacitado con la documentación, las políticas y la información operativa del área, que responde consultas de forma inmediata. La Figura~\ref{fig:arquitectura} resume la arquitectura.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[
+      box/.style={draw, rounded corners, align=center, minimum width=2.7cm, minimum height=1cm, font=\small},
+      >=stealth]
+      
+    % Usamos coordenadas exactas (x, y) para evitar que se encimen
+    \node[box] (src) at (0, 0) {Fuentes\\correos, documentos,\\SAP / IMaS};
+    \node[box] (pa)  at (4.5, 0) {Power Automate\\nube y escritorio};
+    \node[box] (sp)  at (9, 0) {SharePoint\\listas y bibliotecas};
+    \node[box] (bi)  at (4.5, -2.2) {Power BI\\Power Apps};
+    \node[box] (ia)  at (9, -2.2) {Agente de IA\\Copilot Studio};
+    
+    \draw[->] (src) -- (pa);
+    \draw[->] (pa) -- (sp);
+    \draw[->] (sp) -- (bi);
+    \draw[->] (sp) -- (ia);
+  \end{tikzpicture}
+  \caption{Arquitectura general de la solución propuesta.}
+  \label{fig:arquitectura}
+\end{figure}
+
+\subsubsection{Automatización operativa y flujos de trabajo}
+
+Este pilar se desarrolla con Power Automate Cloud y Desktop y comprende tres líneas de trabajo:
+
+\begin{description}
+  \item[Orquestación de procesos.] Construcción e integración de flujos automatizados que conectan los sistemas internos, las listas de SharePoint y los correos electrónicos.
+  \item[Procesamiento de documentos e indicadores.] Automatización de la extracción y estructuración de datos clave (indicadores de precios, tablas de productos y expedientes) a partir de notificaciones, documentos o capturas de pantalla, lo que reduce la dependencia de cargas manuales en hojas de cálculo.
+  \item[Interconexión de datos.] Optimización del flujo continuo de información entre las transacciones operativas (datos de almacén, inventario y materias primas) y los tableros de consulta o las listas operativas.
+\end{description}
+
+\subsubsection{Agente de IA asistente de compras}
+
+El agente de IA es un asistente virtual especializado, diseñado y entrenado con la documentación, las políticas y la información operativa del área de compras (almacenes, adquisiciones, materias primas e indicadores). Su objetivo es responder preguntas operativas de forma inmediata, consultar estados de inventario y de precios, y proporcionar información precisa tanto al equipo como a las partes interesadas. Estará construido sobre Microsoft Copilot Studio, lo que permitirá conectar sus flujos de conocimiento con SharePoint y Power Automate \cite{microsoft2026copilotStudioOverview, microsoft2026agentFlows, microsoft2026knowledgeSources}.
+
+Dado el alcance del modelo, el agente se encuentra en una fase inicial de desarrollo, con un avance aproximado de 20\,\%. Durante la estadía se establecen las bases de entrenamiento, las directrices técnicas y la estructura de integración, con el fin de asegurar su culminación y puesta en marcha como una fase continua del proyecto.
+
+\subsection{Requisitos}
+
+\subsubsection{Usuarios y roles}
+
+Los usuarios de la solución y sus roles se resumen en la Tabla~\ref{tab:roles}. El control de acceso se resuelve con los permisos del entorno de Microsoft 365.
+
+\begin{table}[H]
+  \centering
+  \caption{Usuarios y roles de la solución.}
+  \label{tab:roles}
+  \begin{tabular}{@{}p{4.2cm}p{8.0cm}@{}}
+    \toprule
+    \textbf{Usuario} & \textbf{Rol} \\
+    \midrule
+    Personal de compras y almacén & Opera los flujos, consulta listas y tableros, y utiliza el agente de IA para consultas operativas. \\
+    Áreas de auditoría y dirección & Consulta tableros, valida indicadores y toma decisiones con base en inventario, precios y proveedores. \\
+    Proveedores y contratistas externos & Entregan información mediante formatos estandarizados. \\
+    Administración de TI & Administra permisos, licencias y soporte del entorno Microsoft 365. \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Los requisitos funcionales y no funcionales se resumen en las Tablas~\ref{tab:rf} y~\ref{tab:rnf}.
+
+\begin{table}[H]
+  \centering
+  \caption{Requisitos funcionales.}
+  \label{tab:rf}
+  \begin{tabular}{@{}p{1.6cm}p{10.4cm}@{}}
+    \toprule
+    \textbf{Clave} & \textbf{Requisito} \\
+    \midrule
+    REQF01 & Conectar mediante flujos automatizados los sistemas internos, las listas de SharePoint y el correo electrónico. \\
+    REQF02 & Extraer y estructurar datos clave (indicadores de precios, tablas de productos y expedientes) a partir de notificaciones, documentos o capturas de pantalla. \\
+    REQF03 & Transferir de forma continua los datos de almacén, inventario y materias primas hacia los tableros y las listas operativas. \\
+    REQF04 & Mantener actualizados los tableros de Power BI y las aplicaciones de Power Apps sin cargas manuales en hojas de cálculo. \\
+    REQF05 & Responder consultas operativas sobre inventario, precios y materias primas mediante el agente de IA (fase en desarrollo). \\
+    REQF06 & Conciliar la información entre SAP e IMaS superando diferencias de formato para el control documental. \\
+    REQF07 & Construir el tablero RM-Inventory con KPIs, proyecciones y navegación dinámica para el inventario y las compras. \\
+    REQF08 & Migrar el proyecto INDICADORES a una interfaz en Power Apps con registro de históricos y visualización de precios. \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[H]
+  \centering
+  \caption{Requisitos no funcionales.}
+  \label{tab:rnf}
+  \begin{tabular}{@{}p{1.6cm}p{10.4cm}@{}}
+    \toprule
+    \textbf{Clave} & \textbf{Requisito} \\
+    \midrule
+    REQN01 & Operar con las licencias disponibles en la empresa. Las funciones \emph{premium} se implementarán cuando se asignen los accesos (en trámite), empleando mientras tanto conectores estándar y Office Scripts. \\
+    REQN02 & Restringir el acceso a la información mediante los permisos del entorno. \\
+    REQN03 & Tolerar excepciones de formato en la información de los proveedores sin interrumpir los flujos. \\
+    REQN04 & Documentar flujos, scripts y directrices del agente para facilitar su mantenimiento y continuidad. \\
+    REQN05 & Actualizar los tableros críticos con frecuencia diaria y responder consultas del agente en pocos segundos. \\
+    REQN06 & Permitir que el personal opere los flujos y consulte el agente con una capacitación mínima documentada. \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Tecnologías y metodología}
+
+La solución se construye sobre Power Automate (Cloud y Desktop), SharePoint, Power Apps, Power BI y Office Scripts, junto con un agente de IA desarrollado en Microsoft Copilot Studio \cite{microsoft2026copilotStudioOverview}. Se eligió este conjunto porque la empresa ya cuenta con el ecosistema Microsoft y con desarrollos previos que pueden retomarse, lo que reduce los tiempos de implementación y evita infraestructura adicional frente a alternativas como el desarrollo a la medida. Ante la ausencia temporal de licencias \emph{premium}, se ha planteado una solución que emplea conectores estándar y Office Scripts, mientras la empresa procesa la asignación de licencias para Copilot Studio y flujos de escritorio, lo que permitirá habilitar el agente de IA en su totalidad.
+
+La metodología es iterativa y se organiza en las fases de planeación, diseño, construcción, prueba y despliegue, con bitácoras de actividades y de pruebas, y respaldo de los entregables. La Tabla~\ref{tab:obj_componente} relaciona cada objetivo específico con el componente de la solución que lo atiende.
+
+\begin{table}[H]
+  \centering
+  \caption{Relación entre objetivos específicos y componentes de la solución.}
+  \label{tab:obj_componente}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.2cm}>{\raggedright\arraybackslash}p{6.4cm}>{\raggedright\arraybackslash}p{3.4cm}@{}}
+    \toprule
+    \textbf{Objetivo específico} & \textbf{Componente de la solución} & \textbf{Requisitos} \\
+    \midrule
+    1 & Selección de procesos candidatos de compras & REQF01 \\
+    2 & Aplicaciones en Power Apps & REQF04 \\
+    3 & Flujos de validación y conciliación SAP--IMaS & REQF01, REQF03, REQF06, REQN03 \\
+    4 & Tablero RM-Inventory en Power BI & REQF03, REQF04, REQF07 \\
+    5 & Migración de \texttt{Consumos\_SAP} y procesamiento de correos y adjuntos & REQF01, REQF02 \\
+    6 & Arquitectura híbrida y agente de IA (Copilot Studio) & REQF05, REQF01, REQN01 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Plan de trabajo}
+
+La estadía comprende 600 horas, del 31 de agosto al 4 de diciembre de 2026. El cronograma propuesto se muestra en la Tabla~\ref{tab:cronograma}.
+
+\begin{table}[H]
+  \centering
+  \caption{Cronograma de actividades de la estadía.}
+  \label{tab:cronograma}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}p{8.4cm}@{}}
+    \toprule
+    \textbf{Periodo} & \textbf{Actividad} \\
+    \midrule
+    31 ago--18 sep & Diagnóstico del área y selección de procesos (Obj. 1). \\
+    21 sep--16 oct & Aplicaciones en Power Apps y conciliación SAP--IMaS (Obj. 2 y 3). \\
+    18 sep--4 dic (retomado el 19 oct) & Modificaciones, continuación de RM-Inventory e indicadores de precios (Obj. 4). \\
+    21 sep--27 nov & Migración de flujos, correos y arquitectura híbrida (Obj. 5 y 6). \\
+    30 nov--4 dic & Bases del agente de IA, pruebas finales y documentación. \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+El estado de avance de los componentes se resume en la Tabla~\ref{tab:avance}.
+
+\begin{table}[H]
+  \centering
+  \caption{Estado de avance de los componentes de la solución.}
+  \label{tab:avance}
+  \begin{tabular}{@{}p{6.6cm}r p{4.8cm}@{}}
+    \toprule
+    \textbf{Componente} & \textbf{Avance} & \textbf{Nota} \\
+    \midrule
+    Diagnóstico del área y selección de procesos & 100\,\% & Concluido. \\
+    Flujos de Power Automate & 98\,\% & Operativos, con mejora continua. \\
+    RM-Inventory en Power BI & 85\,\% & Avance respecto al 80\,\% inicial; en desarrollo. \\
+    Indicadores de precios & 95\,\% & Avance respecto al 90\,\% inicial; en ajuste final. \\
+    Agente de IA & 20\,\% & En planeación e implementación inicial. \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+La solución se considerará lograda si los flujos conectan los sistemas internos, SharePoint y el correo sin cargas manuales en hojas de cálculo; si los tableros se actualizan con la información operativa de almacén, inventario y materias primas; y si se documentan las bases de entrenamiento, las directrices técnicas y la estructura de integración del agente de IA. Como métrica de éxito se comparará el tiempo de ejecución manual de cada proceso, medido al inicio de la estadía, con el tiempo del proceso automatizado. Los beneficios esperados son la reducción de los tiempos operativos, la mayor precisión de los datos por la disminución de errores de captura manual y la disponibilidad inmediata de métricas y respuestas sobre materias primas y almacenes.

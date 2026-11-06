@@ -71,6 +71,24 @@
 \newcommand{\iemph}[1]{\MakeTextUppercase{#1}}
 
 % ---------------------------------------------------------------------------------------
+% NIVEL DE ESTUDIOS: se elige en configuracion/datos.tex con \NivelEstudios (ITIID o TSU).
+%   \ncarrera        nombre oficial del programa (cartas)
+%   \ncarreraportada línea que va en la portada después de «QUE PARA OBTENER EL GRADO DE»
+% ---------------------------------------------------------------------------------------
+\ifundef{\NivelEstudios}
+  {\PackageError{tesina}{Falta definir \string\NivelEstudios en configuracion/datos.tex}
+                {Agrega la linea \string\newcommand{\string\NivelEstudios}{ITIID} (o TSU) en configuracion/datos.tex.}}
+  {}
+\ifdefstring{\NivelEstudios}{ITIID}
+  {\def\ncarrera{Ingeniería en Tecnologías de la Información e Innovación Digital}
+   \def\ncarreraportada{Ingeniería en Tecnologías de la Información e Innovación Digital}}
+  {\ifdefstring{\NivelEstudios}{TSU}
+    {\def\ncarrera{Técnico Superior en Desarrollo de Software Multiplataforma}
+     \def\ncarreraportada{TSU en Desarrollo de Software Multiplataforma}}
+    {\PackageError{tesina}{\string\NivelEstudios debe ser ITIID o TSU (tiene: \NivelEstudios)}
+                  {Escribe exactamente ITIID o TSU en configuracion/datos.tex.}}}
+
+% ---------------------------------------------------------------------------------------
 % ENCABEZADO Y PIE DE PÁGINA
 % ---------------------------------------------------------------------------------------
 \pagestyle{fancy}

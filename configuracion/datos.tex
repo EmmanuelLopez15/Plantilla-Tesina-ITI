@@ -3,7 +3,7 @@
 % (además de escribir tus secciones en la carpeta secciones/)
 % Cambia solo lo que está entre llaves { } a la derecha de cada \newcommand.
 % El sistema de revisión lee estos datos (título, alumno, tipo de proyecto): no cambies los nombres
-% de los comandos (\NombreAlumno, \NombreProyecto, \TipoProyecto, ...).
+% de los comandos (\NombreAlumno, \NombreProyecto, \TipoProyecto, \NivelEstudios, ...).
 % =====================================================================================
 
 % ---------- Tipo de proyecto (OBLIGATORIO) ------------------------------------------
@@ -12,6 +12,15 @@
 %   investigacion  -> algoritmo, modelo de aprendizaje de máquina u otro trabajo de investigación
 % Según el tipo, la Revisión 2 y la 3 piden secciones distintas (ver GUIA_ALUMNO.md).
 \newcommand{\TipoProyecto}{sistema}
+
+% ---------- Nivel de estudios (OBLIGATORIO) ------------------------------------------
+% Escribe exactamente  ITIID   o   TSU   (tu director te dice cuál es el tuyo; debe coincidir con tu registro)
+%   ITIID -> Ingeniería en Tecnologías de la Información e Innovación Digital
+%   TSU   -> Técnico Superior en Desarrollo de Software Multiplataforma
+% La portada y las cartas escriben el nombre del programa a partir de este dato: NO hay un dato aparte
+% para la carrera y no debes escribirla a mano en ningún otro lugar.
+% ATENCIÓN: la plantilla viene con  TSU.  Si eres de ingeniería, cámbialo a  ITIID  (la portada debe decir tu programa).
+\newcommand{\NivelEstudios}{ITIID}
 
 % ---------- Estilo de citas y referencias -------------------------------------------
 % ieee (por defecto) o apa. Pregunta a tu director cuál debes usar.
@@ -25,24 +34,23 @@
 \newcommand{\OA}{o}
 
 % ---------- Programa y proyecto ------------------------------------------------------
-\newcommand{\ncarrera}{Ingeniería en Tecnologías de la Información}
-\newcommand{\NombreProyecto}{Evolución del entorno de compras corporativo mediante ecosistemas de automatización y business intelligence.}
+\newcommand{\NombreProyecto}{EVOLUCIÓN DEL ECOSISTEMA DE COMPRAS MEDIANTE  AUTOMATIZACIÓN, BUSINESS INTELLIGENCE E INTELIGENCIA ARTIFICIAL}
 % Título para el encabezado de cada página. Usa \\ para partirlo en líneas (máximo 3 líneas).
-\newcommand{\NombreProyectoheader}{Evolución del entorno de compras corporativo \\mediante ecosistemas de automatización y \\business intelligence.}
+\newcommand{\NombreProyectoheader}{EVOLUCIÓN DEL ECOSISTEMA DE COMPRAS \\MEDIANTE  AUTOMATIZACIÓN, BUSINESS \\INTELLIGENCE E INTELIGENCIA ARTIFICIAL}
 
 % ---------- Organismo receptor (empresa o institución donde realizas la estadía) -----
-\newcommand{\organismoreceptor}{ArcelorMittal México S.A. de C.V.}
+\newcommand{\organismoreceptor}{ARCELORMITTAL MÉXICO S.A. DE C.V.}
 % Si el organismo es femenino (la universidad, la empresa) pon  la ; si es masculino (el instituto) pon  el
 \newcommand{\elolaNombreEmpresa}{la}
 
 % ---------- Asesores y evaluador -----------------------------------------------------
 \newcommand{\nasesorinstitucional}{Dr. Said Polanco Martagón}
 \newcommand{\nasesorempresaria}{Ing. Kency Marisol Saldaña Martinez}
-\newcommand{\nevalador}{Dr. Es un misterio }
+\newcommand{\nevalador}{Dr./Dra. xxxxxxxxxx}
 
 % ---------- Fechas -------------------------------------------------------------------
-\newcommand{\ncuatrimestre}{septiembre-diciembre 2026}
+\newcommand{\ncuatrimestre}{Septiembre-Diciembre 2026}
 \newcommand{\fechaPortada}{Diciembre de 2026}
-\newcommand{\fechacarta}{4 de Diciembre de 2026}
-\newcommand{\FechaExposicion}{XX de Diciembre de 2026}
+\newcommand{\fechacarta}{04 de Diciembre de 2026}
+\newcommand{\FechaExposicion}{xx de Diciembre de 2026}
 \newcommand{\HoraExposionFormatoVenticuatroHoras}{XX:XX}

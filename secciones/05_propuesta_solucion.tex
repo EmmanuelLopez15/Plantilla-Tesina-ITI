@@ -135,12 +135,12 @@ Los requisitos funcionales y no funcionales se resumen en las Tablas~\ref{tab:rf
     \toprule
     \textbf{Clave} & \textbf{Requisito} \\
     \midrule
-    REQN01 & Operar con las licencias disponibles en la empresa. Las funciones \emph{premium} se implementarán cuando se asignen los accesos (en trámite), empleando mientras tanto conectores estándar y Office Scripts. \\
-    REQN02 & Restringir el acceso a la información mediante los permisos del entorno. \\
-    REQN03 & Tolerar excepciones de formato en la información de los proveedores sin interrumpir los flujos. \\
-    REQN04 & Documentar flujos, scripts y directrices del agente para facilitar su mantenimiento y continuidad. \\
-    REQN05 & Actualizar los tableros críticos con frecuencia diaria y responder consultas del agente en pocos segundos. \\
-    REQN06 & Permitir que el personal opere los flujos y consulte el agente con una capacitación mínima documentada. \\
+    REQNF01 & Operar con las licencias disponibles en la empresa. Las funciones \emph{premium} se implementarán cuando se asignen los accesos (en trámite), empleando mientras tanto conectores estándar y Office Scripts. \\
+    REQNF02 & Restringir el acceso a la información mediante los permisos del entorno. \\
+    REQNF03 & Tolerar excepciones de formato en la información de los proveedores sin interrumpir los flujos. \\
+    REQNF04 & Documentar flujos, scripts y directrices del agente para facilitar su mantenimiento y continuidad. \\
+    REQNF05 & Actualizar los tableros críticos con frecuencia diaria y responder consultas del agente en pocos segundos. \\
+    REQNF06 & Permitir que el personal opere los flujos y consulte el agente con una capacitación mínima documentada. \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -161,10 +161,10 @@ La metodología es iterativa y se organiza en las fases de planeación, diseño,
     \midrule
     1 & Selección de procesos candidatos de compras & REQF01 \\
     2 & Aplicaciones en Power Apps & REQF04 \\
-    3 & Flujos de validación y conciliación SAP--IMaS & REQF01, REQF03, REQF06, REQN03 \\
+    3 & Flujos de validación y conciliación SAP--IMaS & REQF01, REQF03, REQF06, REQNF03 \\
     4 & Tablero RM-Inventory en Power BI & REQF03, REQF04, REQF07 \\
     5 & Migración de \texttt{Consumos\_SAP} y procesamiento de correos y adjuntos & REQF01, REQF02 \\
-    6 & Arquitectura híbrida y agente de IA (Copilot Studio) & REQF05, REQF01, REQN01 \\
+    6 & Arquitectura híbrida y agente de IA (Copilot Studio) & REQF05, REQF01, REQNF01 \\
     \bottomrule
   \end{tabular}
 \end{table}

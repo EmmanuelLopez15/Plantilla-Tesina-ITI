@@ -37,7 +37,7 @@ La teoría de la integración de aplicaciones empresariales sostiene que la hete
 
 En este marco, el paradigma \emph{low-code} se entiende como un enfoque de construcción de software que prioriza la abstracción visual y la configuración declarativa sobre la programación manual, con el objetivo de reducir el tiempo de entrega y ampliar la base de personas que pueden construir soluciones \cite{konnerth2023ai}. La literatura sobre automatización inteligente distingue tres niveles de abstracción ---\emph{pro-code}, \emph{low-code} y \emph{no-code}--- cuya elección depende de la complejidad algorítmica, los requisitos de mantenimiento y el perfil de los desarrolladores \cite{konnerth2023ai, guida2023ai}. El \emph{low-code} no sustituye al código en todos los casos: cuando se requiere manipulación masiva de datos o algoritmos complejos, el rendimiento de los componentes visuales puede degradarse, por lo que se recomienda complementarlo con rutinas de código \cite{guida2023ai}.
 
-Este principio teórico sustenta la decisión de combinar plataformas de bajo código con rutinas de código en el presente proyecto. Las herramientas concretas que materializan estos conceptos ---Power Automate para flujos en la nube y de escritorio, Power Apps para captura estructurada y Office Scripts en TypeScript para transformaciones tabulares--- se describen en la Sección~\ref{sec:desarrollo_sistema}; aquí se mencionan solo como instancias de las categorías teóricas expuestas. La comunicación entre los componentes locales y en la nube se articula mediante puertas de enlace de datos locales, que cifran y canalizan las instrucciones de control sin abrir puertos en la red corporativa \cite{microsoft2025gateway}.
+Este principio teórico sustenta la decisión de combinar plataformas de bajo código con rutinas de código en el presente proyecto. Las herramientas concretas que materializan estos conceptos ---Power Automate para flujos en la nube y de escritorio, Power Apps para captura estructurada y Office Scripts en TypeScript para transformaciones tabulares--- se describen en la Sección~\ref{sec:desarrollo_sistema}; en este capítulo se mencionan únicamente como instancias de las categorías teóricas expuestas. La comunicación entre los componentes locales y en la nube se articula mediante puertas de enlace de datos locales, que cifran y canalizan las instrucciones de control sin abrir puertos en la red corporativa \cite{microsoft2025gateway}.
 
 
 \subsection{Inteligencia de negocios y analítica de datos en compras e inventarios}
@@ -79,11 +79,7 @@ almacenes y producción sobre una base de datos centralizada \cite{ibm2024erp}.
 Sin embargo, en empresas industriales de gran envergadura coexisten instancias
 de ERP consolidadas con plataformas satélite especializadas, y la falta de
 interfaces nativas entre ellas origina silos de información y discrepancias de
-formato \cite{themistocleous2004eai, ibm2024erpIntegracion}. La literatura sobre
-EAI distingue varios patrones de integración ---a nivel de datos, de aplicación,
-de proceso y de presentación--- y señala que la elección depende de la
-criticidad, el costo y el grado de acoplamiento deseado entre los sistemas
-\cite{hohpe2003eai}.
+formato \cite{themistocleous2004eai, ibm2024erpIntegracion}.
 
 Para superar estas limitaciones sin incurrir en modificaciones invasivas sobre el
 ERP corporativo, el presente proyecto adopta un patrón de integración a nivel de
@@ -91,9 +87,7 @@ datos: se extraen las relaciones de contratistas y proveedores de las plataforma
 de origen, se normalizan los identificadores fiscales y se aplican algoritmos de
 cotejo matricial, registrando de forma transparente las excepciones y
 discrepancias para su solventación previa a las auditorías del IMSS y revisiones
-periódicas. Este enfoque se alinea con la recomendación teórica de priorizar la
-integración de bajo acoplamiento cuando los sistemas de origen son heterogéneos
-y no pueden modificarse \cite{hohpe2003eai}.
+periódicas.
 
 \subsection{Agentes de inteligencia artificial y modelos conversacionales en la empresa}
 

@@ -3,65 +3,17 @@
 % Escribe tu texto FUERA de los recuadros \begin{guia} ... \end{guia}.
 % No cambies los títulos ni borres los comentarios «% audit:req=...» al final de cada \section / \subsection.
 % =====================================================================================
-
 \section{Introducción} \label{sec:introduccion} % audit:req=introduccion
-
-\begin{guia}[Guía: Introducción (Revisión 1)]
-\textbf{¿Para qué sirve?} Presenta tu trabajo a un lector que no lo conoce y lo invita a seguir leyendo. Es el resumen
-``de entrada'' del proyecto: contexto, problema, propuesta y organización del documento.
-
-\textbf{Debe responder:}
-\begin{itemize}[nosep,leftmargin=*]
-  \item ¿En qué contexto (sector, empresa, área tecnológica) se desarrolla el proyecto?
-  \item ¿Cuál es el problema o la necesidad, dicho en pocas líneas? (el detalle va en \emph{Planteamiento del problema}).
-  \item ¿Qué se propone hacer y qué se espera lograr?
-  \item ¿Por qué es importante? (una idea; el detalle va en \emph{Justificación}).
-  \item ¿Cómo está organizado el documento? (una frase por sección o capítulo).
-\end{itemize}
-
-\textbf{Extensión mínima:} 150 palabras (1 a 2 páginas), redactadas con tus propias palabras.
-
-\textbf{Errores frecuentes:} copiar definiciones de Internet; escribir solo ``en este capítulo se verá\ldots'' sin decir
-nada concreto; dejar la introducción para el final y no actualizarla cuando el proyecto cambia.
-
-\textbf{Cómo se revisa:} claridad del contexto, que el problema y la propuesta se entiendan sin leer el resto, y que la
-organización descrita coincida con las secciones reales del documento.
-\end{guia}
-
-% >>> ESCRIBE AQUÍ el texto de la introducción (fuera de la guía) <<<
 
 Las empresas operan bajo una presión constante por mejorar la eficiencia de sus procesos internos mediante tecnologías de la información. La transformación digital ha adquirido una importancia central en cualquier sector, porque modifica la relación con clientes, proveedores y recursos humanos, así como la forma en que se genera valor. Este fenómeno se aceleró con la pandemia de COVID-19, que obligó a las organizaciones a reinventar su operación para mantener la continuidad de sus productos y servicios \cite{moreira2023rpa}.
 Conviene distinguir dos conceptos que suelen usarse como sinónimos. La digitalización consiste en integrar tecnología en una actividad que antes era analógica o física, es decir, en pasar de lo analógico a lo digital en los procesos visibles de la empresa. La transformación digital exige un replanteamiento más profundo, pues implica desarrollar capacidades digitales dentro de la organización mediante nuevos procesos, recursos humanos y cambios organizacionales.
-Dentro de este proceso, la automatización ocupa un lugar particular. Cuando un proceso ya está digitalizado, puede automatizarse mediante software, lo que da una ventaja competitiva al ejecutar de forma automática tareas basadas en procesos maduros y regidos por reglas claras \cite{moreira2023rpa}. Una de las tecnologías que más interés ha despertado es la Automatización Robótica de Procesos (RPA), en la que agentes de software llamados ``bots'' interactúan con los sistemas de información imitando las acciones de un usuario humano, con el propósito de aliviar la carga de trabajo manual \cite{syed2020rpa}. Gartner proyectó que para 2022 cerca del 90\% de las grandes empresas del mundo habrían adoptado esta tecnología de alguna forma \cite{moreira2023rpa}.
+Dentro de este proceso, la automatización ocupa un lugar particular. Cuando un proceso ya está digitalizado, puede automatizarse mediante software, lo que da una ventaja competitiva al ejecutar de forma automática tareas basadas en procesos maduros y regidos por reglas claras \cite{moreira2023rpa}. Una de las tecnologías que más interés ha despertado es la Automatización Robótica de Procesos (RPA), en la que agentes de software llamados ``bots'' interactúan con los sistemas de información imitando las acciones de un usuario humano, con el propósito de aliviar la carga de trabajo manual \cite{syed2020rpa}. Moreira proyectó que para 2022 cerca del 90\% de las grandes empresas del mundo habrían adoptado esta tecnología de alguna forma \cite{moreira2023rpa}.
 El uso de datos para la toma de decisiones es el segundo pilar de esta transformación. Las herramientas de Business Intelligence (BI) convierten datos dispersos en información consolidada y visualmente accesible, y los dashboards permiten a quienes gestionan la operación interpretar el estado del negocio con mayor rapidez y precisión.
-En este contexto se ubica el trabajo documentado en este reporte, desarrollado durante la estadía profesional en ArcelorMittal México S.A. de C.V., empresa del sector siderúrgico \cite{arcelormittal2026mexico}, dentro del área de compras. El problema que lo motiva es que varios procesos del área (el control documental de proveedores y contratistas, el seguimiento del inventario de materias primas y el procesamiento de correos y archivos adjuntos, entre otros) se realizaban de forma manual, repetitiva y basada en reglas, con riesgo de error y sin una visión unificada de la información. Se propone atenderlos con herramientas de Microsoft Power Platform (Power Automate, Power Apps, Power BI y SharePoint), scripts en Office Scripts y la conciliación de datos entre los sistemas SAP e IMaS. Asimismo, se contempla el diseño de un agente de inteligencia artificial mediante Microsoft Copilot Studio que asista en las consultas operativas. El proyecto principal es RM-Inventory, un tablero de Power BI para el inventario de materias primas y las órdenes de compra activas, que retoma una versión previa inconclusa para su mejora y consolidación. Se espera reducir la intervención manual, mejorar la trazabilidad y acelerar la consulta de información para decidir.
+En este contexto se ubica el trabajo documentado en este reporte, desarrollado durante la estadía profesional en ArcelorMittal México S.A. de C.V., empresa del sector siderúrgico \cite{arcelormittal2026mexico}, dentro del área de compras. El problema que lo motivó es que varios procesos del área (el control documental de proveedores y contratistas, el seguimiento del inventario de materias primas, el cálculo manual de requerimientos de materiales (MRP), la planeación de simulacros de seguridad en almacenes y el procesamiento de correos y archivos adjuntos, entre otros) se realizaban de forma manual, repetitiva y basada en reglas, con riesgo de error y sin una visión unificada de la información. Se atendieron con herramientas de Microsoft Power Platform (Power Automate, Power Apps, Power BI y SharePoint), scripts en Office Scripts y la conciliación de datos entre los sistemas SAP e IMaS. Asimismo, se desarrollaron agentes de inteligencia artificial bajo Microsoft 365 Copilot (HERMENEGILDO para MRP, SERENA para almacenes y seguridad, y RM para materias primas) que asisten en las consultas y análisis operativos. El proyecto principal fue RM-Inventory, un tablero de Power BI para el inventario de materias primas y las órdenes de compra activas, que retomó una versión previa inconclusa para su mejora y consolidación, complementado con aplicaciones en Power Apps para la captura estandarizada de recepciones y políticas de inventario. Se logró reducir la intervención manual, mejorar la trazabilidad y acelerar la consulta de información para decidir.
 El documento se organiza como sigue. La Sección~\ref{sec:antecedentes} presenta los antecedentes del problema, de la empresa y teóricos, junto con una tabla comparativa de trabajos relacionados. La Sección~\ref{sec:marco_teorico} desarrolla el marco teórico y la Sección~\ref{sec:propuesta} describe la propuesta de solución. La Sección~\ref{sec:desarrollo_sistema} documenta el desarrollo del sistema y, por último, la Sección~\ref{sec:conclusiones} presenta las conclusiones y el trabajo futuro.
 
 \subsection{Planteamiento del problema} \label{sec:problema} % audit:req=planteamiento
 
-\begin{guia}[Guía: Planteamiento del problema (Revisión 1)]
-\textbf{¿Para qué sirve?} Describe con precisión la situación que quieres resolver y demuestra que es un problema real.
-
-\textbf{Debe responder:}
-\begin{itemize}[nosep,leftmargin=*]
-  \item ¿Qué situación actual es insatisfactoria o genera una necesidad? Descríbela con hechos, ejemplos o cifras.
-  \item ¿Quién la padece (usuarios, área, empresa) y cómo se manifiesta (retrasos, errores, costos, quejas)?
-  \item ¿Qué consecuencias tiene no resolverla?
-  \item ¿Qué se ha intentado hasta ahora y qué falta (la brecha)? Conecta con los \emph{Antecedentes}.
-  \item ¿Cuál es el problema en una sola frase? Escríbelo como enunciado del problema o como pregunta de
-        investigación (p. ej. ``¿Cómo reducir X en Y mediante Z?'').
-\end{itemize}
-
-\textbf{Extensión mínima:} 120 palabras.
-
-\textbf{Errores frecuentes:} describir la solución en lugar del problema (``el problema es que no hay un sistema web'');
-problemas sin evidencia; enunciados tan amplios que no se pueden resolver en una estadía.
-
-\textbf{Cómo se revisa:} que el problema esté delimitado, sea verificable y que los objetivos lo atiendan.
-\end{guia}
-
-% >>> ESCRIBE AQUÍ el planteamiento del problema <<<
-  
 El entorno operativo del área de compras de ArcelorMittal México presentaba procesos manuales, repetitivos y basados en reglas que, por su volumen y criticidad, requerían un tratamiento tecnológico. Se identificaron tres situaciones principales:
  
 \begin{itemize}
@@ -80,112 +32,56 @@ El problema puede enunciarse así: ¿cómo reducir la intervención manual y el 
 
 \subsection{Objetivos} \label{sec:objetivos} % audit:req=objetivos
 
-\begin{guia}[Guía: Objetivo general y objetivos específicos (Revisión 1)]
-\textbf{¿Para qué sirve?} Fija qué vas a lograr. Todo lo demás (resultados y conclusiones) se compara contra estos objetivos.
-
-\textbf{Objetivo general} (uno): verbo en infinitivo + qué se hará + con qué o cómo + para qué, y si es posible un criterio
-medible. \emph{Ejemplo:} ``Desarrollar un sistema web de notificaciones para familiares de pacientes hospitalizados que
-reduzca en 50\% las llamadas de consulta al área de enfermería.''
-
-\textbf{Objetivos específicos} (de 3 a 6): pasos concretos y verificables que, al cumplirse, logran el objetivo general.
-Cada uno debe poder demostrarse con un resultado (un módulo, un diagrama, un experimento) que luego aparecerá en
-\emph{Resultados} y se retomará en \emph{Conclusiones}. Deben ser SMART: específicos, medibles, alcanzables, relevantes y
-con tiempo definido.
-
-\textbf{Debe responder:} ¿qué voy a entregar? ¿cómo sabré que lo logré? ¿cada objetivo específico aporta al general?
-
-\textbf{Extensión mínima:} 40 palabras en total.
-
-\textbf{Errores frecuentes:} verbos no medibles (``conocer'', ``entender'', ``estudiar''); objetivos que son actividades
-(``investigar sobre\ldots'') y no logros; más de un objetivo general; objetivos que luego no se atienden en el documento.
-
-\textbf{Cómo se revisa:} coherencia con el problema, medibilidad y que cada objetivo tenga un resultado asociado.
-\end{guia}
-
 \subsubsection{Objetivo general} \label{subsec:objetivo_general}
-% >>> ESCRIBE AQUÍ el objetivo general (una sola oración) <<<
 Diseñar, desarrollar e implementar soluciones de automatización y analítica de datos con herramientas de Microsoft Power Platform, que reduzcan la intervención manual en procesos operativos repetitivos del área de compras de ArcelorMittal México, incluido un tablero de control (RM-Inventory) que unifique en una sola vista el estado del inventario de materias primas y las órdenes de compra activas, así como el diseño de un agente de IA que asista en las consultas operativas del área.
 
 \subsubsection{Objetivos específicos} \label{subsec:objetivos_especificos}
-% >>> ESCRIBE AQUÍ los objetivos específicos como lista numerada: \begin{enumerate} \item ... \end{enumerate} <<<
 
 \begin{enumerate}
-    \item Identificar los procesos del área de compras susceptibles de automatización, aplicando criterios técnicos y operativos de selección.
-    \item Desarrollar aplicaciones en Power Apps para compradores y proveedores que estandaricen la captura de información y permitan automatizar los procesos posteriores.
-    \item Implementar mecanismos de validación y conciliación de información entre SAP e IMaS que superen las diferencias de formato y estructura entre ambas plataformas.
-    \item Construir el tablero RM-Inventory en Power BI, con un modelo de datos depurado, fórmulas de proyección, indicadores clave (KPIs) y navegación dinámica mediante marcadores, que permita alternar entre el stock general y las órdenes de compra activas sin duplicar reportes.
-    \item Migrar y reestructurar flujos preexistentes (como \texttt{Consumos\_SAP}) hacia arquitecturas más eficientes y escalables, y automatizar el procesamiento de correos y la organización de sus adjuntos en SharePoint.
-    \item Diseñar una arquitectura híbrida que conecte desencadenadores en la nube, bots de escritorio y almacenamiento estructurado en SharePoint, y sentar las bases de entrenamiento e integración de un agente de IA asistente de compras.
+    \item Identificar y priorizar los procesos del área de compras susceptibles de automatización, aplicando criterios técnicos de frecuencia, volumen y repetitividad bajo reglas claras.
+    \item Desarrollar aplicaciones en Power Apps para compradores y proveedores que estandaricen la captura de información y reduzcan las excepciones de formato en los flujos posteriores.
+    \item Implementar mecanismos automatizados de validación y conciliación de información entre SAP e IMaS, superando las discrepancias estructurales entre ambas plataformas para soportar auditorías documentales.
+    \item Consolidar el tablero analítico RM-Inventory en Power BI, incorporando un modelo de datos relacional, fórmulas de proyección de consumo, indicadores clave de desempeño (KPIs) y navegación dinámica mediante marcadores para unificar el stock y las órdenes de compra activas.
+    \item Reestructurar y migrar flujos preexistentes (como \texttt{Consumos\_SAP}) hacia arquitecturas eficientes y escalables, automatizando la ingesta de correos electrónicos y la clasificación de adjuntos en SharePoint.
+    \item Diseñar e integrar una arquitectura híbrida con desencadenadores en la nube y flujos de escritorio, desarrollando y evaluando un prototipo funcional del agente de IA en Microsoft 365 Copilot mediante un banco de pruebas de consultas operativas.
 \end{enumerate}
 
 \subsection{Justificación} \label{sec:justificacion} % audit:req=justificacion
 
-\begin{guia}[Guía: Justificación (Revisión 1)]
-\textbf{¿Para qué sirve?} Explica por qué vale la pena dedicar tiempo y recursos a este proyecto.
-
-\textbf{Debe responder:}
-\begin{itemize}[nosep,leftmargin=*]
-  \item ¿Quién se beneficia y de qué manera? (empresa, usuarios, la comunidad, tú).
-  \item ¿Qué se gana en términos prácticos, económicos, sociales, tecnológicos o científicos? Usa datos cuando existan.
-  \item ¿Qué pasaría si no se hace?
-  \item ¿Por qué es viable hacerlo ahora y por qué con este enfoque?
-  \item ¿Cómo se relaciona con el perfil de egreso de tu programa académico?
-\end{itemize}
-
-\textbf{Extensión mínima:} 100 palabras.
-
-\textbf{Errores frecuentes:} repetir el problema con otras palabras; afirmaciones sin sustento (``mejorará mucho la
-eficiencia''); olvidar al beneficiario.
-
-\textbf{Cómo se revisa:} que los beneficios sean concretos y consistentes con el problema y los objetivos.
-\end{guia}
-
-% >>> ESCRIBE AQUÍ la justificación <<<
-
 La relevancia de este proyecto se apoya en dos aspectos complementarios. En primer lugar, la literatura reporta beneficios de la RPA como la reducción de costos y el aumento de la productividad y de la precisión. A ello se suma la continuidad operativa, pues los procesos pueden ejecutarse de manera ininterrumpida, y el fortalecimiento de la auditoría, porque los robots de software registran las operaciones realizadas y facilitan la trazabilidad y el respaldo documental \cite{moreira2023rpa}.
 En segundo lugar, la adopción de estas tecnologías en organizaciones de escala comparable confirma su pertinencia más allá del ámbito académico. Según los casos que publica Microsoft, Grupo Bimbo sustituyó reportes dispersos entre áreas comerciales por un sistema de inteligencia de negocio basado en Power BI y Azure Synapse Analytics, con mejoras en productividad y en la toma de decisiones basada en datos \cite{microsoft2025bimbo}. Medtronic, con más de 95,000 empleados, consolidó miles de dashboards dispersos en un ecosistema analítico único con Power BI y automatizó horas de trabajo manual \cite{microsoft2025medtronic}. HEINEKEN empleó Power Platform para automatizar la validación de términos comerciales logísticos, bajo políticas de gobernanza y seguridad de datos \cite{microsoft2025heineken}. Se trata de casos de clientes difundidos por el propio proveedor, por lo que se toman como evidencia de adopción y no como evaluación independiente.
-Los casos muestran un patrón: consolidar información dispersa en un ecosistema analítico único reduce el trabajo manual, mejora la trazabilidad y acelera la toma de decisiones. Esto es, a menor escala, lo que se busca en RM-Inventory (estado del inventario y órdenes de compra en un solo tablero) y en el proyecto de indicadores (sustituir el llenado manual de una plantilla de Excel por un tablero automatizado de evolución de precios por material). La integración entre SAP e IMaS responde, además, a la necesidad documentada de eliminar los silos de información y contar con una fuente única de verdad \cite{ibm2024erp, ibm2024erpIntegracion}.
-Los beneficiarios directos son el personal del área de compras, que reduce tareas repetitivas y consulta información unificada, y las áreas que auditan o toman decisiones con base en el inventario y los proveedores. Sin este proyecto persistirían la manualidad, el riesgo de error y los reportes desarticulados. Hacerlo es viable porque la empresa ya cuenta con el ecosistema Microsoft y con una versión previa de RM-Inventory que puede retomarse. Finalmente, el proyecto aplica competencias del perfil de egreso de Ingeniería en Tecnologías de la Información: automatización de procesos, análisis de datos e integración de sistemas empresariales.
+Los casos muestran un patrón: consolidar información dispersa en un ecosistema analítico único reduce el trabajo manual, mejora la trazabilidad y acelera la toma de decisiones. Esto es, a menor escala, lo que se buscó en RM-Inventory (estado del inventario y órdenes de compra en un solo tablero) y en el proyecto de indicadores (sustituir el llenado manual de una plantilla de Excel por un tablero automatizado de evolución de precios por material). La integración entre SAP e IMaS responde, además, a la necesidad documentada de eliminar los silos de información y contar con una fuente única de verdad \cite{ibm2024erp, ibm2024erpIntegracion}.
+Los beneficiarios directos son el personal del área de compras, que reduce tareas repetitivas y consulta información unificada, y las áreas que auditan o toman decisiones con base en el inventario y los proveedores. Sin este proyecto persistirían la manualidad, el riesgo de error y los reportes desarticulados. Hacerlo fue viable porque la empresa ya cuenta con el ecosistema Microsoft y con una versión previa de RM-Inventory que pudo retomarse. Finalmente, el proyecto aplica competencias del perfil de egreso de Ingeniería en Tecnologías de la Información: automatización de procesos, análisis de datos e integración de sistemas empresariales.
 
 \subsection{Alcances y limitaciones} \label{sec:alcances_limitaciones} % audit:req=alcances
 
-\begin{guia}[Guía: Alcances y limitaciones (Revisión 1)]
-\textbf{¿Para qué sirve?} Marca las fronteras del proyecto para evitar expectativas irreales.
-
-\textbf{Alcances} -- lo que \emph{sí} incluye el trabajo. Debe responder: ¿qué módulos, funciones, procesos, usuarios o
-datos se cubren? ¿en qué plataformas o entornos? ¿qué entregables habrá? ¿qué queda \emph{explícitamente fuera}?
-
-\textbf{Limitaciones} -- lo que restringe el trabajo y que no depende totalmente de ti. Debe responder: ¿qué límites hay
-de tiempo (un cuatrimestre), recursos, acceso a datos o a la infraestructura de la empresa, tecnología, permisos?
-¿cómo pueden afectar la validez o generalización de los resultados?
-
-\textbf{Extensión mínima:} 60 palabras en total.
-
-\textbf{Errores frecuentes:} prometer más de lo que cabe en la estadía; confundir limitaciones con excusas; no decir qué
-queda fuera.
-
-\textbf{Cómo se revisa:} realismo del alcance y honestidad de las limitaciones.
-\end{guia}
-
 \subsubsection{Alcances} \label{subsec:alcances}
-% >>> ESCRIBE AQUÍ los alcances <<<
+
+Para asegurar el cumplimiento de los objetivos dentro del periodo de estadía (600 horas), el alcance del proyecto se delimitó de forma directa mediante las siguientes acciones de desarrollo e integración:
+
 \begin{itemize}
-    \item Automatización de la extracción, validación y consolidación de documentación de proveedores y contratistas para la Auditoría IMSS 2025.
-    \item Conciliación de información entre los sistemas SAP e IMaS.
-    \item Desarrollo y continuación de RM-Inventory como tablero de control de inventario de materias primas, con fórmulas de proyección, indicadores clave y navegación dinámica mediante marcadores.
-    \item Continuación del proyecto de indicadores de precios por material.
-    \item Migración y reestructuración del flujo \texttt{Consumos\_SAP}.
-    \item Automatización del procesamiento de correos y archivos adjuntos en SharePoint.
-    \item Diseño de las bases y directrices del agente de IA en Copilot Studio para consultas operativas.
+    \item Consolidar el modelo dimensional relacional, las métricas DAX de inventario y las vistas de navegación interactiva en el tablero RM-Inventory en Power BI para el catálogo de 943 materias primas.
+    \item Desarrollar e implementar las aplicaciones de captura en Power Apps para el registro de recepciones físicas (\emph{Arrivals}) y el mantenimiento de políticas de inventario.
+    \item Automatizar la conciliación de información entre SAP e IMaS mediante flujos de escritorio y de nube para normalizar y auditar los expedientes de contratistas ante la Auditoría del IMSS y cumplimiento REPSE.
+    \item Reestructurar y migrar hacia una arquitectura escalable el flujo \texttt{Consumos\_SAP}, automatizando la descarga, extracción y archivo estructurado de adjuntos en SharePoint.
+    \item Desarrollar la aplicación de captura y el tablero analítico de INDICADORES en Power BI para el análisis de series de precios de materias primas.
+    \item Implementar en fase prototípica tres agentes especializados de inteligencia artificial en Microsoft 365 Copilot: HERMENEGILDO (MRP y cálculo de \texttt{EXP REAL}), SERENA (planeación anual de simulacros para almacenes y seguridad mediante matriz de Excel escalable y agenda automática de reuniones) y RM (consulta ejecutiva documental de materias primas).
 \end{itemize}
 
-Quedan fuera del alcance los procesos de otras áreas distintas de compras, así como las demás plantas de ArcelorMittal y los sistemas distintos de los definidos para la estadía. Dentro del área de compras se priorizan los procesos repetitivos y basados en reglas que representan mayor consumo de tiempo y mayor riesgo de error.
+\paragraph{Exclusiones explícitas.}
+Quedan fuera del alcance del proyecto:
+\begin{itemize}
+    \item La determinación y desglose por centro o planta de producción de procedencia de cada materia prima en el modelo de Power BI (requería un proceso de análisis logístico y de contratos que no fue viable abordar en los tiempos de la estadía).
+    \item La modificación o escritura directa interactiva sobre las tablas y matrices visuales dentro de Power BI (funcionalidad solicitada por los usuarios para editar datos desde la misma matriz, pero descartada al no existir una solución técnica nativa viable en el tiempo asignado).
+    \item La ejecución autónoma y desatendida de procesos de compras de extremo a extremo por parte de los agentes de IA sin el soporte y supervisión de flujos de orquestación en Power Automate, debido a la ausencia de licencias de Copilot Studio.
+    \item La calibración de fórmulas de estimación de ventas o proyección de mercado en el tablero RM-Inventory, al no formar parte del alcance operativo original del área de materiales.
+\end{itemize}
 
 \subsubsection{Limitaciones} \label{subsec:limitaciones}
-% >>> ESCRIBE AQUÍ las limitaciones <<<
 \begin{itemize}
-    \item \textbf{Técnica:} algunas funciones de Power Automate (Cloud y Desktop) y de Microsoft Copilot Studio requieren licencias \emph{premium} con las que la empresa no cuenta actualmente (trámite en curso). Como alternativa, se emplean flujos de nube con conectores estándar y Office Scripts en lugar de flujos de escritorio, lo que implica sacrificar temporalmente la automatización de interfaces locales y la implementación completa del agente de IA, ampliando los tiempos de implementación hasta que se asignen los accesos.
-    \item \textbf{Permisos:} algunos proyectos dependen de accesos que deben otorgar otros departamentos, a nivel local o nacional; si tardan o no se otorgan, ciertos proyectos pueden no concluirse en el periodo previsto.
-    \item \textbf{Factor humano:} aunque se desarrollan aplicaciones en Power Apps para estandarizar la información, una parte de los miles de proveedores externos no sigue las instrucciones de formato. Esto rompe los flujos automatizados y obliga a programar un número creciente de excepciones, lo que aumenta el tiempo de desarrollo.
-    \item \textbf{Alcance:} el proyecto se limita a los procesos, sistemas y plataformas definidos por la empresa durante la estadía (SAP, IMaS, SharePoint, Excel y Power Platform), dentro de un cuatrimestre.
+    \item El proyecto se encuentra estrictamente delimitado a una disponibilidad temporal de 600 horas a lo largo del cuatrimestre académico.
+    \item La indisponibilidad de licencias corporativas \emph{premium} para Microsoft Copilot Studio y conectores de pago restringe el despliegue de agentes autónomos independientes, resolviéndose mediante flujos estándar en la nube, Office Scripts en TypeScript y bibliotecas de SharePoint.
+    \item El acceso a las plataformas transaccionales de SAP está restringido exclusivamente a la extracción y consulta de reportes operativos, sin privilegios administrativos sobre bases de datos productivas.
+    \item Los permisos de gobernanza institucional y autorizaciones de red para directorios centrales dependen de dependencias corporativas de TI ajenas al control directo del residente.
+    \item Los reportes y documentación remitidos por contratistas externos contienen inconsistencias de nomenclatura y formatos dispares que requieren algoritmos adicionales de normalización y depuración previa.
 \end{itemize}

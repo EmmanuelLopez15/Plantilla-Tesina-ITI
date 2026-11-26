@@ -7,35 +7,7 @@
 
 Este capítulo sitúa el proyecto en tres planos. Primero, los antecedentes del problema: cómo se atendía antes la necesidad y qué trabajos existen sobre ella. Después, la empresa y el proceso donde se desarrolla. Por último, los conceptos y tecnologías que lo sustentan, junto con una tabla comparativa de trabajos relacionados.
 
-\begin{guia}[Guía: Antecedentes (Revisión 1)]
-Este capítulo sitúa tu proyecto: qué se ha hecho antes, en qué organización ocurre y qué conceptos lo sustentan.
-Tiene tres apartados (\emph{del problema}, \emph{de la empresa}, \emph{teóricos}) y una \emph{tabla comparativa}.
-Escribe aquí, si quieres, un párrafo breve que presente los apartados.
-\end{guia}
-
 \subsection{Antecedentes del problema} \label{sec:antecedentes_problema} % audit:req=antecedentes
-
-\begin{guia}[Guía: Antecedentes del problema (Revisión 1)]
-\textbf{¿Para qué sirve?} Muestra que conoces lo que ya existe sobre el problema y justifica que haga falta tu trabajo.
-
-\textbf{Debe responder:}
-\begin{itemize}[nosep,leftmargin=*]
-  \item ¿Cómo ha evolucionado o se ha enfrentado este problema? (breve recorrido histórico o de contexto).
-  \item ¿Qué soluciones, sistemas, tesis o artículos existentes abordan el mismo problema o uno parecido (mínimo 3, con
-        cita \verb|\cite{clave}|)?
-  \item ¿Qué hace cada uno, qué ventajas y qué limitaciones tiene?
-  \item ¿Qué queda sin resolver y cómo se conecta con tu propuesta?
-\end{itemize}
-
-\textbf{Extensión mínima:} 120 palabras. \textbf{Fuentes:} libros, artículos, documentación técnica oficial o sistemas
-reales; evita depender solo de blogs.
-
-\textbf{Errores frecuentes:} listar herramientas sin analizarlas; no citar; copiar descripciones comerciales.
-
-\textbf{Cómo se revisa:} pertinencia de las fuentes, análisis crítico y conexión explícita con el problema.
-\end{guia}
-
-% >>> ESCRIBE AQUÍ los antecedentes del problema <<<
 
 Antes de este proyecto, el control de compras y de proveedores se apoyaba en los registros nativos de SAP e IMaS, sin un mecanismo automatizado que cruzara la información entre ambos.
 
@@ -44,34 +16,15 @@ A la fecha de asumir el proyecto, RM-Inventory presentaba un avance aproximado d
 
 En paralelo existía el desarrollo del proyecto INDICADORES, una plantilla de Excel donde cada fila se completaba manualmente con la información que los datos de origen no contenían, y que Power BI replicaba para aplicar filtros y operaciones, incluida una gráfica de la evolución del precio por material. Faltaba migrarlo a una interfaz en Power Apps que reprodujera la plantilla, incorporara nuevos apartados de registro, embebiera el tablero y resolviera el manejo de históricos y de información de proveedores. Este proyecto presentaba un avance aproximado de 90\,\%.
 
-Fuera de la empresa, trabajos recientes abordan problemas parecidos con herramientas similares (Tabla~\ref{tab:comparativa_antecedentes}). Rojas y Hernández \cite{rojas2025mejora} automatizaron con Python, Power Automate y Power BI el seguimiento analítico de activos, y reportan una reducción de 38 a 3.33 horas mensuales. Galeano \cite{galeano2025automatizacion} automatizó con Power Apps, Power Automate y Python tareas de facturación, impuestos y activos fijos, aunque su resumen no incluye cifras de resultados. Osorio \cite{osorio2026tablero} logró la interoperabilidad entre Excel y un ERP para reducir cruces manuales y reprocesos en pedidos e inventario, con un tiempo promedio reportado de 19 minutos. Monroy \cite{monroy2025interoperable} construyó un tablero en Power BI con datos centralizados, validado funcionalmente. Ninguno combina en una sola solución la conciliación entre SAP e IMaS, el seguimiento del inventario de materias primas junto con las órdenes de compra activas y la automatización de los flujos que lo alimentan, que es la brecha que este proyecto atiende.
+En el ámbito académico e industrial, diversos trabajos han abordado la automatización y la analítica en la cadena de suministro y las compras (Tabla~\ref{tab:comparativa_antecedentes}). Flechsig, Anslinger y Lasch \cite{flechsig2022rpa} investigaron la adopción de RPA en compras y gestión de suministros a través de un estudio multicaso en 19 organizaciones; demostraron que las tareas transaccionales del ciclo \emph{Procure-to-Pay} (P2P) —tales como la emisión de órdenes de compra, el cotejo de facturas y la verificación de proveedores— obtienen reducciones sustanciales de tiempo y errores, pero advirtieron que la integración con sistemas heredados y la rigidez de los formatos representan barreras críticas de adopción. Herrera, Crisóstomo y Dávila \cite{herrera2025rpa} documentaron un caso industrial donde aplicaron Power Automate a procesos de compras manufactureras, reportando una aceleración del ciclo operativo del 98.7\,\% y la eliminación de errores de transcripción, aunque su solución operó sobre un entorno cerrado y no abordó la conciliación entre múltiples sistemas heterogéneos. Por su parte, Guida et al. \cite{guida2023ai} analizaron la evolución de las compras hacia la automatización cognitiva e inteligencia artificial, mientras que Hallikainen, Bekkhus y Pan \cite{hallikainen2018rpa} evidenciaron mediante el caso de OpusCapita cómo la estandarización y reingeniería previa de procesos es un prerrequisito indispensable antes de desplegar RPA.
+
+En el contexto latinoamericano, tesis recientes han explorado el ecosistema de Power Platform en tareas afines. Rojas y Hernández \cite{rojas2025mejora} automatizaron con Python, Power Automate y Power BI el seguimiento analítico de activos, alcanzando una reducción de 38 a 3.33 horas mensuales. Galeano \cite{galeano2025automatizacion} empleó Power Apps y Power Automate en procesos de facturación y activos fijos, demostrando la viabilidad de las soluciones de bajo código para estandarizar entradas de datos. Osorio \cite{osorio2026interoperable} integró un portal web con un ERP para suprimir cruces manuales en pedidos e inventarios con un tiempo de respuesta de 19 minutos, mientras que Monroy \cite{monroy2026tablero} desarrolló un tablero en Power BI para visualización de indicadores operativos. 
+
+A pesar de estos avances, se identifica una brecha metodológica y tecnológica: las soluciones reportadas en la literatura abordan la automatización transaccional de compras o la visualización de indicadores de forma aislada. Ninguna articula simultáneamente la conciliación de datos entre dos sistemas empresariales dispares (SAP e IMaS), el control unificado de inventario físico y órdenes de compra activas en un modelo analítico relacional (RM-Inventory) y la asistencia conversacional mediante un agente de IA fundamentado en extractos de SAP y fuentes documentales seguras. Esta integración constituye la aportación central del presente proyecto.
 
 \subsection{Antecedentes de la empresa} \label{sec:antecedentes_empresa} % audit:req=antecedentes_empresa
 
-\begin{guia}[Guía: Antecedentes de la empresa u organismo receptor (Revisión 1)]
-\textbf{¿Para qué sirve?} Describe la organización donde realizas la estadía y el proceso que tu proyecto mejora.
-
-\textbf{Debe responder:}
-\begin{itemize}[nosep,leftmargin=*]
-  \item ¿Quién es el organismo receptor? (giro o sector, ubicación, breve historia, misión y visión).
-  \item ¿Cuál es su estructura y en qué área o departamento se realiza tu proyecto? (organigrama opcional).
-  \item ¿Cómo se realiza hoy el proceso que vas a mejorar? ¿con qué personas, herramientas o sistemas?
-  \item ¿Quién es tu asesor empresarial y cuál es su función?
-\end{itemize}
-
-\textbf{Extensión mínima:} 100 palabras.
-
-\textbf{Cuidado:} pide autorización a la empresa para publicar información; no incluyas datos confidenciales ni
-datos personales.
-
-\textbf{Errores frecuentes:} copiar la página web de la empresa; no describir el proceso actual (es lo más importante).
-
-\textbf{Cómo se revisa:} que se entienda el contexto operativo real del proyecto.
-\end{guia}
-
-% >>> ESCRIBE AQUÍ los antecedentes de la empresa <<<
-
-ArcelorMittal es la mayor empresa siderúrgica y minera del mundo, con presencia en más de 60 países y más de 320,000 empleados. Lidera varios mercados del acero (automotriz, construcción, electrodomésticos y empaques) y cotiza en las bolsas de Nueva York, Ámsterdam, París, Luxemburgo y en las españolas de Barcelona, Bilbao, Madrid y Valencia. En 2023 registró ingresos por 68,275 millones de dólares, una producción de acero crudo de 58.1 millones de toneladas y de mineral de hierro de 42 millones \cite{arcelormittal2026mexico}.
+ArcelorMittal es la mayor empresa siderúrgica y minera del mundo, con presencia en más de 60 países y más de 126,756 empleados. Lidera varios mercados del acero (automotriz, construcción, electrodomésticos y empaques) y cotiza en las bolsas de Nueva York, Ámsterdam, París, Luxemburgo y en las españolas de Barcelona, Bilbao, Madrid y Valencia. En 2023 registró ingresos por 68,275 millones de dólares, una producción de acero crudo de 58.1 millones de toneladas y de mineral de hierro de 42 millones \cite{arcelormittal2026mexico}.
  
 En México es la siderúrgica líder del país. Su principal operación de manufactura está en el puerto de Lázaro Cárdenas, Michoacán, donde produce varilla, alambrón, palanquilla y planchón; en Celaya, Guanajuato, produce varilla corrugada, y en Ciudad Obregón, Sonora, concentrados de mineral de hierro. Opera además las minas El Volcán (Sonora), Peña Colorada (Colima) y el complejo Las Truchas (Michoacán), y tiene oficinas corporativas en Monterrey, Nuevo León, sede de las funciones corporativas y de tecnologías de la información \cite{arcelormittal2026mexico}.
  
@@ -91,61 +44,25 @@ Su origen se remonta a 1976, cuando comenzó a operar como empresa pública bajo
 
 \subsection{Antecedentes teóricos} \label{sec:antecedentes_teoricos} % audit:req=antecedentes_teoricos
 
-\begin{guia}[Guía: Antecedentes teóricos (Revisión 1)]
-\textbf{¿Para qué sirve?} Presenta, de manera panorámica, los conceptos y tecnologías base de tu proyecto. El desarrollo
-completo va en el \emph{Marco teórico} (Revisión 2); aquí basta con lo esencial para entender el planteamiento.
-
-\textbf{Debe responder:} ¿qué conceptos, teorías o tecnologías necesita conocer el lector? ¿por qué son relevantes para
-tu proyecto? ¿qué fuentes los respaldan?
-
-\textbf{Extensión mínima:} 150 palabras (sin contar la tabla comparativa).
-
-\textbf{Errores frecuentes:} definiciones sueltas sin relación con el proyecto; fuentes sin citar.
-
-\textbf{Cómo se revisa:} pertinencia y suficiencia de los conceptos, y calidad de las citas.
-\end{guia}
-
-% >>> ESCRIBE AQUÍ los antecedentes teóricos <<<
-Los conceptos del proyecto provienen de dos tipos de fuentes: la literatura sobre RPA y la documentación oficial de Microsoft e IBM sobre las plataformas empleadas. Su desarrollo completo se presenta en el marco teórico (Sección~\ref{sec:marco_teorico}). En este apartado se presentan los conceptos fundamentales que permiten comprender el planteamiento del problema.
+Los conceptos que sustentan el proyecto provienen de la literatura científica sobre automatización de procesos, gestión de la cadena de suministro e inteligencia artificial, complementados con la documentación técnica especializada de las plataformas empleadas. Su desarrollo exhaustivo se presenta en el marco teórico (Sección~\ref{sec:marco_teorico}). En este apartado se sintetizan las bases teóricas y tecnológicas indispensables para comprender el planteamiento:
 
 \begin{description}
 
-\item[RPA.] Es una tecnología que usa agentes de software para automatizar tareas rutinarias y basadas en reglas que antes realizaban personas, replicando el camino que seguiría un usuario entre varias aplicaciones \cite{syed2020rpa}. La literatura reporta como beneficios la reducción de costos, el aumento de productividad, la disponibilidad continua y la consistencia en la ejecución. Un proceso es buen candidato si está basado en reglas, es repetitivo, ocurre con frecuencia, tiene datos de entrada digitalizados, está estandarizado e interactúa con varios sistemas; identificar los procesos adecuados es además uno de los retos más comunes \cite{moreira2023rpa}. Las tres situaciones del Planteamiento cumplen estos criterios.
- 
-\item[Power Automate.] Es un servicio en línea que automatiza flujos de trabajo entre aplicaciones y servicios \cite{microsoft2025powerAutomateDoc}. Sus flujos de escritorio permiten automatizar tareas repetitivas en aplicaciones heredadas, web y de escritorio \cite{microsoft2025desktopFlowsIntro}, y la guía de Microsoft recomienda una metodología por fases e incluye una sección sobre RPA con SAP \cite{microsoft2025powerAutomateGuia}. Mediante puertas de enlace, los flujos de nube y de escritorio se combinan en arquitecturas híbridas \cite{microsoft2025cloudDesktopFlow}.
- 
-\item[Power BI.] Organiza el trabajo en transformación, modelado y cálculo (DAX) de los datos \cite{microsoft2025pbiTransform}; sus dashboards son vistas consolidadas de una página, ideales para el monitoreo rápido \cite{microsoft2025pbiDashboards}. Los marcadores guardan el estado de una página para recuperarlo después \cite{microsoft2025pbiMarcadores}, y los navegadores de botones permiten alternar entre páginas o marcadores \cite{microsoft2025pbiBookmarks}, base de la navegación dinámica de RM-Inventory.
- 
-\item[Office Scripts y SharePoint.] Office Scripts automatiza tareas en Excel y se escribe en TypeScript \cite{microsoft2025officeScriptsIntro, microsoft2025scriptingFundamentals}. SharePoint soporta la gestión documental, que controla el ciclo de vida de un documento mediante tipos, metadatos, ubicaciones y controles de acceso \cite{microsoft2025sharepointDoc}.
- 
-\item[ERP e integración.] Un ERP gestiona de forma conjunta las funciones y los procesos de una organización sobre una base de datos común \cite{ibm2024erp}. Su integración con otras aplicaciones permite una fuente única de verdad, y la traducción de datos entre formatos distintos es uno de sus principales desafíos \cite{ibm2024erpIntegracion}, como ocurre entre SAP e IMaS.
+\item[Automatización robótica de procesos (RPA).] Es una tecnología fundamentada en agentes de software programables que replican interacciones humanas sobre interfaces gráficas de usuario y capas de datos entre sistemas heterogéneos, operando bajo reglas lógicas estructuradas \cite{syed2020rpa}. En el dominio de compras y adquisiciones, la literatura reporta que RPA reduce tiempos de ciclo operativo, mitiga errores de transcripción clerical y garantiza trazabilidad auditable en tareas de alto volumen \cite{flechsig2022rpa, moreira2023rpa}. La idoneidad de un proceso depende de su repetitividad, la estandarización de sus insumos digitales y la estabilidad de las reglas de negocio.
 
-\item[Agentes de IA.] Un agente de inteligencia artificial es un asistente virtual que comprende y responde consultas en lenguaje natural. Microsoft Copilot Studio permite construir estos agentes de bajo código \cite{microsoft2026copilotStudioOverview}, los cuales pueden ejecutar acciones mediante flujos de agente \cite{microsoft2026agentFlows} y alimentarse de fuentes como SharePoint de forma segura \cite{microsoft2026knowledgeSources}.
+\item[Power Automate y arquitecturas híbridas.] Representa una plataforma de integración y automatización que articula flujos en la nube (orientados a eventos, APIs y servicios web) con flujos de escritorio (RPA desatendido o atendido que opera sobre clientes locales heredados) \cite{microsoft2025powerAutomateDoc, microsoft2025desktopFlowsIntro}. Conforme a los lineamientos de integración empresarial de Microsoft \cite{microsoft2025gateway}, la articulación entre flujos en la nube y sistemas ERP locales a través de puertas de enlace de datos locales (\emph{On-premises Data Gateways}) permite automatizar tareas complejas de extracción sin requerir modificaciones invasivas sobre la infraestructura subyacente.
+
+\item[Business Intelligence y analítica de datos.] La inteligencia de negocios comprende la arquitectura metodológica y tecnológica orientada a transformar datos operativos dispersos en información estratégica para la toma de decisiones \cite{sharda2020analytics}. Se estructura en procesos de extracción, transformación y carga (ETL), modelado relacional en esquemas dimensionales y cálculo analítico de métricas mediante expresiones DAX \cite{microsoft2025pbiTransform, popovic2012bi}. En entornos industriales de abastecimiento, los tableros analíticos interactivos permiten monitorear rotación de inventarios, niveles de stock y variaciones en órdenes de compra en tiempo casi real \cite{wixom2010bi}.
+
+\item[Gestión documental y Office Scripts.] La gestión documental corporativa regula el ciclo de vida de la información mediante metadatos normalizados, bibliotecas estructuradas y control de accesos basado en roles \cite{microsoft2025sharepointDoc}. Office Scripts complementa este ecosistema mediante código TypeScript embebido en Excel, permitiendo manipular conjuntos tabulares sin depender de macros locales vulnerables.
+
+\item[Sistemas ERP y conciliación de información.] Un sistema de planificación de recursos empresariales centraliza las transacciones operativas de la organización \cite{ibm2024erp}. Cuando coexisten plataformas satélite especializadas (como IMaS) junto al ERP central (SAP), la ausencia de interfaces nativas genera silos de datos \cite{themistocleous2004eai, ibm2024erpIntegracion}. La conciliación de datos entre plataformas heterogéneas demanda algoritmos de validación cruzada y normalización semántica para garantizar la integridad documental ante auditorías regulatorias.
+
+\item[Agentes de inteligencia artificial conversacionales.] Un agente inteligente combina modelos de procesamiento de lenguaje natural con bases de conocimiento estructuradas para resolver requerimientos de información operativa en lenguaje humano \cite{davenport2018ai, guida2023ai}. Mediante arquitecturas de generación aumentada por recuperación (RAG) \cite{lewis2020rag}, herramientas como Microsoft 365 Copilot permiten restringir las respuestas a repositorios documentales autorizados de SharePoint y a extractos de SAP \cite{microsoft2026copilotStudioOverview, microsoft2026knowledgeSources}, mitigando alucinaciones y resguardando la gobernanza de datos en el área de compras.
 
 \end{description}
 
 \subsubsection{Tabla comparativa de antecedentes} \label{subsec:tabla_comparativa_antecedentes} % audit:req=tabla_comparativa
-
-\begin{guia}[Guía: Tabla comparativa de antecedentes (Revisión 1)]
-\textbf{¿Para qué sirve?} Compara de forma objetiva los trabajos o sistemas existentes con lo que propones.
-
-\textbf{Debe incluir:}
-\begin{itemize}[nosep,leftmargin=*]
-  \item Una fila por trabajo o sistema (mínimo 3), cada uno con su cita \verb|\cite{clave}|.
-  \item Columnas con \emph{criterios} relevantes para tu proyecto (funcionalidades, tecnología, costo, precisión,
-        escalabilidad, limitaciones\ldots).
-  \item Una fila final con \textbf{tu propuesta}, para que se vea qué aporta de distinto.
-  \item Un pie de tabla (\verb|\caption|), una etiqueta (\verb|\label{tab:...}|) y una referencia en el texto
-        (\verb|Tabla~\ref{tab:...}|), además de un párrafo que \emph{interprete} la tabla.
-\end{itemize}
-Usa \verb|booktabs| (\verb|\toprule|, \verb|\midrule|, \verb|\bottomrule|) y evita líneas verticales. Hay un ejemplo
-completo en \texttt{ejemplos/ejemplos\_latex.tex}.
-
-\textbf{Errores frecuentes:} tabla sin analizar en el texto; criterios que no ayudan a decidir; no incluir la propuesta.
-
-\textbf{Cómo se revisa:} se verifica automáticamente que exista una tabla; el director valora que los criterios sean
-significativos.
-\end{guia}
 
 % Quita el % de estas líneas y adáptalas (o copia el ejemplo de ejemplos/ejemplos_latex.tex):
 % \begin{table}[H]
@@ -163,26 +80,64 @@ significativos.
 %   \end{tabular}
 % \end{table}
 % >>> ESCRIBE AQUÍ el análisis de la tabla comparativa (cítala con Tabla~\ref{tab:comparativa_antecedentes}) <<<
+
 \begin{table}[H]
   \centering
-  \caption{Comparativa de trabajos relacionados con la propuesta.}
+  \caption{Comparación de trabajos relacionados según los componentes del ecosistema propuesto.}
   \label{tab:comparativa_antecedentes}
   \small
-  \begin{tabular}{@{}p{2.6cm}p{2.8cm}p{2.8cm}p{2.8cm}p{2.8cm}@{}}
+  \begin{tabular}{@{}p{2.6cm}p{3.0cm}p{3.1cm}p{2.2cm}p{3.1cm}@{}}
     \toprule
-    \textbf{Trabajo} & \textbf{Ámbito} & \textbf{Tecnología} & \textbf{Resultado medido} & \textbf{Limitación} \\
+    \textbf{Trabajo} &
+    \textbf{Automatización de flujos} &
+    \textbf{Integración y analítica} &
+    \textbf{Agente de IA} &
+    \textbf{Enfoque y evaluación} \\
     \midrule
-    Rojas y Hernández \cite{rojas2025mejora} & Activos & Python, Power Automate, Power BI & De 38 a 3.33 h/mes & No cubre conciliación entre sistemas \\
+    Flechsig et al. \cite{flechsig2022rpa} &
+    RPA en 19 casos de compras P2P &
+    No: cada ERP se opera por separado, sin capa analítica &
+    No &
+    Sí, compras; mide tiempos y errores \\
     \addlinespace
-    Galeano \cite{galeano2025automatizacion} & Procesos financieros & Power Apps, Power Automate, Python & Sin cifras en el resumen & Alcance acotado a un proceso \\
+    Herrera et al. \cite{herrera2025rpa} &
+    Power Automate en compras industriales &
+    No: monosistema, sin cruce entre ERPs &
+    No &
+    Sí, compras; $-$98.7\,\% de tiempo de ciclo \\
     \addlinespace
-    Osorio \cite{osorio2026tablero} & Pedidos e inventario & Excel, ERP, portal web & 19 min promedio & No integra tablero analítico \\
+    Rojas y Hernández \cite{rojas2025mejora} &
+    Python y Power Automate para activos &
+    Parcial: Power BI para activos, sin conciliación externa &
+    No &
+    No: activos, no compras; mide horas/mes \\
     \addlinespace
-    Monroy \cite{monroy2025interoperable} & Indicadores & Power BI, DAX, ETL & Validación funcional & Sin automatización de la entrada de datos \\
+    Galeano \cite{galeano2025automatizacion} &
+    Power Apps y Power Automate en finanzas &
+    No: flujos aislados, sin BI &
+    No &
+    Parcial: financiero; validación cualitativa \\
     \addlinespace
-    \textbf{Propuesta} & \textbf{Compras: inventario, proveedores y flujos} & \textbf{Power Platform, Office Scripts, SharePoint} & \textbf{Por evaluar} & \textbf{En desarrollo; resultados aún no medidos} \\
+    Osorio \cite{osorio2026interoperable} &
+    Excel, ERP y portal web para pedidos &
+    Parcial: inventario sin dashboard interactivo &
+    No &
+    Parcial: inventario; 19 min promedio \\
+    \addlinespace
+    Monroy \cite{monroy2026tablero} &
+    No automatiza la captura &
+    Sí: Power BI, DAX y ETL para KPIs &
+    No &
+    No: solo visualización; validación funcional \\
+    \addlinespace
+    \textbf{Propuesta (este trabajo)} &
+    \textbf{Power Platform y Office Scripts sobre SAP e IMaS} &
+    \textbf{Sí: conciliación SAP--IMaS y tablero RM-Inventory} &
+    \textbf{Sí: tres agentes en Copilot con banco de pruebas} &
+    \textbf{Sí: materias primas; métricas de tiempo y efectividad} \\
     \bottomrule
   \end{tabular}
 \end{table}
  
-La Tabla~\ref{tab:comparativa_antecedentes} muestra que los trabajos previos comparten con la propuesta el uso de Power Platform, pero cada uno atiende un ámbito acotado: activos, procesos financieros, pedidos o la visualización de indicadores. Solo el trabajo de Rojas y Hernández reporta un ahorro de tiempo respecto de una línea base, y el de Osorio presenta un tiempo promedio sin comparación. La propuesta se distingue por integrar en un mismo esquema la conciliación entre dos sistemas empresariales (SAP e IMaS), el seguimiento del inventario con las órdenes de compra activas y la automatización de los flujos de entrada. Como los resultados de la propuesta aún no se miden, la fila correspondiente se completará al evaluar la implementación.
+La Tabla~\ref{tab:comparativa_antecedentes} muestra que los trabajos previos cubren solo una parte del ecosistema. Los estudios de RPA \cite{flechsig2022rpa,herrera2025rpa} automatizan flujos de compras pero no cruzan información entre plataformas ni ofrecen analítica; los trabajos de
+BI \cite{rojas2025mejora,monroy2026tablero} visualizan datos pero no automatizan la captura ni la conciliación; y ninguno integra un agente de IA evaluado con un banco de pruebas. La propuesta cubre las cuatro dimensiones en un solo ecosistema y las evalúa con métricas de tiempo y efectividad.

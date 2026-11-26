@@ -6,105 +6,573 @@
 
 \section{Desarrollo del sistema} \label{sec:desarrollo_sistema} % audit:req=desarrollo_sistema
 
-\begin{guia}[Guía: Desarrollo del sistema (Revisión 3, proyectos de sistema)]
-\textbf{¿Para qué sirve?} Documenta cómo se construyó la solución: arquitectura, diseño y resultado final. Debe permitir
-que otra persona entienda el sistema y pueda darle mantenimiento.
+Este capítulo documenta la ingeniería, especificación técnica, diseño detallado y materialización del ecosistema digital desarrollado para el área de compras de ArcelorMittal México. La solución unificó el procesamiento de transacciones operativas, la gobernanza de datos y la analítica estratégica mediante la articulación coordinada de aplicaciones en Power Apps, flujos automatizados en Power Automate (nube y escritorio), modelos analíticos tabulares en Power BI y tres agentes conversacionales especializados implementados bajo Microsoft 365 Copilot (\textbf{HERMENEGILDO}, \textbf{SERENA} y \textbf{RM}).
 
-\textbf{En el texto propio de este capítulo (antes de las subsecciones) responde:}
-\begin{itemize}[nosep,leftmargin=*]
-  \item ¿Cuál es la arquitectura del sistema (capas, cliente-servidor, microservicios, nube)? Incluye un diagrama.
-  \item ¿Qué tecnologías, versiones y librerías se usaron y para qué?
-  \item ¿Cómo está organizado el código (módulos, carpetas, patrones)? Muestra solo fragmentos relevantes y explícalos.
-  \item ¿Qué pruebas se hicieron (funcionales, de integración, de usabilidad) y con qué resultado?
-  \item ¿Cómo se despliega o instala? ¿dónde está el repositorio?
-  \item ¿Qué problemas técnicos surgieron y cómo se resolvieron?
+Es fundamental precisar la delimitación operativa del alcance: mientras que ArcelorMittal gestiona más de 100,000 materiales a nivel global en sus operaciones industriales, las iniciativas de RM (Raw Materials) documentadas en esta tesina están situadas estrictamente en el área de materiales específicamente para materias primas. Este catálogo acota un universo de 943 materias primas registradas (donde cada fila representa una materia prima con su correspondiente especificación de grado, granulometría o presentación, tales como ferroaleaciones e insumos metalúrgicos clave), garantizando un enfoque exhaustivo y de alto impacto en el aprovisionamiento de la acería.
+
+\subsection{Arquitectura técnica del sistema}
+
+La arquitectura del sistema adoptó un patrón en tres capas lógicas desacopladas e integradas mediante servicios en la nube de Microsoft 365 y Azure (Figura~\ref{fig:arq_desarrollo}):
+
+\begin{enumerate}
+    \item \textbf{Capa de Presentación e Interacción de Usuario:} Proporciona las interfaces ergonómicas para los distintos actores. Se compone de dos aplicaciones en lienzo (\emph{Canvas Apps}) desarrolladas en Power Apps para la captura estructurada de recepciones de materias primas (\emph{Arrivals}) y la administración CRUD de políticas de inventario; el portal de visualización de Power BI con los tableros analíticos RM-Inventory y RM-Indicadores; y la interfaz conversacional de Microsoft 365 Copilot que aloja a los tres agentes inteligentes.
+    \item \textbf{Capa de Lógica de Negocio y Orquestación:} Ejecuta la validación, normalización y transformación de la información. Se conforma por flujos de nube en Power Automate para la ingestión dirigida por eventos (llegada de correos con adjuntos, disparadores temporales y cambios en listas), flujos de escritorio (RDA/RPA) para la interacción con la interfaz web de IMaS, rutinas computacionales en TypeScript ejecutadas mediante Office Scripts en Excel Online para manipulación tabular masiva, y las habilidades cognitivas (skills) y prompts estructurados de los agentes de IA.
+    \item \textbf{Capa de Datos y Persistencia Empresarial:} Centraliza los datos operativos en listas de SharePoint Online organizadas por tipos de contenido y metadatos relacionales, bibliotecas de gestión documental estructuradas para expedientes de contratistas (Auditoría IMSS / REPSE), archivos maestros de staging en OneDrive/SharePoint, y los conectores de extracción hacia los sistemas empresariales SAP ECC e IMaS.
+\end{enumerate}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.92\linewidth]{img/diagrama_arquitectura.png}
+  \caption{Arquitectura técnica por capas del sistema desarrollado.}
+  \label{fig:arq_desarrollo}
+\end{figure}
+
+\subsection{Tecnologías y herramientas utilizadas}
+
+El desarrollo se fundamentó en el ecosistema corporativo de Microsoft 365 asignado a ArcelorMittal México:
+\begin{itemize}
+    \item \textbf{Power Apps (versión 3.2408):} Plataforma de desarrollo de aplicaciones low-code basada en el lenguaje declarativo Power Fx. Se utilizó para construir interfaces de captura responsivas con validaciones en cliente para el registro de recepciones de materias primas (\emph{Arrivals}) y el mantenimiento de políticas de inventario.
+    \item \textbf{Power Automate (Cloud y Desktop):} Para la orquestación desatendida y atendida. Los flujos de nube consumieron conectores estándar hacia SharePoint, Outlook y OneDrive. Para la integración híbrida (flujos de nube, flujos de escritorio para extraer datos de IMaS).
+    \item \textbf{Office Scripts (TypeScript 4.x):} Motor de scripting en la nube ejecutado sobre Excel Online para procesar cálculos matriciales pesados, limpieza de tablas de indicadores y cruces relacionales que superaban el tiempo límite de ejecución de las acciones visuales de Power Automate.
+    \item \textbf{Power BI Desktop y Power BI Service:} Motor analítico tabular (VertiPaq) para el modelado relacional en estrella, diseño de medidas DAX avanzadas para proyecciones de agotamiento, rotación de stock y visualización interactiva basada en marcadores para las 943 materias primas.
+    \item \textbf{Microsoft 365 Copilot y agentes especializados:} Configuración de asistentes basados en modelos de lenguaje con delimitación estricta de contexto sobre archivos maestros y bibliotecas de SharePoint:
+    \begin{itemize}
+        \item Hermenegildo (agente MRP): especializado en el análisis de planeación de requerimientos de materiales. Para su operación, el agente se alimentó de tres transacciones principales descargadas de SAP:
+        \begin{enumerate}
+            \item Transacción ME3M: materiales a analizar, contratos vigentes, proveedor asignado, validez temporal y disponibilidad contractual.
+            \item Transacción MC.A: consumo anual ponderado, stock actual y variables indispensables para el cálculo de cobertura de inventario.
+            \item Transacción ME2N: histórico de expeditaciones y pedidos anteriores, de donde extrae el volumen para la variable de expeditación anterior (EXP ANTER).
+        \end{enumerate}
+        A partir de estas tres fuentes primarias (ME3M, MC.A y ME2N), el agente aplicó las reglas de negocio para calcular la expeditación real sugerida de compra (EXP REAL). Se identificaron además transacciones complementarias como MMBE (resumen de stock), MB51 (documentos de material), MM03 (maestro de materiales), MK03 (maestro de proveedores), ME5A (solicitudes de pedido) y ZMM088 (reporte de compras), las cuales sirven como consultas adicionales del proceso global.
+        \item Serena (agente de almacenes y seguridad): diseñado para la planeación anual de simulacros en almacenes y la atención de consultas sobre seguridad operativa. Su funcionamiento se articuló con una arquitectura de tres flujos en Power Automate:
+        \begin{enumerate}
+            \item Flujo inicial: detecta y almacena el archivo de planeación anual generado por Serena en una biblioteca estructurada de SharePoint.
+            \item Segundo flujo (creación del programa): lee la matriz generada, desglosa los 48 simulacros anuales obligatorios y crea el calendario maestro.
+            \item Tercer flujo (seguimiento quincenal de notificaciones): evalúa las fechas cada 15 días y envía automáticamente la convocatoria de reunión por Teams y correo electrónico con adjuntos al responsable de cada almacén, emitiendo un reporte final consolidado al completarse los 48 eventos.
+        \end{enumerate}
+        \item RM (agente de materias primas): asistente complementario para los proyectos RM-Inventory y RM-Indicadores en el área de materiales. Estuvo conectado a la lista base de SharePoint donde escriben las aplicaciones de Power Apps y lee Power BI, alimentándose adicionalmente de las transacciones SAP ZMM095 (reporte transaccional de compras y materiales procesado con un flujo de extracción dedicado) y ME53N (visualización de solicitudes de pedido), permitiendo generar reportes ejecutivos, presentaciones y consultas de stock en tiempo real.
+    \end{itemize}
+    \item SharePoint Online: base de datos operativa y repositorio de gestión de contenido empresarial con esquemas de metadatos tipificados e indexados.
 \end{itemize}
 
-\textbf{Extensión mínima:} 300 palabras de texto propio de este capítulo, además de las subsecciones que siguen.
+\subsection{Organización de la lógica y patrones de desarrollo}
 
-\textbf{Reglas para todas las figuras:} cada diagrama o captura lleva \verb|\caption|, \verb|\label|, se cita en el texto con
-\verb|Figura~\ref{fig:...}| (nunca escribas ``Figura 3'' a mano) y debe ser legible al imprimirse.
+La construcción del sistema siguió estándares de ingeniería para desarrollo de bajo código:
+\begin{itemize}
+    \item \textbf{Validación temprana en cliente (Power Fx):} En Power Apps se implementó validación estricta de esquemas antes de la persistencia mediante funciones declarativas. Por ejemplo, para garantizar que una recepción no contenga cantidades negativas o campos en blanco:
+\begin{lstlisting}[frame=single, backgroundcolor=\color{black!3}, rulecolor=\color{black!30}, basicstyle=\footnotesize\ttfamily, breaklines=true]
+If(IsBlank(txtCantidad.Text) || Value(txtCantidad.Text) <= 0,
+   Notify("La cantidad recibida debe ser mayor a cero", NotificationType.Error),
+   Patch('Arrivals_Repository', Defaults('Arrivals_Repository'),
+         { Material: cmbMaterial.Selected.Value,
+           Cantidad: Value(txtCantidad.Text),
+           Fecha: dpFecha.SelectedDate,
+           Proveedor: txtProveedor.Text })
+)
+\end{lstlisting}
+    \item \textbf{Manipulación tabular en TypeScript (Office Scripts):} Para normalizar y depurar los reportes descargados de transacciones de compras sin riesgo de corrupción por macros, se emplearon scripts tipificados:
+\begin{lstlisting}[frame=single, backgroundcolor=\color{black!3}, rulecolor=\color{black!30}, basicstyle=\footnotesize\ttfamily, breaklines=true]
+function main(workbook: ExcelScript.Workbook) {
+  let sheet = workbook.getActiveWorksheet();
+  let table = sheet.getTables()[0];
+  let range = table.getRangeBetweenHeaderAndTotal();
+  let rowCount = range.getRowCount();
+  // Limpieza y calculo de indicadores ponderados
+  for (let i = 0; i < rowCount; i++) {
+    let precio = range.getCell(i, 2).getValue() as number;
+    let volumen = range.getCell(i, 3).getValue() as number;
+    if (precio > 0 && volumen > 0) {
+      range.getCell(i, 4).setValue(precio * volumen);
+    }
+  }
+}
+\end{lstlisting}
+    \item \textbf{Métricas analíticas avanzadas (DAX en Power BI):} La proyección de días de inventario disponible se formuló de forma dinámica ponderando el stock actual frente al consumo promedio móvil de los últimos 90 días:
+\begin{lstlisting}[frame=single, backgroundcolor=\color{black!3}, rulecolor=\color{black!30}, basicstyle=\footnotesize\ttfamily, breaklines=true]
+Dias_Cobertura = 
+VAR ConsumoDiarioPromedio = 
+    DIVIDE(
+        CALCULATE(
+            SUM(Fact_Consumo[Cantidad]), 
+            DATESINPERIOD(Dim_Tiempo[Fecha], LASTDATE(Dim_Tiempo[Fecha]), -90, DAY)
+        ),
+        90,
+        0
+    )
+VAR StockActual = SUM(Fact_Stock[Stock_Fisico])
+RETURN
+DIVIDE(StockActual, ConsumoDiarioPromedio, BLANK())
+\end{lstlisting}
+\end{itemize}
 
-\textbf{Cómo se revisa:} coherencia con la propuesta y los requisitos, suficiencia técnica y que las subsecciones
-obligatorias estén completas.
-\end{guia}
+\subsection{Estrategia de pruebas y resultados}
 
-% >>> ESCRIBE AQUÍ la arquitectura, tecnologías, implementación y pruebas <<<
+Se ejecutó un plan de pruebas en tres niveles:
+\begin{enumerate}
+    \item \textbf{Pruebas unitarias de flujos y scripts:} Verificación de extracción de adjuntos sobre 150 correos de prueba, alcanzando un 99.3\,\% de éxito en clasificación. Las excepciones correspondieron a correos que excedían el límite de tamaño o adjuntos con extensiones no reconocidas, los cuales fueron derivados a una cola de revisión de errores.
+    \item \textbf{Pruebas de integración de datos:} Validación de concordancia en la conciliación SAP--IMaS. Sobre un universo de 284 expedientes evaluados para las auditorías periódicas del IMSS y cumplimiento REPSE, el flujo identificó un 98.6\,\% de expedientes completos (280 de 284). Adicionalmente, en una muestra testigo de 25 expedientes auditados manualmente, se alcanzó un 100\,\% de consistencia (25 de 25). Esto redujo el tiempo de revisión manual de 4.5 horas a 50 minutos por lote semanal.
+    \item \textbf{Pruebas de desempeño y latencia operativa (Resultados medidos):} 
+    \begin{itemize}
+        \item \emph{Monitoreo de 943 materias primas en RM-Inventory:} El flujo operativo traslada el archivo Excel descargado de SAP desde una carpeta intermedia hacia listas de SharePoint, permitiendo que Power BI refresque el modelo dimensional y las medidas DAX en menos de 4 minutos diarios. El monitoreo global pasó de 3.0 horas a menos de 30 minutos al día con latencia de filtrado menor a 5 segundos. Cualitativamente, los datos presentaron congruencia con SAP en la muestra evaluada; el modelo y tableros (MVP) están concluidos, quedando programada la revisión interna por parte del área para calibrar fórmulas específicas de proyección de mercado (la estimación de ventas quedó explícitamente fuera del alcance).
+        \item \emph{Análisis de planeación de compras con HERMENEGILDO:} A partir de las transacciones \texttt{ME3M}, \texttt{MC.A} y \texttt{ME2N}, el agente entregó el análisis completo con tabla de Excel formulada y gráfica analítica en un rango de 40 segundos a 5 minutos, frente a los 20 minutos requeridos por el cálculo manual previo.
+        \item \emph{Planeación y seguimiento de simulacros con SERENA y flujos:} La planeación anual de simulacros en almacenes se redujo de 1 hora manual a un lapso de 2 a 12 minutos con SERENA. La solución se articuló mediante una plantilla de Excel totalmente escalable: aunque habitualmente se programan 48 simulacros anuales, la estructura permite incorporar nuevos eventos de forma flexible. El flujo en Power Automate lee la matriz, genera el calendario maestro y agenda automáticamente las reuniones quincenales en Teams y avisos por Outlook en 2 minutos por evento (frente a 10 minutos manuales).
+        \item \emph{Ingesta de comprobantes por correo (REPSE / Auditoría del IMSS):} El flujo de nube que procesa los correos entrantes de contratistas con asunto normativo identifica al proveedor, crea su carpeta en SharePoint y descarga sus archivos adjuntos en menos de 3 minutos, suprimiendo la labor manual previa de 10 minutos por mensaje.
+        \item \emph{Creación de expedientes de contratistas:} El armado manual tomaba de 15 a 20 minutos por expediente. Con el flujo automatizado, el tiempo se redujo a entre 1.5 y 2 minutos para el primer expediente, y a 1 minuto exacto para cada expediente subsecuente en cola.
+        \item \emph{Evaluación experimental de los agentes de IA:} En el banco de pruebas de 30 consultas operativas (10 por cada agente: HERMENEGILDO, SERENA y RM) orientadas a generar reportes en Excel/PowerPoint, apoyo gráfico visual y síntesis ejecutiva sin saturación de texto, los agentes alcanzaron una tasa de aprobación del 86.7\,\% (26 de 30 consultas) al primer intento. En el 13.3\,\% restante (4 consultas), una segunda solicitud de refinamiento (\emph{re-prompting}) bastó para obtener el 100\,\% de los artefactos solicitados. La latencia conversacional promedio fue de 3.8 segundos (máximo 5.5 s), cumpliendo con el requisito de $<6$ s.
+        \item \emph{Validación cualitativa en Power Apps:} Los compradores y supervisores reportaron una experiencia altamente positiva al eliminar por completo los errores humanos de tipeo mediante campos tipificados y listas desplegables (0 errores observados en 50 capturas, IC 95\,\% sup. $\approx 6$\,\%).
+    \end{itemize}
+\end{enumerate}
 
+Para visualizar el impacto cuantitativo derivado de la implementación del ecosistema digital, la Figura~\ref{fig:grafica_tiempos} sintetiza la comparativa de tiempos de ejecución entre la línea base manual y los procesos automatizados.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[
+      bar_man/.style={fill=black!25, draw=black!60},
+      bar_aut/.style={fill=black!75, draw=black!90},
+      font=\footnotesize
+    ]
+    % Ejes
+    \draw[->] (0, 0) -- (11.5, 0) node[right, font=\scriptsize] {Minutos};
+    \draw (0, 0) -- (0, 6.6);
+    
+    % Marcas del eje X
+    \foreach \x/\val in {0/0, 2/30, 4/60, 6/90, 8/120, 10/180} {
+      \draw (\x, 0.05) -- (\x, -0.05) node[below, font=\tiny] {\val};
+      \draw[dotted, black!20] (\x, 0) -- (\x, 6.4);
+    }
+    
+    % Barra 1: Monitoreo RM-Inventory (180 min -> 30 min)
+    \node[anchor=east, font=\scriptsize] at (-0.1, 5.8) {Monitoreo RM-Inventory};
+    \fill[bar_man] (0, 5.9) rectangle (10.0, 6.2);
+    \node[right, font=\tiny] at (10.0, 6.05) {180 m};
+    \fill[bar_aut] (0, 5.5) rectangle (1.67, 5.8);
+    \node[right, font=\tiny] at (1.67, 5.65) {\textbf{30 m} (-83\%)};
+    
+    % Barra 2: Actualización Indicadores (150 min -> 45 min)
+    \node[anchor=east, font=\scriptsize] at (-0.1, 4.8) {Actualización Indicadores};
+    \fill[bar_man] (0, 4.9) rectangle (8.33, 5.2);
+    \node[right, font=\tiny] at (8.33, 5.05) {150 m};
+    \fill[bar_aut] (0, 4.5) rectangle (2.5, 4.8);
+    \node[right, font=\tiny] at (2.5, 4.65) {\textbf{45 m} (-70\%)};
+    
+    % Barra 3: Planeación Simulacros SERENA (60 min -> 12 min)
+    \node[anchor=east, font=\scriptsize] at (-0.1, 3.8) {Planeación Simulacros};
+    \fill[bar_man] (0, 3.9) rectangle (3.33, 4.2);
+    \node[right, font=\tiny] at (3.33, 4.05) {60 m};
+    \fill[bar_aut] (0, 3.5) rectangle (0.67, 3.8);
+    \node[right, font=\tiny] at (0.67, 3.65) {\textbf{12 m} (-80\%)};
+    
+    % Barra 4: Análisis MRP HERMENEGILDO (20 min -> 2.5 min)
+    \node[anchor=east, font=\scriptsize] at (-0.1, 2.8) {Análisis MRP};
+    \fill[bar_man] (0, 2.9) rectangle (1.11, 3.2);
+    \node[right, font=\tiny] at (1.11, 3.05) {20 m};
+    \fill[bar_aut] (0, 2.5) rectangle (0.14, 2.8);
+    \node[right, font=\tiny] at (0.2, 2.65) {\textbf{2.5 m} (-88\%)};
+    
+    % Barra 5: Expedientes REPSE / IMAS (18 min -> 1.5 min)
+    \node[anchor=east, font=\scriptsize] at (-0.1, 1.8) {Expedientes REPSE};
+    \fill[bar_man] (0, 1.9) rectangle (1.0, 2.2);
+    \node[right, font=\tiny] at (1.0, 2.05) {18 m};
+    \fill[bar_aut] (0, 1.5) rectangle (0.08, 1.8);
+    \node[right, font=\tiny] at (0.15, 1.65) {\textbf{1.5 m} (-92\%)};
+    
+    % Barra 6: Convocatoria y Agendas Teams (10 min -> 2 min)
+    \node[anchor=east, font=\scriptsize] at (-0.1, 0.8) {Agendas y Recordatorios};
+    \fill[bar_man] (0, 0.9) rectangle (0.55, 1.2);
+    \node[right, font=\tiny] at (0.55, 1.05) {10 m};
+    \fill[bar_aut] (0, 0.5) rectangle (0.11, 0.8);
+    \node[right, font=\tiny] at (0.15, 0.65) {\textbf{2 m} (-80\%)};
+    
+    % Leyenda
+    \fill[bar_man] (2.0, -0.9) rectangle (2.5, -0.65);
+    \node[right, font=\scriptsize] at (2.6, -0.78) {Proceso manual (Línea base)};
+    \fill[bar_aut] (6.8, -0.9) rectangle (7.3, -0.65);
+    \node[right, font=\scriptsize] at (7.4, -0.78) {Ecosistema automatizado};
+    
+  \end{tikzpicture}
+  \caption{Comparativa cuantitativa de tiempos de ejecución por proceso (Línea base vs. Solución implementada).}
+  \label{fig:grafica_tiempos}
+\end{figure}
+
+Como se aprecia en la Figura~\ref{fig:grafica_tiempos}, las reducciones temporales oscilaron entre el 70\,\% y el 92\,\% en las distintas actividades rutinarias (nota: la meta en la Tabla 8 era $\ge$ 75\,\%; el indicador de actualización de precios alcanzó el 70\,\%, mientras que los demás procesos superaron la meta). Complementariamente, la Figura~\ref{fig:grafica_calidad} compara el proceso manual con el
+automatizado. La eficacia mide la proporción de expedientes que quedan completos y correctos en la primera ejecución: en el proceso manual se estimó en 60 porque la revisión humana
+depende de la atención y de la memoria del operador, mientras que el flujo automatizado alcanzó 98.6. La puntualidad mide la oportunidad con que se
+dispara la actividad: en el proceso manual se estimó en 40 porque la ejecución depende de que la persona se percate del correo, mientras
+que el flujo se activa al llegar el correo y se aproxima a 100. Ambas escalas son estimaciones del investigador basadas en la operación observada y no
+sustituyen la medición de tiempos, que se reporta por separado en la Tabla 8.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[
+      bar_man/.style={fill=black!25, draw=black!60},
+      bar_aut/.style={fill=black!75, draw=black!90},
+      font=\footnotesize
+    ]
+    % Ejes
+    \draw[->] (0, 0) -- (12.5, 0);
+    \draw[->] (0, 0) -- (0, 4.8) node[above, font=\scriptsize] {Porcentaje (\%)};
+    
+    % Marcas del eje Y
+    \foreach \y/\val in {0.8/20, 1.6/40, 2.4/60, 3.2/80, 4.0/100} {
+      \draw (0.05, \y) -- (-0.05, \y) node[left, font=\tiny] {\val\%};
+      \draw[dotted, black!20] (0, \y) -- (12.2, \y);
+    }
+    
+    % Categoría 1: Error Tipográfico de Captura (5.2% vs 0.0%)
+    \fill[bar_man] (1.2, 0) rectangle (2.0, 0.21);
+    \node[above, font=\tiny] at (1.6, 0.21) {5.2\%};
+    \fill[bar_aut] (2.2, 0) rectangle (3.0, 0.0);
+    \node[above, font=\tiny] at (2.6, 0.0) {\textbf{0.0\%}};
+    \node[below, font=\scriptsize, align=center] at (2.1, -0.2) {Tasa de error\\de captura};
+    
+    % Categoría 2: Detección de expedientes SAP-IMaS completos (60% vs 98.6%)
+    \fill[bar_man] (5.2, 0) rectangle (6.0, 2.6);
+    \node[above, font=\tiny] at (5.6, 2.6) {60.0\%};
+    \fill[bar_aut] (6.2, 0) rectangle (7.0, 3.94);
+    \node[above, font=\tiny] at (6.6, 3.94) {\textbf{98.6\%}};
+    \node[below, font=\scriptsize, align=center] at (6.1, -0.2) {Detección de\\expedientes};
+    
+    % Categoría 3: Disponibilidad y Refresco Puntual (40% vs 100%)
+    \fill[bar_man] (9.2, 0) rectangle (10.0, 1.6);
+    \node[above, font=\tiny] at (9.6, 1.6) {40.0\%};
+    \fill[bar_aut] (10.2, 0) rectangle (11.0, 4.0);
+    \node[above, font=\tiny] at (10.6, 4.0) {\textbf{100.0\%}};
+    \node[below, font=\scriptsize, align=center] at (10.1, -0.2) {Puntualidad de\\datos ($<08$:00 h)};
+    
+    % Leyenda
+    \fill[bar_man] (3.0, -1.3) rectangle (3.5, -1.05);
+    \node[right, font=\scriptsize] at (3.6, -1.18) {Método manual previo};
+    \fill[bar_aut] (7.5, -1.3) rectangle (8.0, -1.05);
+    \node[right, font=\scriptsize] at (8.1, -1.18) {Ecosistema automatizado};
+    
+  \end{tikzpicture}
+  \caption{Métricas de calidad de datos, efectividad y disponibilidad operativa.}
+  \label{fig:grafica_calidad}
+\end{figure}
+
+Las validaciones en cliente de Power Apps lograron abatir los errores tipográficos en recepciones e inventarios (0 errores en 50 capturas, IC 95\,\% sup. $\approx 6$\,\%), al tiempo que el algoritmo de normalización entre SAP e IMaS alcanzó una efectividad del 98.6\,\% en la identificación de expedientes completos (280 de 284 expedientes). Asimismo, la automatización programada en la nube garantizó el 100\,\% de puntualidad en la disponibilidad de datos analíticos antes de las 08:00 h durante el periodo evaluado.
+
+\subsection{Resolución de problemas técnicos}
+
+Durante el desarrollo se superaron tres retos técnicos principales:
+\begin{itemize}
+    \item \textbf{Ausencia de licencias corporativas de Copilot Studio:} Como se documentó en las limitaciones, la falta temporal de licencias para Copilot Studio impedía habilitar flujos automáticos desencadenados directamente por la IA. Esto se resolvió mediante una arquitectura híbrida: se crearon agentes nativos en Microsoft 365 Copilot (HERMENEGILDO, SERENA, RM) entrenados con conocimiento documental y reglas de negocio, y se acoplaron flujos de Power Automate independientes que supervisan las carpetas donde los agentes depositan sus entregables, detonando las alertas y agendas en Outlook y Teams de forma desatendida.
+    \item \textbf{Discrepancias de formato entre SAP e IMaS:} La estructura de identificadores de contratistas difería entre los dos sistemas (SAP empleaba códigos internos numéricos mientras IMaS utilizaba RFC con homoclave). Se programó una tabla de mapeo relacional en SharePoint y un algoritmo de normalización en Power Automate que limpia caracteres especiales antes del cotejo matricial.
+    \item \textbf{Bloqueo por concurrencia en hojas maestras de Excel:} Cuando varios procesos intentaban actualizar la hoja de Excel en OneDrive de forma simultánea, ocurrían errores de sesión bloqueada. La solución consistió en migrar la persistencia transaccional a listas nativas de SharePoint Online, reservando Excel únicamente para staging intermedio procesado por Office Scripts.
+\end{itemize}
 
 \subsection{Diagramas de casos de uso} \label{sec:casos_uso} % audit:req=casos_uso
 
-\begin{guia}[Guía: Diagramas de casos de uso]
-\textbf{Debe incluir:} un diagrama general con los actores y casos de uso (relaciones \emph{include} y \emph{extend} cuando
-apliquen) y la \textbf{especificación} de los casos de uso principales en una tabla (nombre, actor, precondición, flujo
-normal, flujos alternos, postcondición).
+El sistema interactúa con cinco actores: el Analista de Compras / MRP, la Encargada de Almacenes y Seguridad, el Supervisor de Materias Primas / Auditor, los Flujos Automatizados de Power Automate (actor del sistema) y los Agentes de Inteligencia Artificial (HERMENEGILDO, SERENA y RM). En la Figura~\ref{fig:casos_uso} se presenta el diagrama general de casos de uso y sus relaciones.
 
-\textbf{Debe responder:} ¿quiénes usan el sistema? ¿qué puede hacer cada actor? ¿cada caso de uso corresponde a un
-requisito y a un objetivo específico?
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.90\linewidth]{img/diagrama_casos_uso.png}
+  \caption{Diagrama general de casos de uso del ecosistema de compras.}
+  \label{fig:casos_uso}
+\end{figure}
 
-\textbf{Mínimo:} 1 diagrama (figura) con explicación. Herramientas: draw.io, StarUML, PlantUML, Visual Paradigm.
-\end{guia}
+La especificación detallada de los casos de uso principales se presenta en la Tabla~\ref{tab:especificacion_cu}.
 
-% >>> ESCRIBE AQUÍ los diagramas de casos de uso y su explicación <<<
+\begingroup
+\footnotesize
+\begin{longtable}{@{}L{3.2cm}L{12.2cm}@{}}
+  \caption{Especificación de los casos de uso principales del sistema.} \label{tab:especificacion_cu} \\
+  \toprule
+  \textbf{Elemento} & \textbf{Descripción técnica} \\
+  \midrule
+  \endfirsthead
 
+  \multicolumn{2}{c}{{\small\textit{Continuación de la Tabla~\ref{tab:especificacion_cu}}}} \\[0.5em]
+  \toprule
+  \textbf{Elemento} & \textbf{Descripción técnica} \\
+  \midrule
+  \endhead
+
+  \midrule
+  \multicolumn{2}{r}{{\scriptsize\textit{Continúa en la siguiente página\dots}}} \\
+  \bottomrule
+  \endfoot
+
+  \bottomrule
+  \endlastfoot
+
+  Caso de uso: & CU01: Capturar y validar recepción de materia prima (Arrivals) \\
+  Actor principal: & Analista de Compras / Operador de Recepción \\
+  Precondición: & El usuario cuenta con acceso a Power Apps y la materia prima está en el catálogo de 943 materias primas. \\
+  Flujo normal: & 1. El usuario selecciona la materia prima y proveedor en los menús dinámicos. \newline 2. Ingresa cantidad recibida en toneladas/kg, fecha y número de remisión. \newline 3. El sistema valida formato numérico no negativo y completitud de campos obligatorios. \newline 4. Se confirma el registro y se envía a la lista de SharePoint \texttt{Arrivals\_Repository}. \newline 5. El sistema actualiza el historial en pantalla y emite notificación de éxito. \\
+  Flujos alternos: & 3a. Cantidad no válida o campos vacíos: la interfaz despliega un mensaje de error visual y bloquea el botón de guardado. \\
+  Postcondición: & El registro queda persistido en SharePoint y se incluye en el próximo refresco de Power BI. \\
+  \midrule
+  Caso de uso: & CU03: Analizar requerimientos de materiales (MRP) con HERMENEGILDO \\
+  Actor principal: & Analista de Compras / MRP \\
+  Precondición: & El analista descarga de SAP los reportes ME3M, MC.A y ME2N. \\
+  Flujo normal: & 1. El usuario proporciona a HERMENEGILDO en Copilot los extractos de SAP solicitando el análisis. \newline 2. El agente procesa vigencia contractual (ME3M), consumo y stock (MC.A) y expeditaciones previas (ME2N). \newline 3. Calcula la expeditación real sugerida (EXP REAL) y proyecciones de cobertura. \newline 4. Entrega un archivo Excel estructurado junto con una gráfica explicativa en entre 40 segundos y 5 minutos. \\
+  Flujos alternos: & 2a. Archivos incompletos: el agente solicita el dato faltante específico antes de emitir la proyección. \\
+  Postcondición: & El analista dispone de la propuesta de compra validada para emitir la solicitud de pedido. \\
+  \midrule
+  Caso de uso: & CU04: Planificar simulacros anuales y seguimiento con SERENA y Power Automate \\
+  Actor principal: & Encargada de Almacenes y Seguridad \\
+  Precondición: & Disponibilidad del catálogo de almacenes y responsables en SharePoint. \\
+  Flujo normal: & 1. La encargada solicita a SERENA en Copilot generar el rol anual de simulacros para almacenes. \newline 2. SERENA analiza fechas, tipos de simulacro y responsables, generando la matriz anual en un rango de 2 a 12 minutos. \newline 3. El flujo inicial almacena el archivo en la ruta monitoreada de SharePoint. \newline 4. El segundo flujo crea el programa anual dinámico y activa el temporizador quincenal. \newline 5. El tercer flujo envía recordatorio y agenda la reunión en Teams en 2 minutos para cada evento. \newline 6. Al completarse los simulacros anuales programados, el flujo genera y envía el reporte consolidado. \\
+  Flujos alternos: & 4a. Cambio de responsable de almacén o variación en el rol: el usuario actualiza la lista en SharePoint o el Excel y el flujo adapta automáticamente las notificaciones y agendas subsecuentes. \\
+  Postcondición: & Todos los simulacros del año quedan agendados, notificados y documentados automáticamente. \\
+  \midrule
+  Caso de uso: & CU05: Conciliar expedientes IMAS/REPSE para Auditoría del IMSS y cumplimiento normativo \\
+  Actor principal: & Supervisor de Compras / Auditor \\
+  Precondición: & Se cuenta con el reporte de compras en SAP y la extracción de contratistas en IMaS. \\
+  Flujo normal: & 1. El flujo de Power Automate Desktop extrae los expedientes y constancias del portal IMaS. \newline 2. El flujo de nube normaliza identificadores y realiza el cotejo matricial frente a SAP. \newline 3. Se genera un informe consolidado con semáforo de cumplimiento por proveedor. \newline 4. Se crea la carpeta estructurada del expediente en 1.5 a 2 minutos por contratista. \\
+  Flujos alternos: & 2a. Proveedor no registrado en SAP: se añade a la bitácora de discrepancias y se envía alerta al auditor. \\
+  Postcondición: & Los expedientes quedan clasificados con metadatos para la auditoría formal. \\
+\end{longtable}
+\endgroup
 
 \subsection{Diagramas de base de datos} \label{sec:diagramas_bd} % audit:req=diagrama_bd
 
-\begin{guia}[Guía: Diagramas de base de datos]
-\textbf{Debe incluir:} el diagrama entidad-relación (o el modelo relacional / de documentos) y el
-\textbf{diccionario de datos} (tabla por entidad: campo, tipo, restricciones, descripción).
+El modelo de datos del ecosistema se diseñó en dos niveles: un modelo operacional transaccional implementado sobre listas de SharePoint Online con integridad referencial lógica, y un modelo dimensional relacional en esquema de estrella para el motor tabular de Power BI (Figura~\ref{fig:modelo_bd}), enfocado en el catálogo de las 943 materias primas del área de materiales.
 
-\textbf{Debe responder:} ¿qué entidades y relaciones hay y por qué? ¿qué gestor de base de datos se usó y por qué? ¿está
-normalizado? ¿cómo se protege la información (respaldos, permisos, datos personales)?
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.82\linewidth]{img/diagrama_base_datos.png}
+  \caption{Modelo relacional dimensional en esquema de estrella para RM-Inventory (943 materias primas).}
+  \label{fig:modelo_bd}
+\end{figure}
 
-\textbf{Mínimo:} 1 diagrama (figura) con explicación.
-\end{guia}
+El diccionario de datos de las entidades maestras que operan en SharePoint y alimentan a Power BI se resume en la Tabla~\ref{tab:diccionario_datos}.
 
-% >>> ESCRIBE AQUÍ los diagramas de base de datos y el diccionario de datos <<<
+\begin{table}[H]
+  \centering
+  \caption{Diccionario de datos de las entidades principales del ecosistema.}
+  \label{tab:diccionario_datos}
+  \footnotesize
+  \begin{tabular}{@{}L{2.8cm}L{3.4cm}L{2.3cm}L{6.7cm}@{}}
+    \toprule
+    \textbf{Entidad} & \textbf{Campo} & \textbf{Tipo de dato} & \textbf{Restricciones y descripción} \\
+    \midrule
+    \texttt{Dim\_Materiales} & \texttt{PK\_MaterialID} & Texto (50) & Clave primaria. Código de materia prima en SAP (943 registros). \\
+    & \texttt{Descripcion} & Texto (255) & Nombre comercial o técnico de la materia prima. \\
+    & \texttt{UnidadMedida} & Texto (10) & Obligatorio. Ejemplos: KG, TON, M3, PZA. \\
+    & \texttt{StockMinimo} & Decimal (12,2) & Umbral mínimo de cobertura de seguridad. \\
+    \midrule
+    \texttt{Dim\_Proveedores} & \texttt{PK\_ProveedorID} & Texto (50) & Clave primaria. Número de acreedor oficial en SAP. \\
+    & \texttt{RFC} & Texto (13) & Validación de formato RFC con homoclave (12-13 caracteres). \\
+    & \texttt{RazonSocial} & Texto (200) & Razón social registrada formalmente. \\
+    & \texttt{EstatusREPSE} & Texto (20) & Valores permitidos: Vigente, Pendiente, Vencido. \\
+    \midrule
+    \texttt{Fact\_Arrivals} & \texttt{ArrivalID} & Entero (ID) & Clave primaria autoincremental de la recepción. \\
+    & \texttt{FK\_MaterialID} & Texto (50) & Clave foránea referenciada a \texttt{Dim\_Materiales}. \\
+    & \texttt{FK\_ProveedorID} & Texto (50) & Clave foránea referenciada a \texttt{Dim\_Proveedores}. \\
+    & \texttt{FK\_Fecha} & Fecha & Fecha de recepción física en almacén (no futura). \\
+    & \texttt{CantidadRecibida} & Decimal (14,3) & Valor numérico positivo mayor a cero. \\
+    & \texttt{NumRemision} & Texto (50) & Número de folio físico del transportista. \\
+    \midrule
+    \texttt{Fact\_Ordenes} & \texttt{OrdenID} & Texto (50) & Número oficial de Orden de Compra en SAP. \\
+    & \texttt{CantidadOrdenada} & Decimal (14,3) & Volumen total contratado para entrega programada. \\
+    & \texttt{PrecioUnitario} & Decimal (14,4) & Costo unitario pactado en orden de compra. \\
+    & \texttt{EstatusOrden} & Texto (20) & Valores: Abierta, Parcial, Cerrada. \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
+La integridad y seguridad de la base de datos se garantiza mediante: 1) control de acceso basado en roles (RBAC) gestionado a través de Grupos de Seguridad de Microsoft Entra ID (antes Azure Active Directory), impidiendo que contratistas o usuarios no autorizados visualicen costos unitarios o contratos; 2) versionado automático de listas en SharePoint con retención de historial de 90 días ante modificaciones; y 3) respaldos automáticos en la nube gestionados por la infraestructura corporativa de Microsoft 365.
 
 \subsection{Diagramas de actividades} \label{sec:diagramas_actividades} % audit:req=diagrama_actividades
 
-\begin{guia}[Guía: Diagramas de actividades]
-\textbf{Debe incluir:} el flujo de los procesos clave del sistema (con carriles o \emph{swimlanes} por actor cuando hay
-varios participantes), con inicio, decisiones, acciones y fin.
+En la Figura~\ref{fig:actividades_simulacros} se modela el diagrama de actividades del ciclo integral de planeación y seguimiento automatizado de simulacros, articulando la interacción entre la Encargada de Almacén, el Agente SERENA y la arquitectura de tres flujos de Power Automate.
 
-\textbf{Debe responder:} ¿cuál es el flujo de cada proceso importante? ¿qué pasa en los casos de error? ¿corresponde a
-algún caso de uso?
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.92\linewidth]{img/diagrama_actividades_simulacros.png}
+  \caption{Diagrama de actividades del proceso de simulacros con SERENA y los tres flujos de Power Automate.}
+  \label{fig:actividades_simulacros}
+\end{figure}
 
-\textbf{Mínimo:} 1 diagrama (figura) con explicación.
-\end{guia}
-
-% >>> ESCRIBE AQUÍ los diagramas de actividades <<<
-
+El proceso inicia cuando la encargada interactúa con el agente SERENA en diciembre para generar el plan anual. El agente, entrenado con las directrices de seguridad de ArcelorMittal, procesa en 12 minutos la distribución cronológica y espacial de al menos 48 simulacros en los distintos almacenes. Una vez depositada la matriz en SharePoint mediante el flujo inicial, el segundo flujo de Power Automate crea el programa maestro de eventos y el tercer flujo se ejecuta quincenalmente: inspecciona de forma autónoma las fechas y, cuando restan 15 días, estructura el correo de convocatoria con los adjuntos y agenda la sesión en Teams en un tiempo de 2 minutos. Al concluir todos los eventos del ciclo, el flujo consolida los datos y remite el reporte anual de cumplimiento al comité de seguridad.
 
 \subsection{Diagramas de secuencia} \label{sec:diagramas_secuencia} % audit:req=diagrama_secuencia
 
-\begin{guia}[Guía: Diagramas de secuencia]
-\textbf{Debe incluir:} la interacción entre los componentes (usuario, interfaz, servidor, base de datos, servicios
-externos) para los casos de uso críticos, con los mensajes en orden temporal.
+En la Figura~\ref{fig:secuencia_mrp} se especifica el diagrama de secuencia para el análisis de planeación de requerimientos de materiales (MRP) asistido por el agente HERMENEGILDO, detallando el intercambio de mensajes y validaciones entre el analista, el entorno de Copilot, las tres fuentes de extracción de SAP (\texttt{ME3M + MC.A + ME2N}) y el cálculo de la expeditación real (\texttt{EXP REAL}).
 
-\textbf{Debe responder:} ¿qué componentes intervienen y en qué orden se comunican? ¿qué mensajes se envían y qué se
-responde? ¿dónde se validan los datos?
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.92\linewidth]{img/diagrama_secuencia_mrp.png}
+  \caption{Diagrama de secuencia del análisis de requerimientos de materiales con HERMENEGILDO.}
+  \label{fig:secuencia_mrp}
+\end{figure}
 
-\textbf{Mínimo:} 1 diagrama (figura) con explicación.
-\end{guia}
-
-% >>> ESCRIBE AQUÍ los diagramas de secuencia <<<
-
+El analista abre la interacción adjuntando los tres reportes de transacciones de SAP: contratos vigentes (\texttt{ME3M}), consumo y stock (\texttt{MC.A}) y pedidos previos (\texttt{ME2N}). El agente HERMENEGILDO valida que la matriz contenga las columnas de stock disponible, cobertura mínima y contratos activos. Posteriormente, invoca las reglas de negocio aprendidas, calcula el déficit proyectado de material y solicita al motor gráfico la construcción de un archivo Excel de salida con fórmulas y gráficos integrados, completando la entrega en un intervalo de entre 40 segundos y 5 minutos.
 
 \subsection{Resultado final: pantallas del sistema} \label{sec:pantallas} % audit:req=pantallas
 
-\begin{guia}[Guía: Resultado final -- pantallas del sistema con su explicación]
-\textbf{Debe incluir:} capturas de las pantallas principales del sistema funcionando, cada una con su explicación.
+Esta subsección presenta las pantallas y artefactos operativos construidos durante la estadía profesional, documentando su funcionalidad, los usuarios a los que están destinados, las validaciones aplicadas y los objetivos específicos cumplidos.
 
-\textbf{Para cada pantalla responde:} ¿para qué sirve? ¿quién la usa? ¿qué casos de uso y objetivos específicos
-atiende? ¿qué datos muestra o captura y cómo se valida?
+\subsubsection{Tableros analíticos en Power BI: RM-Inventory y RM-Indicadores}
 
-\textbf{Reglas:} figuras numeradas con \verb|\caption| y \verb|\label|; sin datos personales ni confidenciales reales
-(usa datos de prueba); capturas legibles. Si hay versión móvil o de escritorio, inclúyela.
+La Figura~\ref{fig:dashboard_rm_inventory} muestra la pantalla principal del tablero analítico RM-Inventory, implementado en Power BI Service para el seguimiento de las 943 materias primas del área de materiales.
 
-\textbf{Mínimo:} 150 palabras de explicación y al menos una figura.
-\end{guia}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.92\linewidth]{img/dashboard_rm_inventory.png}
+  \caption{Tablero analítico principal de RM-Inventory en Power BI (943 materias primas).}
+  \label{fig:dashboard_rm_inventory}
+\end{figure}
 
-% >>> ESCRIBE AQUÍ las pantallas (figuras) y su explicación <<<
+Este tablero consolida en una sola interfaz el monitoreo integral de materias primas (ferroaleaciones e insumos críticos) y las órdenes de compra activas en SAP, atendiendo directamente el Objetivo Específico~4 y el caso de uso CU06. Es utilizado diariamente por los supervisores de compras, analistas de abastecimiento y la dirección de materiales. Muestra indicadores clave como el tonelaje de inventario disponible por almacén, el volumen de consumo semanal y mensual, las proyecciones de agotamiento de stock en días de cobertura y la distribución porcentual de pedidos abiertos por proveedor sobre el universo de las 943 materias primas catalogadas. 
+
+La arquitectura de alimentación de RM-Inventory opera de forma desacoplada y robusta: periódicamente se extrae el reporte transaccional de stock de SAP en formato Excel; un operador deposita el archivo en una carpeta de red designada, lo que dispara un flujo automatizado en Power Automate que traslada los registros hacia listas estructuradas de SharePoint Online. Desde este repositorio centralizado, el motor tabular de Power BI ingesta los datos y refresca las medidas analíticas para las 943 materias primas. Los datos base reflejan congruencia con SAP en la muestra evaluada; el desarrollo técnico y visual (MVP) se encuentra concluido al 100\,\%, quedando programada la revisión interna con el equipo de compras para la calibración final de fórmulas específicas de proyección de mercado. La calibración de fórmulas de estimación de ventas quedó explícitamente fuera del alcance y se registra en el trabajo futuro. La navegación dinámica mediante marcadores permite alternar entre la vista analítica general y la vista de detalle de órdenes sin recargar reportes separados, logrando una latencia menor a 5 segundos.
+
+Por su parte, la Figura~\ref{fig:dashboard_rm_indicadores} ilustra el informe de RM-Indicadores, diseñado para reemplazar las plantillas dispersas de Excel por un análisis automatizado de evolución de precios.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.92\linewidth]{img/dashboard_rm_indicadores.png}
+  \caption{Tablero analítico de RM-Indicadores para series históricas de precios de materias primas.}
+  \label{fig:dashboard_rm_indicadores}
+\end{figure}
+
+El tablero de indicadores permite evaluar la tendencia histórica y variación porcentual de costos por unidad de material en función de índices de mercado y cotizaciones de proveedores. Es consultado por los compradores para fundamentar negociaciones de contratos a largo plazo y por la dirección para auditar desviaciones presupuestales. El informe procesa datos normalizados desde SharePoint a través de fórmulas DAX que calculan promedios móviles y desviaciones estándar ponderadas.
+
+\subsubsection{Aplicaciones de captura y gestión en Power Apps}
+
+Para estandarizar la entrada de datos operativos y suprimir el error humano en transcripciones, se desarrollaron módulos en Power Apps. La Figura~\ref{fig:powerapps_registro} detalla el formulario de captura estructurada de recepciones (\emph{Arrivals}), mientras que la Figura~\ref{fig:powerapps_arrivals} presenta el módulo integrado de consulta e historial cronológico.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.88\linewidth]{img/powerapps_registro_arrivals.png}
+  \caption{Formulario de registro y captura estructurada de recepciones (Arrivals) en Power Apps.}
+  \label{fig:powerapps_registro}
+\end{figure}
+
+El formulario de la Figura~\ref{fig:powerapps_registro} (CU01, Objetivo Específico~2) permite al personal de báscula y almacén seleccionar el material a partir de menús desplegables enlazados al catálogo oficial de 943 materias primas, seleccionar el proveedor homologado, ingresar el número de remisión y especificar el tonelaje recibido. El control implementa validaciones estrictas en tiempo de ejecución: no admite valores negativos ni nulos, verifica que la fecha no sea futura y valida la coherencia entre proveedor y contrato antes de persistir los datos en SharePoint Online.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.88\linewidth]{img/powerapps_arrivals_historial.png}
+  \caption{Aplicación en Power Apps para consulta e historial cronológico de recepciones (Arrivals).}
+  \label{fig:powerapps_arrivals}
+\end{figure}
+
+En la pantalla de historial (Figura~\ref{fig:powerapps_arrivals}), los usuarios pueden filtrar las recepciones por rango de fechas, estatus de inspección física y proveedor, contando con indicadores sumatorios de tonelaje acumulado que agilizan las revisiones de fin de turno.
+
+Complementariamente, la Figura~\ref{fig:powerapps_policies} muestra la pantalla de administración CRUD (\emph{Create, Read, Update, Delete}) de \textbf{Políticas de Inventario} desarrollada en Power Apps.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.90\linewidth]{img/powerapps_inventory_policies.png}
+  \caption{Módulo CRUD de administración de políticas de inventario en Power Apps.}
+  \label{fig:powerapps_policies}
+\end{figure}
+
+A través de esta pantalla, los analistas de MRP pueden consultar y modificar en tiempo real los parámetros de inventario de seguridad (safety stock), puntos de reorden y capacidades máximas por material sobre el catálogo de 943 ítems. El formulario cuenta con validación de tipo de dato y confirmación de actualización, evitando que se introduzcan parámetros inconsistentes que distorsionen los cálculos analíticos de Power BI o los análisis del agente HERMENEGILDO.
+
+\subsubsection{Asistentes conversacionales en Microsoft 365 Copilot}
+
+La Figura~\ref{fig:copilot_hermenegildo} ilustra la interacción real con el agente HERMENEGILDO, diseñado para la planeación de requerimientos de materiales (MRP).
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.88\linewidth]{img/copilot_hermenegildo.png}
+  \caption{Respuesta y análisis cuantitativo de compras generado por el agente HERMENEGILDO.}
+  \label{fig:copilot_hermenegildo}
+\end{figure}
+
+Al recibir los archivos de las transacciones \texttt{ME3M}, \texttt{MC.A} y \texttt{ME2N}, HERMENEGILDO aplica las reglas de negocio para calcular la \texttt{EXP REAL}, entregando un reporte estructurado en Excel acompañado de gráficas y fórmulas auditables en un tiempo de respuesta de entre 40 segundos y 5 minutos (frente a los 20 minutos requeridos de forma manual).
+
+La Figura~\ref{fig:copilot_serena} presenta la salida del agente SERENA, especializado en la planeación y seguimiento anual de simulacros para almacenes.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.88\linewidth]{img/copilot_serena.png}
+  \caption{Generación de la matriz anual de simulacros por el agente SERENA en Copilot.}
+  \label{fig:copilot_serena}
+\end{figure}
+
+El agente SERENA genera la matriz de distribución anual de simulacros para almacenes y seguridad operativa en un lapso de entre 2 y 12 minutos (frente a la hora que demandaba el armado manual en diciembre). La solución se implementó bajo una arquitectura dinámica y escalable: aunque habitualmente se contemplan 48 simulacros obligatorios al año, el libro de Excel permite incorporar o modificar registros de manera flexible, adaptándose el flujo de Power Automate de forma automática. Una vez que el archivo es depositado en la biblioteca de SharePoint, el flujo mostrado en la Figura~\ref{fig:flujo_almacenes_simulacros} procesa el programa maestro, agenda las reuniones quincenales en Teams y remite las convocatorias por Outlook en solo 2 minutos automáticos por evento (frente a 10 minutos manuales).
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.88\linewidth]{img/flujo_almacenes_simulacros.png}
+  \caption{Flujo de Power Automate para creación y calendarización del programa de simulacros.}
+  \label{fig:flujo_almacenes_simulacros}
+\end{figure}
+
+Asimismo, la Figura~\ref{fig:copilot_rm} documenta la asistencia conversacional del agente RM, orientado a la consulta de información de materias primas.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.88\linewidth]{img/copilot_rm.png}
+  \caption{Consulta conversacional sobre materias primas y órdenes con el agente RM.}
+  \label{fig:copilot_rm}
+\end{figure}
+
+El agente RM consulta directamente el repositorio central de SharePoint alimentado por las transacciones SAP \texttt{ZMM095} y \texttt{ME53N}. Para garantizar la actualización de estos datos, se construyó el flujo de extracción mostrado en la Figura~\ref{fig:flujo_sap_zmm095}, el cual procesa el archivo Excel de la transacción \texttt{ZMM095} y sincroniza los registros en SharePoint para el uso coordinado entre el agente y el tablero de Power BI.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.88\linewidth]{img/flujo_sap_zmm095.png}
+  \caption{Flujo de Power Automate para obtención y migración de datos SAP (ZMM095) hacia SharePoint.}
+  \label{fig:flujo_sap_zmm095}
+\end{figure}
+
+\subsubsection{Flujos automatizados de expedientes y notificaciones}
+
+La integración documental de contratistas y proveedores requirió articular componentes de automatización en la nube y en el escritorio. Para superar la ausencia de una API pública en el portal web de contratistas IMaS, se desarrolló el flujo de escritorio en Power Automate Desktop (RPA) ilustrado en la Figura~\ref{fig:flujo_desktop_imas}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.88\linewidth]{img/flujo_escritorio_imas.png}
+  \caption{Flujo de escritorio en Power Automate Desktop para extracción automatizada en el portal IMaS.}
+  \label{fig:flujo_desktop_imas}
+\end{figure}
+
+Este bot emula la navegación de un usuario autenticado: accede al portal IMaS, descarga las opiniones de cumplimiento del IMSS y SAT correspondientes a la muestra de contratistas sujeta a revisión, valida la integridad de los archivos PDF y deposita los documentos en un directorio intermedio de sincronización. A continuación, el flujo de nube en Power Automate mostrado en la Figura~\ref{fig:flujo_repse} orquesta la conciliación y estructuración de los expedientes.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.88\linewidth]{img/flujo_expedientes_repse.png}
+  \caption{Flujo automatizado para gestión de expedientes REPSE e IMAS en Power Automate.}
+  \label{fig:flujo_repse}
+\end{figure}
+
+Este flujo (CU05, Objetivo Específico~3) toma los comprobantes descargados, cruza el Registro Federal de Contribuyentes (RFC) contra el maestro de proveedores de SAP, genera dinámicamente la estructura jerárquica de carpetas del expediente en SharePoint Online y actualiza los metadatos de cumplimiento legal (REPSE / Auditoría del IMSS). 
+
+De forma complementaria, para los proveedores que remiten su documentación probatoria a través de correo electrónico corporativo, se desarrolló un flujo de nube específico en Power Automate. Este flujo monitorea la bandeja de entrada, filtra los mensajes que responden a los asuntos específicos de cumplimiento de contratistas, identifica al proveedor remitente, crea o ubica automáticamente su carpeta en SharePoint y extrae la totalidad de los archivos adjuntos (opiniones de cumplimiento del SAT, IMSS y constancias REPSE) en un tiempo menor a 3 minutos por mensaje, eliminando la labor manual previa que demandaba aproximadamente 10 minutos por correo en abrir, descargar y clasificar individualmente cada archivo adjunto.
+
+Gracias a esta arquitectura coordinada de escritorio y nube, el tiempo de conformación integral de expedientes se redujo de un rango manual previo de 15--20 minutos por contratista a solo 1.5--2 minutos para el primer expediente y a 1 minuto para los registros subsecuentes en cola, garantizando un repositorio documental perenne y reutilizable para cualquier ciclo de auditoría anual.
+
+Por otro lado, la Figura~\ref{fig:flujo_mrp} y la Figura~\ref{fig:prueba_notificaciones} exhiben la orquestación de alertas para materiales críticos en el área de MRP y la evidencia de recepción de notificaciones en el cliente corporativo de Microsoft Outlook.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.88\linewidth]{img/flujo_notificacion_mrp.png}
+  \caption{Flujo de Power Automate para notificación automática de materiales críticos en MRP.}
+  \label{fig:flujo_mrp}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.88\linewidth]{img/prueba_notificaciones.png}
+  \caption{Evidencia de notificación operativa recibida vía correo electrónico.}
+  \label{fig:prueba_notificaciones}
+\end{figure}
+
+El flujo de notificación de MRP monitorea los umbrales de stock calculados en el modelo analítico sobre las 943 materias primas. Cuando un material alcanza niveles inferiores al stock de seguridad o se detecta un retraso en una orden de compra abierta en SAP, el flujo estructura de forma automática un correo electrónico con formato enriquecido (HTML) dirigido al comprador responsable, adjuntando la tabla con el déficit proyectado. Este mecanismo reduce el tiempo de reacción operativa ante potenciales desabastos, asegurando la continuidad productiva de la planta siderúrgica.
+
+\subsubsection{Actividades complementarias de ingeniería y aseguramiento operativo}
+
+Durante el periodo de estadía profesional de 600 horas, el desarrollo del sistema se complementó con una inmersión profunda en las operaciones cotidianas del área de compras y abastecimiento de materias primas de ArcelorMittal México. Estas actividades no solo permitieron diagnosticar con precisión los cuellos de botella de los procesos, sino que validaron la funcionalidad de las soluciones tecnológicas en escenarios reales:
+
+\begin{enumerate}
+    \item \textbf{Gestión de facturación y solicitudes de pedido en SAP:} Se ejecutó directamente el proceso de recepción, validación de órdenes de compra y revisión de facturas contra remisiones de entrada, así como la generación y seguimiento de solicitudes de pedido (\emph{solpeds}) mediante las transacciones transaccionales estándar (\texttt{ME51N}, \texttt{ME53N}). Esta experiencia práctica permitió codificar con exactitud las reglas de negocio incorporadas en los agentes HERMENEGILDO y RM.
+    \item \textbf{Aseguramiento de calidad y testeo web (QA):} Se realizaron pruebas funcionales exhaustivas sobre las plataformas web corporativas para el alta y catalogación de nuevos materiales e insumos metalúrgicos (Figura~\ref{fig:testeo_materiales}). Se identificaron y reportaron excepciones en la carga de fichas técnicas y validación de campos requeridos, optimizando la integridad del maestro de materiales.
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.88\linewidth]{img/prueba_testeo_alta_materiales.png}
+      \caption{Pruebas de aseguramiento de calidad y testeo funcional en la plataforma web corporativa de alta de materiales.}
+      \label{fig:testeo_materiales}
+    \end{figure}
+    \item \textbf{Auditoría de expedientes y gobernanza documental:} Se colaboró activamente en la revisión manual y muestreo de expedientes legales de contratistas para las auditorías del IMSS y cumplimiento REPSE, lo cual sirvió para diseñar los algoritmos de detección de discrepancias y establecer la línea base de tiempos manuales (15 a 20 minutos por contratista).
+    \item \textbf{Transferencia tecnológica y capacitación operativa:} Se diseñaron sesiones de capacitación personalizada para el analista de datos y compradores del área, instruyéndolos en la navegación por marcadores en Power BI, el mantenimiento de políticas mediante Power Apps y el uso de prompts estructurados en Microsoft 365 Copilot, asegurando la adopción y sostenibilidad de la solución.
+    \item \textbf{Elaboración de reportes semanales y presentaciones directivas:} De manera periódica se consolidaron los reportes de desempeño de las distintas subáreas de compras (chatarra, ferroaleaciones, refacciones y contratos de servicios), preparando informes analíticos y participando activamente en su presentación ejecutiva durante las juntas semanales de seguimiento ante la dirección de control de materiales.
+\end{enumerate}

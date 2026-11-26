@@ -6,102 +6,99 @@
 
 \section{Marco teórico} \label{sec:marco_teorico} % audit:req=marco_teorico
 
-\begin{guia}[Guía: Marco teórico (Revisión 2)]
-\textbf{¿Para qué sirve?} Reúne los conceptos, teorías, tecnologías, métodos y normas que se necesitan para entender y
-justificar tu propuesta. No es un glosario ni un resumen de Internet: cada tema se explica \emph{en función de tu proyecto}.
+Este capítulo presenta el sustento teórico, conceptual y metodológico que fundamenta la propuesta de solución. La investigación no se limita a describir herramientas tecnológicas aisladas, sino que analiza cómo la automatización de procesos, la integración de datos heterogéneos, la inteligencia de negocios y la inteligencia artificial conversacional convergen para transformar la gestión de compras y suministros en un entorno industrial.
 
-\textbf{Debe responder (por cada tema):}
-\begin{itemize}[nosep,leftmargin=*]
-  \item ¿Qué es y cómo funciona? (definición con fuente citada y, si ayuda, un esquema o ecuación).
-  \item ¿Para qué se usa en mi proyecto y por qué lo elegí frente a las alternativas?
-  \item ¿Qué ventajas, limitaciones o buenas prácticas debo conocer?
-\end{itemize}
-Además: ¿qué metodología de desarrollo o investigación usarás y por qué? ¿qué normas o estándares aplican (calidad,
-seguridad, protección de datos)?
+El contenido se estructura en 6 subsecciones temáticas: la automatización de procesos en el área de compras, los fundamentos de la automatización robótica de procesos (RPA), las arquitecturas híbridas y el paradigma \emph{low-code}, la inteligencia de negocios orientada a inventarios, la gestión documental y la integración de sistemas ERP, los agentes de inteligencia artificial fundamentados en conocimiento corporativo.
 
-\textbf{Organización:} una \verb|\subsection| por tema, de lo general a lo particular.
+\subsection{Automatización de procesos en el área de compras y aprovisionamiento}
 
-\textbf{Extensión mínima:} 400 palabras de desarrollo (sin contar los temas tentativos de la Revisión 1).
+El área de compras y aprovisionamiento (\emph{procurement}) en la industria manufacturera moderna desempeña un rol neurálgico que trasciende la simple adquisición transaccional de bienes y servicios. La literatura especializada divide tradicionalmente este ámbito en dos grandes fases operativas: el ciclo operativo \emph{Procure-to-Pay} (P2P), caracterizado por actividades transaccionales intensivas como la emisión de órdenes de compra, la recepción de mercancías y el cotejo de facturas (\emph{three-way matching}); y el aprovisionamiento estratégico (\emph{strategic sourcing}), centrado en la evaluación de proveedores, el análisis de categorías de gasto y la gestión de contratos \cite{flechsig2022rpa}.
 
-\textbf{Fuentes:} libros, artículos y documentación oficial. Cada afirmación importante lleva \verb|\cite{clave}|.
+Históricamente, las organizaciones han intentado automatizar las compras mediante módulos de sistemas de planificación de recursos empresariales (ERP) o portales de intercambio electrónico de datos (EDI). No obstante, estos enfoques tradicionales exhiben limitaciones severas cuando interactúan con plataformas externas o sistemas satélite especializados \cite{themistocleous2004eai}. En la última década, la investigación se ha volcado hacia el uso de tecnologías de automatización robótica de procesos (RPA) para cerrar las brechas de integración en compras. Flechsig, Anslinger y Lasch \cite{flechsig2022rpa} realizaron un análisis multicaso en 19 organizaciones, concluyendo que la aplicación de RPA en compras genera disminuciones sustanciales en los tiempos de tramitación, mejora la consistencia en el procesamiento de facturas y órdenes de compra, y asegura una trazabilidad regulatoria rigurosa. A pesar de estos beneficios, los autores identificaron como principales barreras la rigidez de los sistemas heredados, la fragilidad de las interfaces de usuario frente a cambios inesperados y la resistencia organizacional al cambio.
 
-\textbf{Errores frecuentes:} temas sin relación con el proyecto; copiar y pegar; fuentes que son solo URLs de blogs; no
-citar; temas que luego no se usan en el desarrollo.
+De manera paralela, Herrera, Crisóstomo y Dávila \cite{herrera2025rpa} demostraron empíricamente en una planta industrial que la implementación de flujos automatizados en compras con Power Automate y servicios en la nube permite alcanzar una aceleración del ciclo operativo del 98.7\,\%, eliminando por completo los errores de tipeo humano. Sin embargo, su estudio se circunscribió a procesos cerrados dentro de un solo ecosistema, sin abordar la conciliación entre bases de datos externas ni la explotación analítica de la información generada. Por su parte, Guida et al. \cite{guida2023ai} y Konnerth \cite{konnerth2023ai} señalan que la frontera de la automatización en compras radica en la transición de bots puramente deterministas hacia la automatización inteligente asistida por inteligencia artificial y analítica avanzada.
 
-\textbf{Cómo se revisa:} pertinencia, profundidad suficiente, calidad de las fuentes y que cada tema se vincule con la
-propuesta.
-\end{guia}
+A partir de este contexto, la aportación específica de este proyecto radica en formular una solución arquitectónica integral que no trata la automatización como un bot aislado, sino como un ecosistema que articula tres niveles indispensables en ArcelorMittal: la conciliación automática entre plataformas heterogéneas (SAP e IMaS), la analítica visual del balance entre stock físico y compras activas (RM-Inventory), y la consulta conversacional asistida por IA sobre políticas y directrices de compra.
 
-% >>> REVISIÓN 2: ESCRIBE AQUÍ el marco teórico (introducción breve y una \subsection por tema) <<<
- 
-% Inicio de apartado de marco teorico ------------------------------------------------------------------------------------
-Este capítulo presenta los fundamentos conceptuales que sustentan el proyecto. Las plataformas concretas (Power Platform, Power BI, SharePoint, SAP) se describen en la propuesta de solución y en el desarrollo del sistema. Cada apartado explica el concepto, su relevancia para el área de compras y sus ventajas y limitaciones.
-Se desarrollan siete temas: la automatización robótica de procesos, las arquitecturas de automatización, la inteligencia de negocios, la gestión documental, los sistemas empresariales y su integración, los agentes de inteligencia artificial, y la metodología de desarrollo.
+\subsection{Automatización robótica de procesos (RPA)}
 
-\begin{guia}[Guía: Temas tentativos del marco teórico (Revisión 1)]
-\textbf{¿Para qué sirve?} En la primera revisión no se pide el marco teórico completo, sino la lista de los temas que
-vas a desarrollar. Así el director puede confirmar que vas bien encaminado.
+La automatización robótica de procesos es una tecnología de software diseñada para emular las interacciones que un usuario humano realiza en interfaces digitales, ejecutando flujos de trabajo repetitivos y deterministas basados en reglas lógicas predefinidas \cite{syed2020rpa}. A diferencia de la programación tradicional mediante APIs, los agentes de RPA o bots interactúan en la capa de presentación de las aplicaciones, lo que permite automatizar operaciones sobre sistemas heredados que carecen de servicios web modernos sin requerir modificaciones en su código fuente \cite{hallikainen2018rpa}.
 
-\textbf{Debe responder:} ¿cuáles son los temas (de 5 a 10) que necesito para sustentar el proyecto? Para cada uno, en una
-o dos oraciones: ¿qué es y por qué lo necesito?
+Un sistema de RPA empresarial se estructura comúnmente en tres componentes esenciales: los bots de ejecución (que pueden ser atendidos por un usuario o desatendidos en servidores remotos), una plataforma de orquestación centralizada (encargada de programar eventos, balancear cargas y gestionar credenciales de acceso) y un repositorio de auditoría y registros (\emph{logs}) que garantiza la observabilidad continua de cada transacción ejecutada \cite{syed2020rpa}.
 
-\textbf{Formato:} una lista (\verb|\begin{enumerate}| o \verb|itemize|), un tema por elemento.
+La selección del proceso a automatizar constituye el factor determinante para el éxito de la solución. Moreira, Mamede y Santos \cite{moreira2023rpa} destacan que los procesos candidatos idóneos deben cumplir con atributos rigurosos: alta frecuencia y volumen, estabilidad en las reglas de negocio, bajo índice de excepciones, y datos de entrada digitalizados y normalizados. Estas directrices sustentan la selección de los flujos del área de compras de ArcelorMittal, tales como \texttt{Consumos\_SAP}, la extracción de adjuntos en correos y la conciliación de expedientes para las auditorías del IMSS y cumplimiento normativo REPSE.
 
-\textbf{Extensión mínima:} 25 palabras. En la Revisión 2 conviertes cada tema en una subsección desarrollada.
+Entre las ventajas reportadas de RPA sobresalen la disponibilidad operativa ininterrumpida (24/7), el incremento de la productividad, la disminución a cero de los fallos por fatiga humana y la estandarización documental \cite{moreira2023rpa}. No obstante, la literatura y la práctica advierten sobre limitaciones críticas: los bots son susceptibles a cambios no anunciados en las estructuras de archivos, formatos de entrada o selectores visuales, lo que demanda un diseño riguroso de manejo de excepciones y validaciones de esquema previas a la ejecución \cite{prucha2026rpa}.
 
-\textbf{Cómo se revisa:} que los temas cubran lo necesario para el proyecto y no incluyan relleno.
-\end{guia}
 
-\subsubsection{Automatización robótica de procesos (RPA)}
- 
-La automatización robótica de procesos (RPA, por sus siglas en inglés) es una tecnología que emplea agentes de software, denominados ``bots'', para ejecutar tareas rutinarias y basadas en reglas que antes realizaban personas, replicando el recorrido que un usuario seguiría entre distintas aplicaciones \cite{syed2020rpa}. Un sistema RPA se compone, en términos generales, de los bots que ejecutan las tareas, de un orquestador que los programa y supervisa, y de los registros de ejecución que permiten auditar su operación.
- 
-La selección del proceso a automatizar es una decisión crítica. La literatura señala como candidatos aquellos procesos basados en reglas, repetitivos, de alta frecuencia, con datos de entrada digitalizados, estandarizados y que involucran varios sistemas, y considera la identificación de los procesos adecuados como uno de los retos más comunes \cite{moreira2023rpa}. Estos criterios sustentan la selección de los procesos del área de compras que se atienden en este proyecto. Entre los beneficios reportados se encuentran la reducción de costos, el aumento de la productividad y de la precisión, la disponibilidad continua y la trazabilidad de las operaciones \cite{moreira2023rpa}. Como limitaciones, los bots dependen de la estabilidad de los formatos de entrada y de las interfaces, de modo que las variaciones no previstas generan excepciones que deben manejarse de forma explícita. Estudios recientes sobre la evolución de la investigación en RPA muestran que el campo continúa en expansión y diversificación temática \cite{prucha2026rpa}.
- 
-\subsubsection{Arquitecturas de automatización}
- 
-Una arquitectura híbrida combina flujos de nube con flujos de escritorio. Los primeros se ejecutan en el servicio y responden a eventos o programaciones; los segundos automatizan tareas repetitivas sobre aplicaciones heredadas, web y de escritorio \cite{microsoft2025powerAutomateDoc, microsoft2025desktopFlowsIntro}. La comunicación entre ambos tipos permite integrar sistemas que no ofrecen interfaces de programación adecuadas \cite{microsoft2025cloudDesktopFlow}. Esta combinación resulta pertinente para un entorno que incluye sistemas empresariales y repositorios en la nube.
- 
-Respecto al enfoque de desarrollo, el desarrollo \emph{pro-code} ofrece mayor control y flexibilidad a costa de mayor esfuerzo y mantenimiento; los enfoques \emph{low-code} y \emph{no-code} reducen el tiempo de construcción mediante componentes visuales, aunque pueden imponer restricciones de licenciamiento y de personalización. En la automatización de hojas de cálculo, Office Scripts permite automatizar tareas en Excel mediante código escrito en TypeScript \cite{microsoft2025officeScriptsIntro, microsoft2025scriptingFundamentals}, lo que constituye un punto intermedio entre ambos enfoques.
- 
-\subsubsection{Inteligencia de negocios y analítica de datos}
- 
-La inteligencia de negocios (BI) agrupa las técnicas que convierten datos dispersos en información consolidada para apoyar la toma de decisiones dentro de la transformación digital de las organizaciones. El proceso analítico se divide en tres etapas: la transformación y limpieza de los datos, el modelado de las relaciones entre tablas y el cálculo de medidas mediante el lenguaje DAX \cite{microsoft2025pbiTransform}. Un modelo de datos depurado es condición para que los indicadores sean confiables.
- 
-Para el monitoreo operativo se emplean tableros (\emph{dashboards}), que son vistas consolidadas de una sola página adecuadas para observar rápidamente el estado de la operación \cite{microsoft2025pbiDashboards}. La navegación dinámica se logra con marcadores, que guardan el estado de una página para recuperarlo posteriormente \cite{microsoft2025pbiMarcadores}, y con navegadores de botones, que permiten alternar entre páginas o marcadores \cite{microsoft2025pbiBookmarks}. Estos mecanismos permiten presentar, en un solo informe, vistas distintas de los mismos datos sin duplicar reportes.
- 
-\subsubsection{Gestión documental}
- 
-La gestión documental controla el ciclo de vida de un documento (creación, revisión, publicación, archivo y eliminación) mediante tipos de contenido, metadatos, ubicaciones y controles de acceso \cite{microsoft2025sharepointDoc}. Frente a la organización por carpetas multinivel, el uso de metadatos permite clasificar, filtrar y auditar los documentos sin depender de una jerarquía rígida, lo que reduce el riesgo de duplicidad. La organización en sitios y bibliotecas, junto con la automatización de los flujos documentales, facilita aplicar reglas uniformes de nomenclatura, clasificación y permisos.
- 
-\subsubsection{Sistemas empresariales e integración}
- 
-Un sistema de planificación de recursos empresariales (ERP) gestiona de forma conjunta las funciones y los procesos de una organización sobre una base de datos común \cite{ibm2024erp}. La integración de un ERP con otras aplicaciones permite contar con una fuente única de verdad y evita los silos de información, aunque la traducción de datos entre formatos distintos es uno de sus principales desafíos \cite{ibm2024erpIntegracion}. Entre los métodos de integración se distinguen la conexión punto a punto, el bus de servicios y las plataformas de integración como servicio (iPaaS), que difieren en acoplamiento, costo y escalabilidad. La conciliación de datos entre plataformas con formatos distintos exige normalizar campos, validar identificadores y registrar las diferencias detectadas, lo que fundamenta el tratamiento de la información de SAP e IMaS en este proyecto.
+\subsection{Arquitecturas de automatización híbridas y desarrollo low-code}
 
-\subsubsection{Agentes de inteligencia artificial}
+La teoría de la integración de aplicaciones empresariales sostiene que la heterogeneidad tecnológica no es una anomalía, sino una condición estructural de las organizaciones: los sistemas consolidados coexisten con plataformas satélite, clientes de escritorio y servicios en la nube, y ninguna arquitectura puramente centralizada cubre todos los casos \cite{themistocleous2004eai}. Esta observación teórica es el punto de partida de las arquitecturas de automatización híbridas, que combinan componentes de ejecución local con componentes en la nube para atender tanto los sistemas modernos como los heredados \cite{themistocleous2004eai}. La literatura sobre automatización inteligente señala, además, que la frontera de la automatización no está en los bots deterministas aislados, sino en la articulación de capas de ejecución, analítica y asistencia cognitiva sobre procesos de negocio completos \cite{guida2023ai, konnerth2023ai}.
 
-Un agente de inteligencia artificial es un asistente virtual diseñado para comprender y responder consultas en lenguaje natural, apoyándose en fuentes de conocimiento específicas. Microsoft Copilot Studio es una herramienta gráfica de bajo código que permite construir estos agentes y sus flujos asociados \cite{microsoft2026copilotStudioOverview}. Los flujos de agente permiten que el asistente ejecute acciones automatizadas, ya sea de forma manual, por eventos o mediante programación, y pueden integrarse con flujos de nube de Power Automate \cite{microsoft2026agentFlows}. El conocimiento del agente se alimenta de fuentes como SharePoint mediante respuestas generativas; con la autenticación de usuario adecuada, el agente solo devuelve contenido al que la persona tiene acceso \cite{microsoft2026knowledgeSources}, lo que garantiza la seguridad de la documentación operativa del área de compras y permite al personal consultar información sin exponer datos confidenciales.
- 
-\subsubsection{Metodología de desarrollo}
- 
-Un proyecto de automatización se desarrolla por fases: planeación, diseño, construcción, prueba y despliegue, enfoque coherente con la guía de metodología por fases publicada para Power Automate \cite{microsoft2025powerAutomateGuia}. Un esquema iterativo permite precisar los requisitos de cada proceso con el asesor empresarial y corregir deficiencias de manera temprana. La documentación de bitácoras y la coordinación de pruebas aportan trazabilidad sobre lo construido y lo validado, y el control de versiones y el respaldo de los entregables garantizan que otra persona pueda dar continuidad al trabajo.
+En este marco, el paradigma \emph{low-code} se entiende como un enfoque de construcción de software que prioriza la abstracción visual y la configuración declarativa sobre la programación manual, con el objetivo de reducir el tiempo de entrega y ampliar la base de personas que pueden construir soluciones \cite{konnerth2023ai}. La literatura sobre automatización inteligente distingue tres niveles de abstracción ---\emph{pro-code}, \emph{low-code} y \emph{no-code}--- cuya elección depende de la complejidad algorítmica, los requisitos de mantenimiento y el perfil de los desarrolladores \cite{konnerth2023ai, guida2023ai}. El \emph{low-code} no sustituye al código en todos los casos: cuando se requiere manipulación masiva de datos o algoritmos complejos, el rendimiento de los componentes visuales puede degradarse, por lo que se recomienda complementarlo con rutinas de código \cite{guida2023ai}.
 
-% Fin ------------------------------------------------------------------------------------
+Este principio teórico sustenta la decisión de combinar plataformas de bajo código con rutinas de código en el presente proyecto. Las herramientas concretas que materializan estos conceptos ---Power Automate para flujos en la nube y de escritorio, Power Apps para captura estructurada y Office Scripts en TypeScript para transformaciones tabulares--- se describen en la Sección~\ref{sec:desarrollo_sistema}; aquí se mencionan solo como instancias de las categorías teóricas expuestas. La comunicación entre los componentes locales y en la nube se articula mediante puertas de enlace de datos locales, que cifran y canalizan las instrucciones de control sin abrir puertos en la red corporativa \cite{microsoft2025gateway}.
 
-\subsection{Temas tentativos del marco teórico} \label{sec:temas_tentativos} % audit:req=temas_marco_teorico
 
-\begin{guia}[Guía: Temas tentativos del marco teórico (Revisión 1)]
-\textbf{¿Para qué sirve?} En la primera revisión no se pide el marco teórico completo, sino la lista de los temas que
-vas a desarrollar. Así el director puede confirmar que vas bien encaminado.
+\subsection{Inteligencia de negocios y analítica de datos en compras e inventarios}
 
-\textbf{Debe responder:} ¿cuáles son los temas (de 5 a 10) que necesito para sustentar el proyecto? Para cada uno, en una
-o dos oraciones: ¿qué es y por qué lo necesito?
+La inteligencia de negocios (BI, por sus siglas en inglés) comprende los procesos, arquitecturas y tecnologías que transforman datos crudos y fragmentados en información contextualizada y procesable para fundamentar la toma de decisiones estratégicas y operativas. En la gestión moderna de la cadena de suministro, las organizaciones que sustentan su operación en sistemas de BI maduros incrementan sustancialmente su agilidad analítica, permitiendo anticipar desfases de inventario y optimizar el capital de trabajo \cite{popovic2012bi, wixom2010bi}.
 
-\textbf{Formato:} una lista (\verb|\begin{enumerate}| o \verb|itemize|), un tema por elemento.
+El pipeline analítico de una solución de BI se estructura en tres etapas secuenciales:
+\begin{enumerate}
+    \item \textbf{Extracción, transformación y carga (ETL):} Consiste en ingerir datos de fuentes heterogéneas, depurar inconsistencias, tipificar variables y filtrar registros anómalos para alimentar el almacén de datos \cite{microsoft2025pbiTransform}.
+    \item \textbf{Modelado dimensional relacional:} Organización de las tablas mediante esquemas en estrella o copo de nieve, desacoplando las tablas de hechos (transacciones de consumo, entradas de material, órdenes de compra) de las tablas de dimensiones (catálogo de materiales, proveedores, fechas y almacenes). Este desacoplamiento optimiza el rendimiento del motor tabular \cite{sharda2020analytics}.
+    \item \textbf{Cálculo analítico de métricas:} Formulación de indicadores clave de desempeño (KPIs) mediante expresiones DAX (\emph{Data Analysis Expressions}), tales como rotación de inventarios, consumo promedio ponderado, días de inventario disponible y proyecciones de stock futuro \cite{microsoft2025pbiTransform}.
+\end{enumerate}
 
-\textbf{Extensión mínima:} 25 palabras. En la Revisión 2 conviertes cada tema en una subsección desarrollada.
+Para la supervisión operativa del área de compras se diseñan tableros de control interactivos (\emph{dashboards}), los cuales consolidan en interfaces ergonómicas vistas sintetizadas de la operación \cite{microsoft2025pbiDashboards}. En proyectos como RM-Inventory, donde coexisten análisis de materias primas con el seguimiento de órdenes de compra abiertas, la navegación dinámica resulta indispensable. El empleo de marcadores (\emph{bookmarks}) y selectores de botones permite alternar entre vistas analíticas complejas manteniendo los filtros contextuales aplicados, evitando la duplicidad innecesaria de páginas e informes \cite{microsoft2025pbiMarcadores, microsoft2025pbiBookmarks}.
 
-\textbf{Cómo se revisa:} que los temas cubran lo necesario para el proyecto y no incluyan relleno.
-\end{guia}
+\subsection{Gestión documental e integración de sistemas empresariales}
 
-% >>> REVISIÓN 1: ESCRIBE AQUÍ la lista de temas tentativos <<<
+La teoría de la gestión documental se fundamenta en el ciclo de vida de los
+documentos, que comprende su generación, validación, indexación, archivo y
+disposición final \cite{iso15489}. La norma ISO 15489 establece que la gestión
+de documentos implica un conjunto de actividades coordinadas para controlar su
+creación, recepción, mantenimiento, uso y disposición, con el objetivo de
+garantizar su autenticidad, fiabilidad, integridad y disponibilidad
+\cite{iso15489}. En el ámbito corporativo, la literatura sobre gestión de
+procesos de negocio (BPM) señala que las estructuras manuales de carpetas
+compartidas incrementan el riesgo de dispersión documental, duplicidad e
+inconsistencias de nomenclatura, lo que dificulta la atención ágil de auditorías
+y requerimientos fiscales \cite{harmon2019bpm}. Frente a esta debilidad, la
+teoría propone que la gestión documental sustentada en metadatos y bibliotecas
+estructuradas permite clasificar y recuperar expedientes mediante propiedades
+normalizadas, habilitando flujos de validación automática y permisos de acceso
+granulares \cite{iso15489}.
+
+Por otra parte, la teoría de la integración de aplicaciones empresariales (EAI)
+aborda el problema de la comunicación entre sistemas heterogéneos
+\cite{themistocleous2004eai}. Los sistemas de planificación de recursos
+empresariales (ERP) gestionan de forma unificada las finanzas, compras,
+almacenes y producción sobre una base de datos centralizada \cite{ibm2024erp}.
+Sin embargo, en empresas industriales de gran envergadura coexisten instancias
+de ERP consolidadas con plataformas satélite especializadas, y la falta de
+interfaces nativas entre ellas origina silos de información y discrepancias de
+formato \cite{themistocleous2004eai, ibm2024erpIntegracion}. La literatura sobre
+EAI distingue varios patrones de integración ---a nivel de datos, de aplicación,
+de proceso y de presentación--- y señala que la elección depende de la
+criticidad, el costo y el grado de acoplamiento deseado entre los sistemas
+\cite{hohpe2003eai}.
+
+Para superar estas limitaciones sin incurrir en modificaciones invasivas sobre el
+ERP corporativo, el presente proyecto adopta un patrón de integración a nivel de
+datos: se extraen las relaciones de contratistas y proveedores de las plataformas
+de origen, se normalizan los identificadores fiscales y se aplican algoritmos de
+cotejo matricial, registrando de forma transparente las excepciones y
+discrepancias para su solventación previa a las auditorías del IMSS y revisiones
+periódicas. Este enfoque se alinea con la recomendación teórica de priorizar la
+integración de bajo acoplamiento cuando los sistemas de origen son heterogéneos
+y no pueden modificarse \cite{hohpe2003eai}.
+
+\subsection{Agentes de inteligencia artificial y modelos conversacionales en la empresa}
+
+Un agente de inteligencia artificial es un sistema de software dotado de capacidades de procesamiento de lenguaje natural (NLP) y razonamiento lógico, diseñado para comprender preguntas expresadas en lenguaje cotidiano, recuperar información contextual relevante y generar respuestas precisas o accionar flujos operativos \cite{davenport2018ai, guida2023ai}.
+
+En el contexto corporativo, el despliegue de modelos de lenguaje masivos (LLMs) presenta dos riesgos principales si se implementa sin salvaguardas: la generación de información ficticia (\emph{alucinaciones}) y la filtración de datos sensibles a usuarios no autorizados. Para mitigar estos riesgos, la arquitectura de vanguardia adoptada en la industria es la Generación Aumentada por Recuperación (RAG, por sus siglas en inglés) \cite{lewis2020rag}. En un esquema RAG, cuando un usuario formula una consulta, el sistema no confía exclusivamente en el conocimiento estático del modelo lingüístico; en su lugar, indexa y busca semánticamente fragmentos relevantes dentro de una base documental corporativa autorizada (repositorios de SharePoint del área de compras e información extraída de SAP) e inyecta esos fragmentos como contexto estricto para que el modelo redacte la respuesta final \cite{microsoft2026knowledgeSources}.
+
+Plataformas conversacionales corporativas como Microsoft 365 Copilot implementan esta arquitectura integrando gobernanza empresarial: el agente responde únicamente a partir de las fuentes indexadas y respeta de forma estricta los permisos de seguridad y el control de acceso basado en roles (RBAC) de Microsoft Entra ID (antes Azure Active Directory), garantizando que un usuario solo acceda a las políticas, catálogos o directrices que le corresponden según su perfil \cite{microsoft2026copilotStudioOverview, microsoft2026agentFlows}. Asimismo, estas herramientas permiten desencadenar flujos de Power Automate para ejecutar acciones automatizadas en respuesta a comandos conversacionales.

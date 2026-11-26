@@ -5,42 +5,52 @@
 
 \section{Conclusiones} \label{sec:conclusiones} % audit:req=conclusiones
 
-\begin{guia}[Guía: Conclusiones (Revisión 4)]
-\textbf{¿Para qué sirve?} Cierra el trabajo: dice qué se logró, con qué evidencia y qué significa. Es lo primero que lee el
-evaluador después del resumen.
+El desarrollo del proyecto documentado en esta tesina permitió transformar la operatividad cotidiana del área de compras de ArcelorMittal México. Los resultados obtenidos indican que los objetivos planteados se cumplieron dentro del alcance delimitado en la Sección~\ref{subsec:alcances_limitaciones}. Se diseñó, implementó y validó un ecosistema fundamentado en Microsoft Power Platform, analítica de datos en Power BI y capacidades de Microsoft 365 Copilot, lo que redujo la dependencia de procesos manuales aislados y consolidó una fuente única de información para la toma de decisiones.
 
-\textbf{Debe responder:}
-\begin{itemize}[nosep,leftmargin=*]
-  \item ¿Se cumplió el objetivo general? ¿En qué medida y con qué evidencia (cita la sección, tabla o figura)?
-  \item Para \emph{cada} objetivo específico: ¿se logró y dónde se demuestra?
-  \item ¿Se resolvió el problema planteado? ¿Qué cambió para la empresa o los usuarios? Si hubo hipótesis: ¿se sustentó?
-  \item ¿Cuáles fueron las principales dificultades y las lecciones aprendidas?
-  \item ¿Qué limitaciones tienen los resultados (retoma las \emph{Limitaciones} de la Introducción)?
-  \item ¿Qué aprendiste y cómo se relaciona con tu perfil de egreso?
-\end{itemize}
+En correspondencia con los objetivos específicos definidos en la Sección~\ref{subsec:objetivos_especificos}, se obtuvieron los siguientes resultados:
 
-\textbf{Extensión mínima:} 150 palabras.
+\begin{enumerate}
+    \item \textbf{Priorización y diagnóstico de procesos (Objetivo Específico~1):} Se estructuró la matriz de viabilidad técnica que delimitó el alcance mínimo viable (MVP de 480 horas) y el alcance prototípico (120 horas), lo que permitió distribuir las 600 horas de estadía (Tabla~\ref{tab:cronograma}).
+    \item \textbf{Estandarización de captura con Power Apps (Objetivo Específico~2):} Se implementaron las aplicaciones de captura de recepciones (\emph{Arrivals}) y mantenimiento de políticas de inventario (Figuras~\ref{fig:powerapps_registro}, \ref{fig:powerapps_arrivals} y \ref{fig:powerapps_policies}). Las validaciones lógicas en cliente redujeron los errores tipográficos en campos numéricos y fechas: la tasa histórica de error del 5\,\% pasó a 0 errores observados en 50 capturas (0\,\%, IC 95\,\% superior $\approx 6$\,\%) (Tabla~\ref{tab:criterios_exito}).
+    \item \textbf{Conciliación SAP--IMaS y auditoría documental (Objetivo Específico~3):} La articulación del flujo de escritorio en Power Automate Desktop (Figura~\ref{fig:flujo_desktop_imas}) y los flujos de nube (Figura~\ref{fig:flujo_repse}) redujo el tiempo de integración de expedientes de contratistas (Auditoría del IMSS / REPSE) de un rango previo de 15 a 20 minutos a 1.5--2 minutos para el primer expediente y a 1 minuto para los subsecuentes en cola; la ingesta automatizada de correos con adjuntos disminuyó el tiempo de archivo de 10 a menos de 3 minutos por mensaje. Se observó una efectividad de detección de inconsistencias del 98.6\,\% sobre 284 contratistas evaluados (280/284) y del 100\,\% en una muestra de 25 expedientes auditados manualmente.
+    \item \textbf{Consolidación de RM-Inventory e INDICADORES en Power BI (Objetivo Específico~4):} Se concluyeron ambos tableros analíticos (Figuras~\ref{fig:dashboard_rm_inventory} y \ref{fig:dashboard_rm_indicadores}). El monitoreo de las 943 materias primas del catálogo de RM pasó de 3.0 horas diarias en descargas y cruces en Excel a menos de 30 minutos al día (reducción $\ge 83$\,\%), con tiempos de respuesta interactiva inferiores a 5 segundos. En el módulo de indicadores, la actualización semanal de series de precios disminuyó de 2.5 horas a menos de 45 minutos (70\,\% de ahorro).
+    \item \textbf{Reestructuración y automatización de flujos base (Objetivo Específico~5):} Se migró el procesamiento de transacciones operativas y la ingesta de correos electrónicos con adjuntos hacia SharePoint, lo que redujo el riesgo de extravío documental y habilitó la sincronización automática de la transacción SAP \texttt{ZMM095} (Figura~\ref{fig:flujo_sap_zmm095}).
+    \item \textbf{Desarrollo de asistentes de IA en Copilot (Objetivo Específico~6):} Se construyeron e integraron tres agentes especializados:
+    \begin{itemize}
+        \item \emph{HERMENEGILDO (Agente MRP):} automatizó el análisis de las transacciones SAP \texttt{ME3M}, \texttt{MC.A} y \texttt{ME2N} para calcular la \texttt{EXP REAL}, con entrega de libros de Excel formulados y gráficos analíticos en un lapso de 40 segundos a 5 minutos, frente a los 20 minutos manuales previos (Figura~\ref{fig:copilot_hermenegildo}).
+        \item \emph{SERENA (Agente de Almacenes y Seguridad):} redujo el tiempo de armado de la matriz anual de simulacros de 1 hora a un rango de 2 a 12 minutos mediante un libro de Excel dinámico y escalable (Figura~\ref{fig:copilot_serena}); mediante la orquestación de flujos automatizados (Figura~\ref{fig:flujo_almacenes_simulacros}) recortó la agenda y convocatoria quincenal de 10 minutos a 2 minutos automáticos por sesión.
+        \item \emph{RM (Agente de Materias Primas):} proporcionó consultas directas sobre stock, estatus de órdenes de compra y \emph{solpeds} (\texttt{ME53N}) enlazado al repositorio de SharePoint (Figura~\ref{fig:copilot_rm}).
+    \end{itemize}
+    En la evaluación global de los tres agentes mediante el banco de 30 consultas operativas, se alcanzó una tasa aprobatoria en primera respuesta del 86.7\,\% (26 de las 30 consultas evaluadas con $\ge 80$ puntos) y el 100\,\% de completitud y precisión operativa tras una segunda solicitud de refinamiento (\emph{re-prompting}) en el 13.3\,\% restante. La latencia conversacional promedio fue de 3.8 segundos (máximo 5.5 s), dentro del umbral de $<6$ s.
+\end{enumerate}
 
-\textbf{Reglas:} no introduzcas información nueva; no afirmes más de lo que los resultados sustentan; escribe en pasado
-y con base en datos (``se redujo el tiempo de captura de 12 a 4 minutos'') y no en deseos.
+Los resultados obtenidos permitieron reducir la dependencia de procesos manuales, avanzar en la integración de la información entre plataformas y fortalecer la trazabilidad documental para auditorías. Se estima una liberación de más de 12 horas semanales por analista para tareas de negociación y suministro metalúrgico, derivada del ahorro de 2.5 h/día en monitoreo por 5 días a la semana y de la reducción en el armado de expedientes. La evidencia cuantitativa se presenta en las Figuras~\ref{fig:grafica_tiempos} y~\ref{fig:grafica_calidad}, donde se observan reducciones en tiempos de ejecución de entre 70\,\% y 92\,\% y la ausencia de errores de captura tipográfica en la muestra evaluada.
 
-\textbf{Errores frecuentes:} repetir el resumen; conclusiones genéricas (``se cumplió todo''); olvidar algún objetivo
-específico; no mencionar limitaciones.
+Entre las principales dificultades técnicas se identificaron la heterogeneidad de los formatos PDF emitidos por proveedores externos y las restricciones de conectividad directa hacia la base de datos transaccional de producción de SAP. Estas barreras se atendieron mediante la combinación de automatización robótica de procesos (RPA de escritorio) para la extracción de comprobantes en IMaS, rutinas en TypeScript (Office Scripts) para la estandarización tabular y SharePoint como capa desacoplada de persistencia empresarial. La ausencia temporal de licencias completas de Copilot Studio se atendió articulando flujos en Power Automate con agentes nativos de Microsoft 365 Copilot gobernados por prompts de sistema rigurosos.
 
-\textbf{Cómo se revisa:} correspondencia uno a uno con los objetivos, evidencia y honestidad.
-\end{guia}
+Las limitaciones de la solución coinciden con las delimitadas en la Sección~\ref{subsec:alcances_limitaciones}: el proyecto se circunscribió al área de materiales para materias primas (943 insumos catalogados); el modelo y los tableros analíticos del MVP se concluyeron y mostraron congruencia con SAP en la muestra evaluada, y queda programada la revisión interna con el equipo de compras para calibrar fórmulas específicas de proyección de mercado. La calibración de fórmulas de estimación de ventas se mantiene fuera del alcance y se registra en el trabajo futuro. La determinación de procedencia por centros y la edición interactiva sobre matrices de Power BI se mantienen fuera del alcance por restricciones temporales y técnicas.
 
-% >>> ESCRIBE AQUÍ las conclusiones <<<
-
+El proyecto permitió aplicar competencias del perfil de egreso de la carrera de Ingeniería en Tecnologías de la Información e Innovación Digital de la Universidad Politécnica de Victoria: diseño y modelado de arquitecturas de software, desarrollo ágil de soluciones empresariales de bajo código, modelado relacional y analítica con Business Intelligence, gobernanza de datos e integración de inteligencia artificial generativa aplicada a la productividad industrial.
 
 \section{Trabajo futuro} \label{sec:trabajo_futuro} % audit:req=trabajo_futuro
 
-\begin{guia}[Guía: Trabajo futuro (Revisión 4)]
-\textbf{Debe responder:} ¿qué mejoras o extensiones concretas se podrían hacer? ¿qué quedó fuera del alcance y por qué?
-¿qué recomiendas a la empresa o a quien continúe el trabajo? Prioriza (corto, mediano y largo plazo) y sé específico
-(``agregar notificaciones por mensajería instantánea'', no ``mejorar el sistema'').
+A partir de los resultados obtenidos y de las oportunidades detectadas durante la estadía, se plantean las siguientes líneas de trabajo futuro, organizadas por horizonte temporal:
 
-\textbf{Extensión mínima:} 50 palabras.
-\end{guia}
-
-% >>> ESCRIBE AQUÍ el trabajo futuro <<<
+\begin{itemize}
+    \item \textbf{Corto plazo (1 a 3 meses):}
+    \begin{enumerate}
+        \item Migrar la ejecución del flujo de escritorio de IMaS hacia una máquina virtual dedicada en la nube con modo de ejecución desatendido (\emph{unattended RPA}), para evitar la ocupación de estaciones de trabajo locales.
+        \item Ampliar el banco de pruebas experimental de los agentes de IA de 30 a 100 casos operativos, incorporando escenarios de volatilidad contractual atípica en materias primas.
+        \item Concluir la revisión interna y calibración de fórmulas de proyección de mercado y estimación de ventas en el tablero RM-Inventory.
+    \end{enumerate}
+    \item \textbf{Mediano plazo (3 a 6 meses):}
+    \begin{enumerate}
+        \item Integrar conectores premium certificados hacia los módulos de SAP RFC/BAPI cuando el área de TI corporativo concluya la asignación de licencias de Copilot Studio, con el objetivo de habilitar consultas transaccionales bidireccionales en tiempo real sin la intermediación de archivos Excel en SharePoint.
+        \item Extender el alcance del tablero RM-Inventory desde las 943 materias primas actuales hacia el catálogo general de refacciones, insumos operativos y consumibles industriales ($>100,000$ materiales).
+    \end{enumerate}
+    \item \textbf{Largo plazo (6 a 12 meses):}
+    \begin{enumerate}
+        \item Desarrollar modelos de aprendizaje de máquina predictivos en Azure Machine Learning para el pronóstico de demanda de ferroaleaciones con base en los programas de producción de los hornos eléctricos y altos hornos de la acería.
+        \item Implementar mecanismos de negociación algorítmica supervisada que asistan a los compradores en la recomendación de bandas de precio y ventanas de reabastecimiento en función de los precios internacionales de los metales.
+    \end{enumerate}
+\end{itemize}

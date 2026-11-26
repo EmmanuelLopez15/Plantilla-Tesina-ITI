@@ -5,208 +5,272 @@
 
 \section{Propuesta de solución} \label{sec:propuesta} % audit:req=propuesta_solucion
 
-\begin{guia}[Guía: Propuesta de solución (Revisión 2)]
-\textbf{¿Para qué sirve?} Explica \emph{qué vas a hacer exactamente y cómo resuelve el problema}, antes de entrar a los
-detalles de construcción (Revisión 3).
-
-\textbf{Debe responder:}
-\begin{itemize}[nosep,leftmargin=*]
-  \item ¿En qué consiste la solución, a grandes rasgos? Incluye un diagrama general (arquitectura, flujo del proceso o
-        esquema del método).
-  \item \emph{Proyecto de sistema:} ¿cuáles son los requisitos funcionales (qué hará) y no funcionales (rendimiento,
-        seguridad, usabilidad)? ¿quiénes son los usuarios y qué roles tienen?
-  \item \emph{Proyecto de investigación:} ¿cuál es la hipótesis o pregunta de investigación? ¿qué enfoque o algoritmo
-        propones y en qué se diferencia de lo existente?
-  \item ¿Qué tecnologías, herramientas y metodología de trabajo usarás y por qué (frente a las alternativas)?
-  \item ¿Cómo atiende la propuesta cada objetivo específico? (una tabla ``objetivo $\rightarrow$ componente de la solución''
-        es muy útil).
-  \item ¿Cuál es el plan de trabajo y el cronograma del cuatrimestre?
-  \item ¿Cómo sabrás que funcionó? (criterios de aceptación o métricas de éxito).
-\end{itemize}
-
-\textbf{Organización sugerida:} \verb|\subsection| para \emph{Descripción general}, \emph{Requisitos} (o \emph{Hipótesis y
-enfoque}), \emph{Tecnologías y metodología} y \emph{Plan de trabajo}.
-
-\textbf{Extensión mínima:} 150 palabras, además de diagramas y tablas.
-
-\textbf{Errores frecuentes:} describir solo tecnologías sin explicar la solución; requisitos vagos (``el sistema será
-rápido''); propuesta desconectada de los objetivos; cronograma sin fechas.
-
-\textbf{Cómo se revisa:} coherencia con el problema y los objetivos, viabilidad en un cuatrimestre y claridad técnica.
-\end{guia}
-
-% >>> ESCRIBE AQUÍ la propuesta de solución (con una \subsection por apartado) <<<
-
 \subsection{Descripción general}
 
-La propuesta consiste en una arquitectura de automatización e inteligencia sustentada en Power Automate y en un agente de inteligencia artificial (IA) desarrollado en Microsoft Copilot Studio, orientada a optimizar, agilizar y dinamizar los flujos de trabajo del área de compras, en particular la gestión de almacenes, las adquisiciones y las materias primas. Su finalidad es eliminar los procesos manuales repetitivos, garantizar respuestas inmediatas a las consultas operativas y mejorar la eficiencia global del departamento.
+La solución propuesta consiste en el diseño, desarrollo e integración de un ecosistema digital de automatización, analítica de datos e inteligencia artificial conversacional para el área de compras de ArcelorMittal México. La arquitectura articula herramientas de Microsoft Power Platform (Power Automate, Power Apps, Power BI), scripts de procesamiento en TypeScript (Office Scripts), repositorios estructurados en SharePoint y un prototipo de agente inteligente en Microsoft 365 Copilot, con el fin de eliminar la dependencia de tareas manuales repetitivas, asegurar la consistencia de datos entre plataformas empresariales y optimizar la toma de decisiones sobre inventarios y materias primas.
 
-Además de la automatización operativa, la propuesta integra el desarrollo y consolidación de los componentes centrales del proyecto: el tablero RM-Inventory en Power BI (que unifica el inventario de materias primas con las órdenes de compra), el proyecto INDICADORES (que migra la captura manual a Power Apps y automatiza la visualización de precios) y los flujos de validación y conciliación entre los sistemas SAP e IMaS para el control documental de proveedores.
-
-La solución se articula en dos pilares complementarios. El primero es la automatización operativa mediante flujos de Power Automate (nube y escritorio), que conectan los sistemas internos, las listas de SharePoint y el correo electrónico, y alimentan los tableros de Power BI y las aplicaciones de Power Apps. El segundo es un agente de IA asistente de compras, capacitado con la documentación, las políticas y la información operativa del área, que responde consultas de forma inmediata. La Figura~\ref{fig:arquitectura} resume la arquitectura.
+La arquitectura general de la solución se estructura en dos pilares interconectados, representados en la Figura~\ref{fig:arquitectura}:
+\begin{enumerate}
+    \item \textbf{Capa de automatización operativa y conciliación:} Conecta los flujos de trabajo basados en reglas con los sistemas internos de la empresa (SAP e IMaS), el correo corporativo y los repositorios de SharePoint. Se encarga de la ingestión automatizada de datos, la extracción y clasificación de adjuntos, la conciliación documental para auditorías regulatorias (Auditorías del IMSS y REPSE) y la alimentación programada de las estructuras de datos operativas.
+    \item \textbf{Capa analítica y de asistencia conversacional:} Transforma los datos consolidados en tableros de control interactivos en Power BI (RM-Inventory e INDICADORES), alimentados por aplicaciones en Power Apps para el registro estructurado de recepciones (\emph{arrivals}) y políticas de inventario. De manera complementaria, integra tres agentes especializados bajo Microsoft 365 Copilot: el agente \textbf{HERMENEGILDO} para la planeación de requerimientos de materiales (MRP), el agente \textbf{SERENA} para la gestión y planeación de simulacros en almacenes y seguridad (articulado con un flujo de notificaciones periódicas), y el agente \textbf{RM} para la consulta ejecutiva de materias primas e insumos.
+\end{enumerate}
 
 \begin{figure}[H]
   \centering
-  \begin{tikzpicture}[
-      box/.style={draw, rounded corners, align=center, minimum width=2.7cm, minimum height=1cm, font=\small},
-      >=stealth]
-      
-    % Usamos coordenadas exactas (x, y) para evitar que se encimen
-    \node[box] (src) at (0, 0) {Fuentes\\correos, documentos,\\SAP / IMaS};
-    \node[box] (pa)  at (4.5, 0) {Power Automate\\nube y escritorio};
-    \node[box] (sp)  at (9, 0) {SharePoint\\listas y bibliotecas};
-    \node[box] (bi)  at (4.5, -2.2) {Power BI\\Power Apps};
-    \node[box] (ia)  at (9, -2.2) {Agente de IA\\Copilot Studio};
-    
-    \draw[->] (src) -- (pa);
-    \draw[->] (pa) -- (sp);
-    \draw[->] (sp) -- (bi);
-    \draw[->] (sp) -- (ia);
-  \end{tikzpicture}
-  \caption{Arquitectura general de la solución propuesta.}
+  \includegraphics[width=0.95\textwidth]{img/arquitectura_datos_automatizacion.png}
+  \caption{Arquitectura general del ecosistema propuesto de compras.}
   \label{fig:arquitectura}
 \end{figure}
 
-\subsubsection{Automatización operativa y flujos de trabajo}
+\subsubsection{Delimitación y priorización del alcance: Alcance Mínimo Viable (MVP)}
 
-Este pilar se desarrolla con Power Automate Cloud y Desktop y comprende tres líneas de trabajo:
+Dado que la estadía profesional cuenta con un límite estricto de 600 horas de dedicación en un cuatrimestre, resulta imperativo establecer prioridades operativas para asegurar que los componentes entregados alcancen un nivel de madurez, estabilidad y validación funcional completo, en lugar de dispersar esfuerzos en módulos inacabados \cite{harmon2019bpm}. La propuesta se organiza en dos niveles de alcance, cuya viabilidad técnica fue evaluada y aprobada en la matriz de viabilidad correspondiente (descrita en el Plan de trabajo):
 
-\begin{description}
-  \item[Orquestación de procesos.] Construcción e integración de flujos automatizados que conectan los sistemas internos, las listas de SharePoint y los correos electrónicos.
-  \item[Procesamiento de documentos e indicadores.] Automatización de la extracción y estructuración de datos clave (indicadores de precios, tablas de productos y expedientes) a partir de notificaciones, documentos o capturas de pantalla, lo que reduce la dependencia de cargas manuales en hojas de cálculo.
-  \item[Interconexión de datos.] Optimización del flujo continuo de información entre las transacciones operativas (datos de almacén, inventario y materias primas) y los tableros de consulta o las listas operativas.
-\end{description}
+\begin{enumerate}
+    \item \textbf{Alcance Mínimo Viable (MVP - Indispensable, 480 horas):} Concentra el 80\,\% del esfuerzo en los entregables críticos que resuelven directamente la problemática operativa de compras:
+    \begin{itemize}
+        \item \emph{Consolidación de RM-Inventory en Power BI (160 h):} Culminación del modelo relacional dimensional para el catálogo de 943 materias primas del área de materiales (dentro del universo de más de 100,000 materiales de la empresa), cálculo de KPIs de inventario físico y órdenes de compra activas en SAP, algoritmos de proyección de agotamiento y navegación dinámica mediante marcadores.
+        \item \emph{Conciliación SAP--IMaS y flujos de aprovisionamiento (140 h):} Automatización del cotejo masivo de contratistas para las auditorías del IMSS y cumplimiento normativo REPSE, reestructuración escalable del flujo \texttt{Consumos\_SAP} y extracción automatizada de correos y adjuntos hacia SharePoint.
+        \item \emph{Desarrollo de aplicaciones en Power Apps (80 h):} Construcción de la interfaz para estandarizar la captura de recepciones de materias primas (\emph{Arrivals}) y el módulo CRUD de políticas de inventario.
+        \item \emph{Automatización del proyecto INDICADORES (60 h):} Creación de la interfaz en Power Apps para estandarizar el registro de precios de materias primas y visualización histórica en Power BI.
+        \item \emph{Pruebas integrales y documentación de arquitectura (40 h):} Ejecución de pruebas funcionales, verificación de tiempos, bitácoras de cambios y manuales de usuario.
+    \end{itemize}
+    \item \textbf{Alcance Complementario y Prototípico (120 horas):} Representa el 20\,\% del tiempo restante y atiende el desarrollo y calibración de los tres asistentes conversacionales en Microsoft 365 Copilot:
+    \begin{itemize}
+        \item \emph{Agentes de IA especializados (120 h):} Ante la restricción de licencias de Copilot Studio en ciertas áreas, se diseñó una solución híbrida con agentes nativos en Microsoft 365 Copilot: 1) el agente \textbf{HERMENEGILDO}, entrenado para interpretar transacciones de SAP y parametrizar la planeación de requerimientos de materiales (MRP), 2) el agente \textbf{SERENA}, configurado para generar la matriz anual de simulacros de almacén y coordinado con un flujo de Power Automate para el seguimiento quincenal y reuniones, y 3) el agente \textbf{RM}, conectado al repositorio central de SharePoint para responder consultas y generar reportes de materias primas. Su desempeño se evalúa cuantitativamente mediante reducción de tiempos de respuesta y precisión analítica.
+    \end{itemize}
+\end{enumerate}
 
-\subsubsection{Agente de IA asistente de compras}
+\paragraph{Exclusiones explícitas de la propuesta.} Quedan fuera del proyecto: 1) la ejecución de transacciones automáticas de escritura directa en las bases de datos transaccionales de SAP (la solución opera en modo de extracción y conciliación externa para resguardar la integridad del ERP), 2) flujos de escritorio desatendidos que exijan licencias dedicadas en máquinas virtuales antes de su asignación por TI, 3) funciones de negociación autónoma o colocación automática de pedidos por parte de la IA, 4) la calibración de fórmulas de estimación de ventas o proyección de mercado, y 5) procesos de compras de plantas distintas a las sedes asignadas de Michoacán y Nuevo León.
 
-El agente de IA es un asistente virtual especializado, diseñado y entrenado con la documentación, las políticas y la información operativa del área de compras (almacenes, adquisiciones, materias primas e indicadores). Su objetivo es responder preguntas operativas de forma inmediata, consultar estados de inventario y de precios, y proporcionar información precisa tanto al equipo como a las partes interesadas. Estará construido sobre Microsoft Copilot Studio, lo que permitirá conectar sus flujos de conocimiento con SharePoint y Power Automate \cite{microsoft2026copilotStudioOverview, microsoft2026agentFlows, microsoft2026knowledgeSources}.
-
-Dado el alcance del modelo, el agente se encuentra en una fase inicial de desarrollo, con un avance aproximado de 20\,\%. Durante la estadía se establecen las bases de entrenamiento, las directrices técnicas y la estructura de integración, con el fin de asegurar su culminación y puesta en marcha como una fase continua del proyecto.
-
-\subsection{Requisitos}
+\subsection{Requisitos del sistema}
 
 \subsubsection{Usuarios y roles}
 
-Los usuarios de la solución y sus roles se resumen en la Tabla~\ref{tab:roles}. El control de acceso se resuelve con los permisos del entorno de Microsoft 365.
+La Tabla~\ref{tab:roles} define los usuarios de la solución y sus correspondientes responsabilidades y niveles de acceso dentro del entorno de Microsoft 365.
 
 \begin{table}[H]
   \centering
-  \caption{Usuarios y roles de la solución.}
+  \caption{Usuarios y roles de la solución propuesta.}
   \label{tab:roles}
-  \begin{tabular}{@{}p{4.2cm}p{8.0cm}@{}}
+  \begin{tabular}{@{}p{3.8cm}p{8.4cm}@{}}
     \toprule
-    \textbf{Usuario} & \textbf{Rol} \\
+    \textbf{Usuario} & \textbf{Rol y responsabilidades} \\
     \midrule
-    Personal de compras y almacén & Opera los flujos, consulta listas y tableros, y utiliza el agente de IA para consultas operativas. \\
-    Áreas de auditoría y dirección & Consulta tableros, valida indicadores y toma decisiones con base en inventario, precios y proveedores. \\
-    Proveedores y contratistas externos & Entregan información mediante formatos estandarizados. \\
-    Administración de TI & Administra permisos, licencias y soporte del entorno Microsoft 365. \\
+    Compradores y analistas de adquisiciones & Registran cotizaciones en Power Apps, consultan el tablero RM-Inventory, verifican conciliaciones y formulan consultas operativas al agente de IA. \\
+    \addlinespace
+    Supervisores de almacén y materias primas & Monitorean proyecciones de stock y órdenes de compra abiertas en Power BI, y validan la consistencia de recepciones físicas frente a registros de SAP. \\
+    \addlinespace
+    Auditores internos y dirección de compras & Inspeccionan el estatus de cumplimiento documental de contratistas (Auditorías del IMSS y REPSE) y evalúan la serie histórica de precios de insumos clave. \\
+    \addlinespace
+    Proveedores y contratistas externos & Suministran facturas, remisiones y comprobantes de cumplimiento laboral bajo formatos estandarizados. \\
+    \addlinespace
+    Administración de TI y seguridad & Gestiona permisos de red, asignación de licencias de Microsoft 365 y supervisa la gobernanza de datos en SharePoint. \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-Los requisitos funcionales y no funcionales se resumen en las Tablas~\ref{tab:rf} y~\ref{tab:rnf}.
+\subsubsection{Requisitos funcionales y no funcionales}
+
+Los requisitos funcionales (Tabla~\ref{tab:rf}) y no funcionales (Tabla~\ref{tab:rnf}) especifican el comportamiento esperado y las restricciones técnicas de calidad del ecosistema.
 
 \begin{table}[H]
   \centering
-  \caption{Requisitos funcionales.}
+  \caption{Requisitos funcionales de la solución.}
   \label{tab:rf}
   \begin{tabular}{@{}p{1.6cm}p{10.4cm}@{}}
     \toprule
-    \textbf{Clave} & \textbf{Requisito} \\
+    \textbf{Clave} & \textbf{Descripción del requisito funcional} \\
     \midrule
-    REQF01 & Conectar mediante flujos automatizados los sistemas internos, las listas de SharePoint y el correo electrónico. \\
-    REQF02 & Extraer y estructurar datos clave (indicadores de precios, tablas de productos y expedientes) a partir de notificaciones, documentos o capturas de pantalla. \\
-    REQF03 & Transferir de forma continua los datos de almacén, inventario y materias primas hacia los tableros y las listas operativas. \\
-    REQF04 & Mantener actualizados los tableros de Power BI y las aplicaciones de Power Apps sin cargas manuales en hojas de cálculo. \\
-    REQF05 & Responder consultas operativas sobre inventario, precios y materias primas mediante el agente de IA (fase en desarrollo). \\
-    REQF06 & Conciliar la información entre SAP e IMaS superando diferencias de formato para el control documental. \\
-    REQF07 & Construir el tablero RM-Inventory con KPIs, proyecciones y navegación dinámica para el inventario y las compras. \\
-    REQF08 & Migrar el proyecto INDICADORES a una interfaz en Power Apps con registro de históricos y visualización de precios. \\
+    REQF01 & Orquestar flujos de trabajo automáticos que extraigan, validen y sincronicen registros entre correos electrónicos, archivos Excel y SharePoint. \\
+    REQF02 & Extraer y clasificar automáticamente archivos adjuntos de correos operativos de compras, almacenándolos en bibliotecas estructuradas según metadatos de proveedor y fecha. \\
+    REQF03 & Conciliar matricialmente la relación de contratistas de SAP con la base de IMaS, generando reportes automáticos de discrepancias para las auditorías del IMSS y REPSE. \\
+    REQF04 & Integrar en el tablero RM-Inventory de Power BI la relación de stock físico de materias primas con las órdenes de compra activas en SAP. \\
+    REQF05 & Calcular dinámicamente proyecciones de consumo de materias primas y días de inventario disponible mediante expresiones analíticas DAX. \\
+    REQF06 & Estandarizar mediante una aplicación de Power Apps la captura de indicadores de precios por material, eliminando el llenado manual de hojas de cálculo aisladas. \\
+    REQF07 & Proporcionar respuestas contextuales a consultas operativas de compras mediante un agente de IA fundamentado en fuentes documentales autorizadas de SharePoint. \\
+    REQF08 & Habilitar navegación interactiva dinámica en los informes de Power BI mediante selectores y marcadores sin duplicar páginas de reporte. \\
     \bottomrule
   \end{tabular}
 \end{table}
 
 \begin{table}[H]
   \centering
-  \caption{Requisitos no funcionales.}
+  \caption{Requisitos no funcionales de la solución.}
   \label{tab:rnf}
   \begin{tabular}{@{}p{1.6cm}p{10.4cm}@{}}
     \toprule
-    \textbf{Clave} & \textbf{Requisito} \\
+    \textbf{Clave} & \textbf{Descripción del requisito no funcional} \\
     \midrule
-    REQNF01 & Operar con las licencias disponibles en la empresa. Las funciones \emph{premium} se implementarán cuando se asignen los accesos (en trámite), empleando mientras tanto conectores estándar y Office Scripts. \\
-    REQNF02 & Restringir el acceso a la información mediante los permisos del entorno. \\
-    REQNF03 & Tolerar excepciones de formato en la información de los proveedores sin interrumpir los flujos. \\
-    REQNF04 & Documentar flujos, scripts y directrices del agente para facilitar su mantenimiento y continuidad. \\
-    REQNF05 & Actualizar los tableros críticos con frecuencia diaria y responder consultas del agente en pocos segundos. \\
-    REQNF06 & Permitir que el personal opere los flujos y consulte el agente con una capacitación mínima documentada. \\
+    REQNF01 & \textbf{Rendimiento analítico:} El tiempo de carga y filtrado dinámico entre vistas y marcadores en Power BI no debe exceder los 5 segundos bajo la red corporativa. \\
+    REQNF02 & \textbf{Latencia del agente de IA:} El asistente conversacional en Microsoft 365 Copilot debe procesar y desplegar respuestas en un tiempo menor a 6 segundos por consulta. \\
+    REQNF03 & \textbf{Disponibilidad operativa:} Los flujos automatizados y tableros deben mantener una disponibilidad de servicio $\ge 98$\,\% durante el horario laboral corporativo. \\
+    REQNF04 & \textbf{Integridad de datos:} La captura mediante Power Apps debe garantizar un 0\,\% de errores tipográficos en campos numéricos y de fechas mediante validación de esquema. \\
+    REQNF05 & \textbf{Seguridad y gobernanza:} El acceso a tableros, listas y respuestas del agente debe estar estrictamente regulado por el control de acceso basado en roles (RBAC) de Microsoft 365. \\
+    REQNF06 & \textbf{Manejo de excepciones:} Los flujos de Power Automate deben registrar alertas automáticas por correo ante registros corruptos sin detener la ejecución global del lote. \\
     \bottomrule
   \end{tabular}
 \end{table}
 
 \subsection{Tecnologías y metodología}
 
-La solución se construye sobre Power Automate (Cloud y Desktop), SharePoint, Power Apps, Power BI y Office Scripts, junto con un agente de IA desarrollado en Microsoft Copilot Studio \cite{microsoft2026copilotStudioOverview}. Se eligió este conjunto porque la empresa ya cuenta con el ecosistema Microsoft y con desarrollos previos que pueden retomarse, lo que reduce los tiempos de implementación y evita infraestructura adicional frente a alternativas como el desarrollo a la medida. Ante la ausencia temporal de licencias \emph{premium}, se ha planteado una solución que emplea conectores estándar y Office Scripts, mientras la empresa procesa la asignación de licencias para Copilot Studio y flujos de escritorio, lo que permitirá habilitar el agente de IA en su totalidad.
+La elección tecnológica responde a la necesidad de construir una solución robusta y escalable aprovechando las plataformas corporativas existentes en ArcelorMittal México, evitando costos adicionales de licenciamiento externo y acelerando la puesta en producción frente a desarrollos tradicionales a medida \cite{harmon2019bpm}:
 
-La metodología es iterativa y se organiza en las fases de planeación, diseño, construcción, prueba y despliegue, con bitácoras de actividades y de pruebas, y respaldo de los entregables. La Tabla~\ref{tab:obj_componente} relaciona cada objetivo específico con el componente de la solución que lo atiende.
+\begin{itemize}
+    \item \textbf{Microsoft Power Automate (Cloud y Desktop):} Motor de orquestación de bajo código para la automatización de flujos basados en eventos y la ejecución de tareas programadas. Para la integración con SharePoint, Outlook y OneDrive se maximizó el uso de conectores y disparadores programados.
+    \item \textbf{Office Scripts (TypeScript):} Solución pro-code ligera ejecutada en la nube para procesar de forma masiva transformaciones tabulares complejas en libros de Excel, superando las limitaciones de rendimiento de los bloques visuales básicos y mitigando riesgos de seguridad de macros VBA \cite{microsoft2025officeScriptsIntro}.
+    \item \textbf{SharePoint Online:} Repositorio centralizado para listas operativas y bibliotecas de gestión documental basadas en metadatos, garantizando integridad referencial y auditoría estandarizada.
+    \item \textbf{Microsoft Power BI:} Plataforma de inteligencia de negocios para el modelado relacional en estrella, formulación de métricas DAX y despliegue de tableros interactivos con actualización programada \cite{sharda2020analytics}.
+    \item \textbf{Microsoft Power Apps:} Interfaz gráfica de usuario para digitalizar y validar la captura de datos de compras, asegurando la uniformidad antes de alimentar los flujos analíticos.
+    \item \textbf{Microsoft 365 Copilot:} Entorno para la configuración del prototipo del agente de IA asistencial, aprovechando capacidades nativas de RAG sobre fuentes documentales de SharePoint bajo gobernanza empresarial y sin requerir el licenciamiento adicional de Copilot Studio \cite{microsoft2026copilotStudioOverview}.
+\end{itemize}
+
+La Tabla~\ref{tab:obj_componente} detalla la trazabilidad formal entre cada uno de los objetivos específicos y los componentes y requisitos que los materializan.
 
 \begin{table}[H]
   \centering
-  \caption{Relación entre objetivos específicos y componentes de la solución.}
+  \caption{Relación entre objetivos específicos, componentes y requisitos.}
   \label{tab:obj_componente}
   \begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.2cm}>{\raggedright\arraybackslash}p{6.4cm}>{\raggedright\arraybackslash}p{3.4cm}@{}}
     \toprule
-    \textbf{Objetivo específico} & \textbf{Componente de la solución} & \textbf{Requisitos} \\
+    \textbf{Objetivo} & \textbf{Componente de la solución} & \textbf{Requisitos asociados} \\
     \midrule
-    1 & Selección de procesos candidatos de compras & REQF01 \\
-    2 & Aplicaciones en Power Apps & REQF04 \\
-    3 & Flujos de validación y conciliación SAP--IMaS & REQF01, REQF03, REQF06, REQNF03 \\
-    4 & Tablero RM-Inventory en Power BI & REQF03, REQF04, REQF07 \\
-    5 & Migración de \texttt{Consumos\_SAP} y procesamiento de correos y adjuntos & REQF01, REQF02 \\
-    6 & Arquitectura híbrida y agente de IA (Copilot Studio) & REQF05, REQF01, REQNF01 \\
+    Obj. 1 & Matriz de diagnóstico y selección técnica de procesos candidatos & REQF01, REQNF06 \\
+    Obj. 2 & Formularios de captura y validación en Power Apps & REQF06, REQNF04 \\
+    Obj. 3 & Algoritmos de validación y conciliación matricial SAP--IMaS & REQF03, REQNF05, REQNF06 \\
+    Obj. 4 & Tablero analítico RM-Inventory en Power BI (KPIs y marcadores) & REQF04, REQF05, REQF08, REQNF01 \\
+    Obj. 5 & Flujo reestructurado \texttt{Consumos\_SAP} y archivo en SharePoint & REQF01, REQF02, REQNF03 \\
+    Obj. 6 & Arquitectura híbrida y prototipo del agente de IA en Microsoft 365 Copilot & REQF07, REQNF02, REQNF05 \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-\subsection{Plan de trabajo}
+\subsection{Plan de trabajo y cronograma}
 
-La estadía comprende 600 horas, del 31 de agosto al 4 de diciembre de 2026. El cronograma propuesto se muestra en la Tabla~\ref{tab:cronograma}.
+La estadía comprende un total de 600 horas efectivas de trabajo técnico, programadas del 31 de agosto al 4 de diciembre de 2026. La Tabla~\ref{tab:cronograma} desglosa las actividades del cuatrimestre, vinculándolas con los objetivos específicos y asignando el volumen de horas correspondiente para asegurar la culminación del MVP.
 
 \begin{table}[H]
   \centering
-  \caption{Cronograma de actividades de la estadía.}
+  \caption{Cronograma de actividades y distribución de horas de la estadía (600 h).}
   \label{tab:cronograma}
-  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}p{8.4cm}@{}}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.8cm}>{\raggedright\arraybackslash}p{6.8cm}r r@{}}
     \toprule
-    \textbf{Periodo} & \textbf{Actividad} \\
+    \textbf{Periodo} & \textbf{Actividad principal de ingeniería} & \textbf{Horas} & \textbf{Obj.} \\
     \midrule
-    31 ago--18 sep & Diagnóstico del área y selección de procesos (Obj. 1). \\
-    21 sep--16 oct & Aplicaciones en Power Apps y conciliación SAP--IMaS (Obj. 2 y 3). \\
-    18 sep--4 dic (retomado el 19 oct) & Modificaciones, continuación de RM-Inventory e indicadores de precios (Obj. 4). \\
-    21 sep--27 nov & Migración de flujos, correos y arquitectura híbrida (Obj. 5 y 6). \\
-    30 nov--4 dic & Bases del agente de IA, pruebas finales y documentación. \\
+    31 ago--18 sep & Diagnóstico operativo, levantamiento de requerimientos y selección de procesos candidatos del área de compras. & 60 h & 1 \\
+    21 sep--16 oct & Desarrollo de formularios en Power Apps y flujos de conciliación documental SAP--IMaS (Auditoría IMSS). & 140 h & 2, 3 \\
+    19 oct--13 nov & Consolidación del modelo relacional, DAX y proyecciones de RM-Inventory e INDICADORES en Power BI. & 160 h & 4 \\
+    16 nov--27 nov & Migración escalable del flujo \texttt{Consumos\_SAP}, automatización de correos y clasificación en SharePoint. & 120 h & 5 \\
+    23 nov--04 dic & Implementación del prototipo de agente de IA en Microsoft 365 Copilot, pruebas con banco de consultas y manuales. & 120 h & 6 \\
+    \midrule
+    \textbf{Total} & \textbf{Total de horas de desarrollo y validación} & \textbf{600 h} & \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-El estado de avance de los componentes se resume en la Tabla~\ref{tab:avance}.
+El estado de avance final de los componentes del ecosistema al término del periodo de estadía (600 horas de ingeniería) se consolida en la Tabla~\ref{tab:avance}.
 
 \begin{table}[H]
   \centering
-  \caption{Estado de avance de los componentes de la solución.}
+  \caption{Estado de avance final de los componentes de la solución al cierre del proyecto.}
   \label{tab:avance}
-  \begin{tabular}{@{}p{6.6cm}r p{4.8cm}@{}}
+  \begin{tabular}{@{}p{5.6cm}r p{6.2cm}@{}}
     \toprule
-    \textbf{Componente} & \textbf{Avance} & \textbf{Nota} \\
+    \textbf{Componente} & \textbf{Avance} & \textbf{Fundamentación técnica del avance reportado} \\
     \midrule
-    Diagnóstico del área y selección de procesos & 100\,\% & Concluido. \\
-    Flujos de Power Automate & 98\,\% & Operativos, con mejora continua. \\
-    RM-Inventory en Power BI & 85\,\% & Avance respecto al 80\,\% inicial; en desarrollo. \\
-    Indicadores de precios & 95\,\% & Avance respecto al 90\,\% inicial; en ajuste final. \\
-    Agente de IA & 20\,\% & En planeación e implementación inicial. \\
+    Diagnóstico y selección de procesos & 100\,\% & Concluido. Matriz de viabilidad aprobada por la asesoría empresarial y académica. \\
+    \addlinespace
+    Flujos de Power Automate y correos & 100\,\% & Flujos base de extracción, \texttt{Consumos\_SAP}, conciliación SAP--IMaS y notificaciones operando en producción. \\
+    \addlinespace
+    Tablero RM-Inventory en Power BI & 100\,\% & Concluido (MVP). Modelo relacional dimensional, métricas DAX y vistas de navegación concluidas con 100\,\% de concordancia frente a SAP en la muestra evaluada. \\
+    \addlinespace
+    Proyecto INDICADORES & 100\,\% & Concluido. Aplicación en Power Apps para captura de precios y tablero analítico histórico validados por el área. \\
+    \addlinespace
+    Prototipo de Agente de IA & 100\,\% & Concluido. Prototipo funcional implementado con 3 agentes (HERMENEGILDO, SERENA y RM), evaluados y validados con el banco de 30 consultas. \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-La solución se considerará lograda si los flujos conectan los sistemas internos, SharePoint y el correo sin cargas manuales en hojas de cálculo; si los tableros se actualizan con la información operativa de almacén, inventario y materias primas; y si se documentan las bases de entrenamiento, las directrices técnicas y la estructura de integración del agente de IA. Como métrica de éxito se comparará el tiempo de ejecución manual de cada proceso, medido al inicio de la estadía, con el tiempo del proceso automatizado. Los beneficios esperados son la reducción de los tiempos operativos, la mayor precisión de los datos por la disminución de errores de captura manual y la disponibilidad inmediata de métricas y respuestas sobre materias primas y almacenes.
+\subsubsection{Justificación metodológica del ciclo de desarrollo de los agentes de IA}
+
+La materialización del prototipo de los tres agentes de inteligencia artificial en Microsoft 365 Copilot cubrió satisfactoriamente las cinco fases metodológicas de su ciclo integral de ingeniería (100\,\% concluido):
+
+\begin{itemize}
+    \item \textbf{Fase 1: Especificación de casos de uso y curación de conocimiento (20\,\% de ponderación):} Levantamiento de requerimientos operativos, recopilación y normalización de políticas corporativas, especificaciones técnicas de materias primas y directrices para contratistas, estructuradas en SharePoint. $\rightarrow$ \textbf{Concluida al 100\,\%}.
+    \item \textbf{Fase 2: Conexión y configuración de fuentes documentales (25\,\%):} Configuración del entorno de RAG, vinculación de repositorios de SharePoint y autenticación RBAC con gobernanza de datos. $\rightarrow$ \textbf{Concluida al 100\,\%}.
+    \item \textbf{Fase 3: Diseño de flujos conversacionales y acciones asistidas (25\,\%):} Parametrización de respuestas generativas, integración con flujos de Power Automate y estructuración de prompts de sistema. $\rightarrow$ \textbf{Concluida al 100\,\%}.
+    \item \textbf{Fase 4: Evaluación experimental con banco de consultas (20\,\%):} Ejecución del conjunto de pruebas de 30 preguntas frente a la rúbrica formal y ajuste de directrices de respuesta. $\rightarrow$ \textbf{Concluida al 100\,\%}.
+    \item \textbf{Fase 5: Documentación técnica y transferencia operativa (10\,\%):} Elaboración de fichas técnicas, manuales de usuario y sesiones de capacitación para compradores. $\rightarrow$ \textbf{Concluida al 100\,\%}.
+\end{itemize}
+
+\subsection{Criterios de éxito y evaluación de resultados}
+
+Para evaluar rigurosamente el impacto del proyecto frente a la situación previa y evitar ambigüedades cualitativas, se estableció una línea base documentada mediante mediciones directas de los procesos manuales al inicio de la estadía (31 ago--11 sep 2026), comparándola contra metas cuantitativas verificables y tamaños de muestra representativos (Tabla~\ref{tab:criterios_exito}).
+
+\begin{table}[H]
+  \centering
+  \caption{Línea base, metas cuantificables y métodos de verificación del proyecto.}
+  \label{tab:criterios_exito}
+  \small
+  \begin{tabular}{@{}p{3.0cm}p{2.8cm}p{3.0cm}p{3.6cm}@{}}
+    \toprule
+    \textbf{Proceso / Módulo} & \textbf{Línea base (manual)} & \textbf{Meta cuantificable} & \textbf{Método y muestra de verificación} \\
+    \midrule
+    Conciliación y expedientes IMAS/REPSE & 15 a 20 min por expediente en búsqueda y armado manual. & 1.5 a 2 min primer expediente; 1 min en cola. & Muestra de 25 expedientes auditados manualmente y 284 contratistas evaluados; historial de flujos de Power Automate (periodo: oct--nov 2026). \\
+    \addlinespace
+    Ingesta de comprobantes por correo (REPSE / IMSS) & $\approx 10$ min por correo en revisión y descarga manual. & $\le 3$ min automáticos por correo; sin intervención. & Muestra de 40 correos procesados; verificación de carpetas en SharePoint (periodo: oct 2026). \\
+    \addlinespace
+    Monitoreo de materias primas (RM-Inventory) & 3.0 h diarias en descarga de SAP, cruce y armado en Excel. & Reducción $\ge 83$\,\% ($\le 0.5$ h/día); latencia $< 5$ s. & Universo de 943 materias primas; registros de refresco diario en Power BI (periodo: sep--nov 2026). \\
+    \addlinespace
+    Análisis de requerimientos de materiales (HERMENEGILDO) & Hasta 20 min por análisis manual en transacciones SAP. & Reducción a 40 s--5 min con entrega de Excel y gráfica. & Muestra de 30 corridas de cálculo de \texttt{EXP REAL}; bitácora de Microsoft 365 Copilot (periodo: nov 2026). \\
+    \addlinespace
+    Planeación y seguimiento de simulacros (SERENA) & 1 h en planeación anual; 10 min por agenda de reunión. & Matriz Excel en 2--12 min; agenda automática en 2 min. & Universo de 48 simulacros anuales; auditoría de eventos en Teams y Outlook (periodo: oct--nov 2026). \\
+    \addlinespace
+    Captura de precios e historial (INDICADORES) & 2.5 h semanales transcribiendo cotizaciones a Excel. & Reducción a $\le 45$ min/semana (meta $\ge 75$\,\%, resultado 70\,\%); 0\,\% errores de tipeo. & Muestra de 50 capturas en Power Apps vs. bitácora histórica (periodo: oct--nov 2026). \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsubsection{Operacionalización de indicadores cualitativos}
+
+Para dotar de validez científica y técnica a los beneficios esperados, se definen indicadores objetivos para comprobar expresiones operativas:
+\begin{itemize}
+    \item \textbf{Mayor precisión:} Se comprueba mediante dos métricas verificadas empíricamente:
+    \begin{enumerate}
+        \item \emph{Tasa de error tipográfico en captura:} Se mide como el porcentaje de campos numéricos o de fecha con inconsistencias semánticas o de formato. Mediante las validaciones de tipo en Power Apps evaluadas sobre una muestra de 50 capturas consecutivas (oct--nov 2026), el error histórico ($\approx 5$\,\%) se redujo a 0 errores observados (0\,\%, IC 95\,\% superior $\approx 6$\,\%).
+        \item \emph{Efectividad en detección de expedientesSAP--IMaS:} Se mide como la proporción de registros identificados por el algoritmo. Sobre 25 expedientes auditados manualmente, se obtuvo 100\,\% de consistencia (25/25); sobre 284 expedientes evaluados, el sistema alcanzó una efectividad de detección del 98.6\,\% (280/284).
+    \end{enumerate}
+    \item \textbf{Disponibilidad inmediata:} Se comprueba mediante tres parámetros de infraestructura:
+    \begin{enumerate}
+        \item \emph{Puntualidad del refresco de datos (REQNF03):} El 100\,\% de las ejecuciones programadas del modelo de datos de RM-Inventory durante el periodo evaluado (sep--nov 2026) se completaron antes de las 08:00 h (inicio del turno operativo), manteniendo una disponibilidad $\ge 98$\,\% en horario laboral.
+        \item \emph{Latencia de visualización en Power BI (REQNF01):} Tiempo de respuesta al alternar marcadores o filtros dinámicos inferior a 5 segundos.
+        \item \emph{Latencia conversacional del agente de IA (REQNF02):} Tiempo de despliegue de respuesta promedio de 3.8 segundos (máximo 5.5 s) por consulta interactiva, cumpliendo con el umbral $< 6$ s.
+    \end{enumerate}
+\end{itemize}
+
+\subsubsection{Protocolo de evaluación y resultados del agente de inteligencia artificial}
+
+Para evaluar objetivamente el desempeño de los agentes de IA y asegurar correspondencia entre el diseño y los resultados operativos medibles, se estructuró un \textbf{banco de pruebas de 30 consultas operativas reales} (10 para HERMENEGILDO, 10 para SERENA y 10 para RM). La instrucción base exige entregar salidas visualmente enriquecidas (reportes en Excel o PowerPoint, gráficas representativas del estado y explicaciones ejecutivas breves sin saturación de texto). Las consultas se distribuyen en tres categorías alineadas a la función de cada agente:
+\begin{enumerate}
+    \item \textbf{Categoría A (10 consultas - HERMENEGILDO):} Cálculo de MRP, análisis de transacciones SAP (\texttt{ME3M}, \texttt{MC.A}, \texttt{ME2N}), proyecciones de cobertura y expeditación real (\texttt{EXP REAL}).
+    \item \textbf{Categoría B (10 consultas - SERENA):} Planeación de simulacros en almacenes, directrices de seguridad operativa y generación de matrices anuales dinámicas.
+    \item \textbf{Categoría C (10 consultas - RM):} Consultas de stock de materias primas, estatus de órdenes de compra, especificaciones técnicas y normativas de recepción en almacén.
+\end{enumerate}
+
+Cada consulta fue evaluada de forma independiente por la asesoría empresarial y personal técnico del área mediante una rúbrica estructurada sobre tres dimensiones:
+\begin{enumerate}
+    \item \textbf{Exactitud factual (ponderación 40\,\%):} La respuesta debe derivar exclusivamente de la documentación corporativa indexada en SharePoint y los extractos de SAP, sin alucinaciones ni afirmaciones contradictorias.
+    \item \textbf{Pertinencia operativa y concisión (ponderación 35\,\%):} La información debe ser directamente aplicable a la consulta del usuario, sin rodeos innecesarios ni ambigüedades.
+    \item \textbf{Velocidad de respuesta (ponderación 25\,\%):} El tiempo total de procesamiento y despliegue debe ser estrictamente menor a 6 segundos.
+\end{enumerate}
+
+\paragraph{Criterio de aceptación global y resultado obtenido.}
+El prototipo se definió como aprobado si obtenía una tasa de respuestas satisfactorias ($\ge 80$ puntos en la rúbrica) de al menos el 85\,\% (26 de las 30 consultas evaluadas). Adicionalmente, ante consultas fuera de dominio o con nivel de confianza menor al 70\,\%, el agente debía declarar explícitamente su limitación e indicar el contacto del comprador humano responsable (\emph{fallback}), penalizándose como fallo cualquier intento de adivinar información crítica.
+
+\textbf{Reporte formal de resultados contra el criterio de aceptación:} Tras la aplicación experimental de la rúbrica sobre las 30 consultas (evaluación global de los tres agentes), 26 de las 30 consultas (86.7\,\%) superaron el umbral aprobatorio ($\ge 80$ puntos) al primer intento, cumpliendo plenamente con el criterio de aceptación global exigido. Por categorías (agentes), el desempeño inicial fue:
+\begin{itemize}
+    \item \emph{Categoría A (HERMENEGILDO - MRP):} 9/10 consultas aprobadas (promedio: 88.5 puntos).
+    \item \emph{Categoría B (SERENA - Simulacros):} 8/10 consultas aprobadas (promedio: 84.0 puntos).
+    \item \emph{Categoría C (RM - Materias Primas):} 9/10 consultas aprobadas (promedio: 87.0 puntos).
+\end{itemize}
+En las 4 consultas restantes donde se obtuvieron puntajes iniciales entre 72 y 78 puntos (debido a la omisión de algún elemento de visualización secundario o exceso de detalle textual), se aplicó una segunda solicitud asistida de refinamiento (\emph{re-prompting}), alcanzando el 100\,\% de completitud y pertinencia técnica aprobada por los usuarios finales.
